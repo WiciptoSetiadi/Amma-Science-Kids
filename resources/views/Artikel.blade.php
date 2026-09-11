@@ -114,6 +114,46 @@
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
+                {{-- Dynamic Articles from Database --}}
+                @foreach ($articles as $article)
+                    <div class="bg-[#fbf8fc] border-4 border-[#0c4185] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
+                        <a href="/artikel/{{ $article->slug }}" class="relative h-52 bg-[#f5f3f6] block">
+                            @if ($article->image)
+                                <img src="{{ asset('storage/' . $article->image) }}"
+                                     alt="{{ $article->title }}" class="w-full h-full object-cover" />
+                            @else
+                                <img src="https://www.figma.com/api/mcp/asset/9e59e8cb-3bdf-4022-ab51-0c9b1344f224.png"
+                                     alt="{{ $article->title }}" class="w-full h-full object-cover" />
+                            @endif
+                            @if ($article->category)
+                                <span class="absolute top-3 left-3 backdrop-blur-sm bg-[rgba(228,226,229,0.9)] text-[#031636] text-xs px-2.5 py-1 rounded-md shadow-sm">
+                                    {{ $article->category->name }}
+                                </span>
+                            @endif
+                        </a>
+                        <div class="p-5 flex flex-col flex-1">
+                            <div class="flex items-center justify-between text-xs text-[#44474e] mb-3">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    {{ $article->published_at ? $article->published_at->format('d M Y') : $article->created_at->format('d M Y') }}
+                                </span>
+                                <span>3 Min</span>
+                            </div>
+                            <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-tight hover:text-[#0c4185] transition"
+                                style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
+                                <a href="/artikel/{{ $article->slug }}">{{ $article->title }}</a>
+                            </h3>
+                            <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1 line-clamp-3">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($article->content), 120) }}
+                            </p>
+                            <a href="/artikel/{{ $article->slug }}" class="flex items-center gap-1 text-[#003134] text-xs font-semibold hover:text-[#fc6c29] transition hover:underline">
+                                Baca Selengkapnya
+                                <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+
                 {{-- Card 1 --}}
                 <div class="bg-[#fbf8fc] border-4 border-[#6c26d5] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
                     <div class="relative h-52 bg-[#f5f3f6]">

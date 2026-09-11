@@ -52,27 +52,50 @@ Pastikan Anda sudah menginstal aplikasi berikut di komputer Anda:
    php artisan key:generate
    ```
 
-6. **Kompilasi aset frontend (CSS & JavaScript):**
-   Agar tampilan Tailwind CSS dan efek-efek lainnya berfungsi, jalankan proses build Vite:
-   ```bash
-   npm run build
+6. **Konfigurasi Database:**
+   Pastikan Anda sudah memiliki database MySQL/MariaDB yang siap digunakan (misal dengan nama `ammascience-kids`). Buka file `.env` dan sesuaikan pengaturan database:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=ammascience-kids
+   DB_USERNAME=root
+   DB_PASSWORD=
    ```
-   *(Catatan: Saat proses pengembangan (development), Anda bisa menggunakan perintah `npm run dev` agar CSS otomatis diperbarui setiap kali Anda menyimpan file).*
 
-7. **Jalankan server lokal Laravel:**
-   Terakhir, hidupkan server PHP bawaan Laravel.
+7. **Jalankan Migrasi Database:**
+   Aplikasi ini membutuhkan struktur database untuk artikel, program, galeri, dll. Jalankan perintah ini:
    ```bash
-   php artisan serve
+   php artisan migrate
    ```
+
+8. **Tautkan Storage (Storage Link):**
+   Wajib dilakukan agar gambar yang diunggah melalui panel Admin dapat diakses secara publik.
+   ```bash
+   php artisan storage:link
+   ```
+
+9. **Buat Akun Admin (Filament):**
+   Aplikasi ini menggunakan panel admin Filament v3. Buat user pertama Anda dengan perintah:
+   ```bash
+   php artisan make:filament-user
+   ```
+   *(Ikuti instruksi di terminal untuk mengisi nama, email, dan password admin)*
+
+10. **Kompilasi aset frontend (CSS & JavaScript):**
+    Agar tampilan Tailwind CSS dan efek-efek lainnya berfungsi, jalankan proses build Vite:
+    ```bash
+    npm run build
+    ```
+    *(Catatan: Saat proses pengembangan (development), Anda bisa menggunakan perintah `npm run dev` agar CSS otomatis diperbarui setiap kali Anda menyimpan file).*
+
+11. **Jalankan server lokal Laravel:**
+    Terakhir, hidupkan server PHP bawaan Laravel.
+    ```bash
+    php artisan serve
+    ```
 
 ### 🌍 Mengakses Website
 Setelah server berjalan, buka browser web Anda dan kunjungi alamat berikut:
-**[http://localhost:8000](http://localhost:8000)**
-
----
-
-## 🛠️ Perintah Tambahan (Opsional)
-Jika aplikasi menggunakan database di masa mendatang, Anda mungkin perlu mengatur koneksi database di dalam file `.env` (misal: `DB_DATABASE=ammasciencekids`) dan menjalankan perintah migrasi:
-```bash
-php artisan migrate
-```
+- **Halaman Publik:** [http://localhost:8000](http://localhost:8000)
+- **Panel Admin:** [http://localhost:8000/admin](http://localhost:8000/admin) (Gunakan email dan password dari langkah 9 untuk login)

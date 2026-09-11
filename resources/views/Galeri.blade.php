@@ -68,81 +68,133 @@
         <section class="max-w-7xl mx-auto px-6 md:px-10 py-10">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
+                {{-- Dynamic Gallery Items from Database --}}
+                @foreach ($galleries as $item)
+                    <div onclick="openGalleryModal('{{ addslashes($item->title) }}', '{{ asset('storage/' . $item->image) }}', '{{ addslashes($item->category ?? 'Kegiatan') }}', '{{ addslashes($item->description ?? '') }}')"
+                         class="bg-[#fbf9f1] border-2 border-[#006b58] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group">
+                        <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
+                            @if ($item->image)
+                                <img src="{{ asset('storage/' . $item->image) }}"
+                                     alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                            @else
+                                <img src="https://www.figma.com/api/mcp/asset/067fdf7b-553f-496b-b885-bfedc02aa986.png"
+                                     alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                            @endif
+                            @if ($item->category)
+                                <span class="absolute top-4 left-4 bg-[#5ffbd6] text-[#002019] text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                                    {{ $item->category }}
+                                </span>
+                            @endif
+                        </div>
+                        <div class="p-6 flex flex-col flex-1">
+                            <h3 class="font-semibold text-[#006b58] text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition">{{ $item->title }}</h3>
+                            <p class="text-[#3c4a45] text-base leading-6 line-clamp-3 mb-4">{{ $item->description }}</p>
+                            <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#006b58] group-hover:underline">
+                                🔍 Lihat Detail Foto
+                            </span>
+                        </div>
+                    </div>
+                @endforeach
+
                 {{-- Card 1: Walkie Talkies --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#00c9a7] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
+                <div onclick="openGalleryModal('Membuat Cup Walkie Talkies', 'https://www.figma.com/api/mcp/asset/067fdf7b-553f-496b-b885-bfedc02aa986.png', 'Eksperimen', 'Anak-anak bereksperimen membuat alat bantu dengar dan komunikasi jarak jauh secara sederhana.')"
+                     class="bg-[#fbf9f1] border-2 border-[#00c9a7] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group">
+                    <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
                         <img src="https://www.figma.com/api/mcp/asset/067fdf7b-553f-496b-b885-bfedc02aa986.png"
-                             alt="Membuat Walkie Talkies" class="w-full h-full object-cover" />
+                             alt="Membuat Walkie Talkies" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                         <span class="absolute top-4 left-4 bg-[#5ffbd6] text-[#002019] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Eksperimen</span>
                     </div>
                     <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#006b58] text-2xl mb-2 leading-tight">Membuat Cup Walkie Talkies</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Anak-anak bereksperimen membuat alat bantu dengar dan komunikasi jarak jauh secara sederhana.</p>
+                        <h3 class="font-semibold text-[#006b58] text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition">Membuat Cup Walkie Talkies</h3>
+                        <p class="text-[#3c4a45] text-base leading-6 mb-4">Anak-anak bereksperimen membuat alat bantu dengar dan komunikasi jarak jauh secara sederhana.</p>
+                        <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#006b58] group-hover:underline">
+                            🔍 Lihat Detail Foto
+                        </span>
                     </div>
                 </div>
 
                 {{-- Card 2: Outdoor Sensory --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#ff9583] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
+                <div onclick="openGalleryModal('Outdoor Sensory Play', 'https://www.figma.com/api/mcp/asset/1e3838bf-44db-418c-bd45-c7747591ad59.png', 'Workshop', 'Bermain sambil belajar di alam terbuka dengan berbagai alat jelajah untuk menstimulasi panca indera.')"
+                     class="bg-[#fbf9f1] border-2 border-[#ff9583] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group">
+                    <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
                         <img src="https://www.figma.com/api/mcp/asset/1e3838bf-44db-418c-bd45-c7747591ad59.png"
-                             alt="Outdoor Sensory Play" class="w-full h-full object-cover" />
+                             alt="Outdoor Sensory Play" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                         <span class="absolute top-4 left-4 bg-[#ff9583] text-[#87180c] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Workshop</span>
                     </div>
                     <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#ac3323] text-2xl mb-2 leading-tight">Outdoor Sensory Play</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Bermain sambil belajar di alam terbuka dengan berbagai alat jelajah untuk menstimulasi panca indera.</p>
+                        <h3 class="font-semibold text-[#ac3323] text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition">Outdoor Sensory Play</h3>
+                        <p class="text-[#3c4a45] text-base leading-6 mb-4">Bermain sambil belajar di alam terbuka dengan berbagai alat jelajah untuk menstimulasi panca indera.</p>
+                        <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#ac3323] group-hover:underline">
+                            🔍 Lihat Detail Foto
+                        </span>
                     </div>
                 </div>
 
                 {{-- Card 3: Virtual Playdate --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#ffc72c] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
+                <div onclick="openGalleryModal('Virtual Playdate', 'https://www.figma.com/api/mcp/asset/4f8a227e-e1a9-430f-9050-5af43c028cd7.png', 'Online', 'Keseruan belajar sains dari rumah melalui sesi interaktif yang dipandu oleh instruktur berpengalaman.')"
+                     class="bg-[#fbf9f1] border-2 border-[#ffc72c] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group">
+                    <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
                         <img src="https://www.figma.com/api/mcp/asset/4f8a227e-e1a9-430f-9050-5af43c028cd7.png"
-                             alt="Virtual Playdate" class="w-full h-full object-cover" />
+                             alt="Virtual Playdate" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                         <span class="absolute top-4 left-4 bg-[#ffc72c] text-[#6f5400] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Online</span>
                     </div>
                     <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#775a00] text-2xl mb-2 leading-tight">Virtual Playdate</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Keseruan belajar sains dari rumah melalui sesi interaktif yang dipandu oleh instruktur berpengalaman.</p>
+                        <h3 class="font-semibold text-[#775a00] text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition">Virtual Playdate</h3>
+                        <p class="text-[#3c4a45] text-base leading-6 mb-4">Keseruan belajar sains dari rumah melalui sesi interaktif yang dipandu oleh instruktur berpengalaman.</p>
+                        <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#775a00] group-hover:underline">
+                            🔍 Lihat Detail Foto
+                        </span>
                     </div>
                 </div>
 
                 {{-- Card 4: Sensory Obstacle --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#00c9a7] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
+                <div onclick="openGalleryModal('Sensory Obstacle Course', 'https://www.figma.com/api/mcp/asset/27b63f4b-41a9-4f54-b246-3da8d57835c2.png', 'Workshop', 'Melatih motorik kasar dan ketangkasan anak melalui rintangan sensorik yang seru dan menantang.')"
+                     class="bg-[#fbf9f1] border-2 border-[#00c9a7] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group">
+                    <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
                         <img src="https://www.figma.com/api/mcp/asset/27b63f4b-41a9-4f54-b246-3da8d57835c2.png"
-                             alt="Sensory Obstacle Course" class="w-full h-full object-cover" />
+                             alt="Sensory Obstacle Course" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                         <span class="absolute top-4 left-4 bg-[#5ffbd6] text-[#002019] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Workshop</span>
                     </div>
                     <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#006b58] text-2xl mb-2 leading-tight">Sensory Obstacle Course</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Melatih motorik kasar dan ketangkasan anak melalui rintangan sensorik yang seru dan menantang.</p>
+                        <h3 class="font-semibold text-[#006b58] text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition">Sensory Obstacle Course</h3>
+                        <p class="text-[#3c4a45] text-base leading-6 mb-4">Melatih motorik kasar dan ketangkasan anak melalui rintangan sensorik yang seru dan menantang.</p>
+                        <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#006b58] group-hover:underline">
+                            🔍 Lihat Detail Foto
+                        </span>
                     </div>
                 </div>
 
                 {{-- Card 5: Mystery Box --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#ff9583] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
+                <div onclick="openGalleryModal('Mystery Box Experiment', 'https://www.figma.com/api/mcp/asset/7e84a8db-89df-4e95-9bf5-37954d9ddcb3.png', 'Eksperimen', 'Menebak dan mengidentifikasi berbagai benda menarik yang tersembunyi di dalam kotak misteri.')"
+                     class="bg-[#fbf9f1] border-2 border-[#ff9583] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group">
+                    <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
                         <img src="https://www.figma.com/api/mcp/asset/7e84a8db-89df-4e95-9bf5-37954d9ddcb3.png"
-                             alt="Mystery Box Experiment" class="w-full h-full object-cover" />
+                             alt="Mystery Box Experiment" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                         <span class="absolute top-4 left-4 bg-[#ff9583] text-[#87180c] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Eksperimen</span>
                     </div>
                     <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#ac3323] text-2xl mb-2 leading-tight">Mystery Box Experiment</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Menebak dan mengidentifikasi berbagai benda menarik yang tersembunyi di dalam kotak misteri.</p>
+                        <h3 class="font-semibold text-[#ac3323] text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition">Mystery Box Experiment</h3>
+                        <p class="text-[#3c4a45] text-base leading-6 mb-4">Menebak dan mengidentifikasi berbagai benda menarik yang tersembunyi di dalam kotak misteri.</p>
+                        <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#ac3323] group-hover:underline">
+                            🔍 Lihat Detail Foto
+                        </span>
                     </div>
                 </div>
 
                 {{-- Card 6: Interactive Session --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#ffc72c] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
+                <div onclick="openGalleryModal('Interactive Session', 'https://www.figma.com/api/mcp/asset/902d8274-7ba7-4d8b-98c1-489805deeb80.png', 'Online', 'Sesi tanya jawab dan demonstrasi sains virtual yang interaktif dan melibatkan partisipasi anak.')"
+                     class="bg-[#fbf9f1] border-2 border-[#ffc72c] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group">
+                    <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
                         <img src="https://www.figma.com/api/mcp/asset/902d8274-7ba7-4d8b-98c1-489805deeb80.png"
-                             alt="Interactive Session" class="w-full h-full object-cover" />
+                             alt="Interactive Session" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                         <span class="absolute top-4 left-4 bg-[#ffc72c] text-[#6f5400] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Online</span>
                     </div>
                     <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#775a00] text-2xl mb-2 leading-tight">Interactive Session</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Sesi tanya jawab dan demonstrasi sains virtual yang interaktif dan melibatkan partisipasi anak.</p>
+                        <h3 class="font-semibold text-[#775a00] text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition">Interactive Session</h3>
+                        <p class="text-[#3c4a45] text-base leading-6 mb-4">Sesi tanya jawab dan demonstrasi sains virtual yang interaktif dan melibatkan partisipasi anak.</p>
+                        <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#775a00] group-hover:underline">
+                            🔍 Lihat Detail Foto
+                        </span>
                     </div>
                 </div>
 
@@ -159,8 +211,44 @@
 
     </main>
 
+    {{-- GALLERY MODAL LIGHTBOX --}}
+    <div id="galleryModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl overflow-hidden max-w-2xl w-full shadow-2xl relative">
+            <button onclick="closeGalleryModal()" class="absolute top-4 right-4 z-10 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center text-lg font-bold transition">
+                ✕
+            </button>
+            <div class="relative h-72 md:h-96 bg-gray-100">
+                <img id="modalImage" src="" alt="" class="w-full h-full object-cover" />
+                <span id="modalCategory" class="absolute top-4 left-4 bg-[#5ffbd6] text-[#002019] text-xs font-bold px-3.5 py-1.5 rounded-full shadow-sm"></span>
+            </div>
+            <div class="p-6 md:p-8 bg-white">
+                <h3 id="modalTitle" class="font-display font-bold text-[#006b58] text-2xl md:text-3xl mb-3"></h3>
+                <p id="modalDescription" class="text-[#3c4a45] text-base leading-relaxed"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openGalleryModal(title, imageSrc, category, description) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalCategory').innerText = category || 'Kegiatan';
+            document.getElementById('modalDescription').innerText = description || '';
+            document.getElementById('galleryModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeGalleryModal() {
+            document.getElementById('galleryModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        document.getElementById('galleryModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeGalleryModal();
+        });
+    </script>
+
     {{-- FOOTER --}}
     @include('partials.footer')
 
 </body>
 </html>
+

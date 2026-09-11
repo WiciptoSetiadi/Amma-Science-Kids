@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Article;
+use App\Models\Gallery;
+use App\Models\Program;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,15 +14,27 @@ Route::get('/tentang', function () {
 });
 
 Route::get('/program', function () {
-    return view('Katalog');
+    $programs = Program::where('is_active', true)->latest()->get();
+
+    return view('Katalog', compact('programs'));
 });
 
 Route::get('/artikel', function () {
-    return view('Artikel');
+    $articles = Article::where('is_published', true)->with('category')->latest('published_at')->get();
+
+    return view('Artikel', compact('articles'));
+});
+
+Route::get('/artikel/{slug}', function ($slug) {
+    $article = Article::where('slug', $slug)->where('is_published', true)->firstOrFail();
+
+    return view('ArtikelDetail', compact('article'));
 });
 
 Route::get('/galeri', function () {
-    return view('Galeri');
+    $galleries = Gallery::latest()->get();
+
+    return view('Galeri', compact('galleries'));
 });
 
 Route::get('/kontak', function () {

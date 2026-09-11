@@ -122,7 +122,7 @@
         <div class="flex-1 min-w-0 border border-[#e7e7e7] rounded-xl p-4 flex flex-col gap-4">
             {{-- Toolbar --}}
             <div class="flex items-center justify-between pb-4 border-b border-[#c5c6cf]">
-                <span class="text-[#44474e] text-sm">Menampilkan 6 program unggulan</span>
+                <span class="text-[#44474e] text-sm">Menampilkan {{ $programs->count() + 3 }} program unggulan</span>
                 <div class="flex items-center gap-2 text-sm">
                     <span class="text-[#44474e]">Urutkan:</span>
                     <select class="bg-white border border-[rgba(197,198,207,0.3)] text-[#031636] text-sm rounded-lg px-3 py-1.5 outline-none">
@@ -135,7 +135,47 @@
             {{-- Cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
 
-                {{-- Card 1: Roadshow Sekolah --}}
+                {{-- Dynamic Cards dari Database / Admin --}}
+                @foreach ($programs as $program)
+                <div class="bg-white border-4 border-[#0c4185] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
+                    <div class="relative h-48 bg-[#f5f3f6]">
+                        @if ($program->image)
+                            <img src="{{ asset('storage/' . $program->image) }}"
+                                 alt="{{ $program->title }}" class="w-full h-full object-cover" />
+                        @else
+                            <div class="w-full h-full bg-gradient-to-br from-[#aadaff] to-[#0c4185] flex items-center justify-center">
+                                <svg class="w-16 h-16 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                            </div>
+                        @endif
+                        <span class="absolute top-3 left-3 bg-[#fc6c29] text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm">Program Baru</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2"
+                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">{{ $program->title }}</h3>
+                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">
+                            {{ Str::limit($program->description, 120) }}
+                        </p>
+                        <div class="border-t border-[rgba(197,198,207,0.1)] pt-4 flex flex-col gap-2 text-xs text-[#44474e] mb-4">
+                            @if ($program->target_age)
+                            <div class="flex items-center gap-2">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                {{ $program->target_age }}
+                            </div>
+                            @endif
+                            <div class="flex items-center gap-2">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Rp {{ number_format((float) $program->price, 0, ',', '.') }}
+                            </div>
+                        </div>
+                        <a href="#" class="bg-[rgba(12,65,133,0.15)] border border-[#0c4185] text-[#031636] text-sm tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[rgba(12,65,133,0.3)] transition">
+                            Lihat Detail
+                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+
+                {{-- Card 1: Roadshow Sekolah (Statis) --}}
                 <div class="bg-white border-4 border-[#293def] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
                     <div class="relative h-48 bg-[#f5f3f6]">
                         <img src="https://www.figma.com/api/mcp/asset/b71d45bf-55ef-4944-8f7f-706639de9b7d.png"
