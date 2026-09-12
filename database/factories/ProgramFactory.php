@@ -23,6 +23,7 @@ class ProgramFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
+            'category' => 'Program Anak',
             'description' => fake()->paragraph(),
             'price' => fake()->numberBetween(100000, 500000),
             'target_age' => '5 - 12 Tahun',

@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int|null $category_id
+ * @property string $title
+ * @property string $slug
+ * @property string|null $content
+ * @property string|null $image
+ * @property bool $is_published
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Category|null $category
+ */
 class Article extends Model
 {
     /** @use HasFactory<ArticleFactory> */

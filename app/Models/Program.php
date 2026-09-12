@@ -14,6 +14,7 @@ class Program extends Model
     protected $fillable = [
         'title',
         'slug',
+        'category',
         'description',
         'price',
         'target_age',

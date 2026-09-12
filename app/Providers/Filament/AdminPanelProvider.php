@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('Amma Science Kids Admin')
-            ->brandLogo(asset('build/assets/IMG/Logo.png'))
+            ->brandLogo(asset('img/Logo.png'))
             ->brandLogoHeight('2.5rem')
             ->favicon(asset('favicon.ico'))
             ->colors([

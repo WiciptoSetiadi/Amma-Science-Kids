@@ -16,7 +16,7 @@
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
         <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
                <a href="/" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('build/assets/IMG/Logo.png') }}"
+                <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
                      class="h-[56px] w-[56px] object-contain rounded" />
             </a>
@@ -66,227 +66,314 @@
         </section>
 
         {{-- FEATURED ARTICLE --}}
+        @if ($featuredArticle)
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-8">
-            <div class="bg-[#fbf8fc] border border-[rgba(29,32,55,0.76)] rounded-xl overflow-hidden shadow-md">
+            <a href="{{ route('artikel.detail', $featuredArticle->slug) }}" class="group block bg-[#fbf8fc] border border-[rgba(29,32,55,0.76)] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300">
                 <div class="relative h-80 md:h-96">
-                    <img src="https://www.figma.com/api/mcp/asset/ec3aff11-af10-470f-99e9-9c032296ff86.png"
-                         alt="Featured Article" class="w-full h-full object-cover" />
-                    <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(3,22,54,0.9) 0%, rgba(3,22,54,0.4) 50%, transparent 100%)"></div>
-                    <span class="absolute top-6 left-6 bg-[#7ef4fc] text-[#002022] text-xs font-medium px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                        Sorotan Sains
+                    @if ($featuredArticle->image)
+                        <img src="{{ asset('storage/' . $featuredArticle->image) }}"
+                             alt="{{ $featuredArticle->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                    @else
+                        <img src="{{ asset('img/Kids1.png') }}"
+                             alt="{{ $featuredArticle->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                    @endif
+                    <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(3,22,54,0.92) 0%, rgba(3,22,54,0.45) 50%, transparent 100%)"></div>
+                    <span class="absolute top-6 left-6 bg-[#7ef4fc] text-[#002022] text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                        Sorotan Sains: {{ $featuredArticle->category?->name ?? 'Eksplorasi' }}
                     </span>
-                    <div class="absolute bottom-0 left-0 right-1/4 p-8 md:p-10">
+                    <div class="absolute bottom-0 left-0 right-0 md:right-1/4 p-6 md:p-10">
                         <div class="flex items-center gap-4 mb-3">
-                            <span class="flex items-center gap-1 text-white/80 text-xs">
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                12 Okt 2024
+                            <span class="flex items-center gap-1 text-white/80 text-xs font-medium">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                {{ ($featuredArticle->published_at ?? $featuredArticle->created_at)->format('d M Y') }}
                             </span>
-                            <span class="flex items-center gap-1 text-white/80 text-xs">
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span class="flex items-center gap-1 text-white/80 text-xs font-medium">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 5 Min Baca
                             </span>
                         </div>
-                        <h2 class="font-display font-bold text-white text-2xl md:text-3xl leading-tight mb-3"
+                        <h2 class="font-display font-bold text-white text-2xl md:text-3xl lg:text-4xl leading-tight mb-3 group-hover:text-[#7ef4fc] transition"
                             style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
-                            Mengapa Eksperimen Fisika Sederhana Sangat Penting untuk Perkembangan Kognitif Anak?
+                            {{ $featuredArticle->title }}
                         </h2>
-                        <p class="text-white/90 text-base leading-6 hidden md:block">
-                            Memahami konsep fisika dasar tidak perlu menggunakan alat laboratorium yang rumit. Dengan bahan sehari-hari, anak-anak dapat membangun intuisi saintifik yang kuat sejak dini.
+                        <p class="text-white/90 text-sm md:text-base leading-relaxed line-clamp-2 max-w-2xl">
+                            {{ Str::limit(strip_tags($featuredArticle->content), 160) }}
                         </p>
                     </div>
                 </div>
-            </div>
+            </a>
         </section>
+        @endif
 
         {{-- CATEGORY FILTER --}}
-        <section class="max-w-7xl mx-auto px-6 md:px-12 pt-10 pb-2">
-            <div class="flex flex-wrap gap-3">
-                <button class="bg-[rgba(12,78,206,0.57)] text-[#313a50] text-xs font-medium px-5 py-2 rounded-full hover:opacity-90 transition">Semua Artikel</button>
-                <button class="bg-[rgba(245,69,69,0.77)] border border-[rgba(25,37,141,0.3)] text-[#44474e] text-xs font-medium px-5 py-2 rounded-full hover:opacity-90 transition">Tips Orang Tua</button>
-                <button class="bg-[rgba(207,200,63,0.71)] border border-[rgba(197,198,207,0.3)] text-[#44474e] text-xs font-medium px-5 py-2 rounded-full hover:opacity-90 transition">Eksperimen Seru</button>
-                <button class="bg-[rgba(255,87,216,0.47)] border border-[rgba(197,198,207,0.3)] text-[#44474e] text-xs font-medium px-5 py-2 rounded-full hover:opacity-90 transition">Kisah Inspiratif</button>
-                <button class="bg-[#5dee60] border border-[rgba(197,198,207,0.3)] text-[#44474e] text-xs font-medium px-5 py-2 rounded-full hover:opacity-90 transition">Info Program</button>
+        <section id="articleFilter" class="max-w-7xl mx-auto px-6 md:px-12 pt-6 pb-2">
+            <div class="flex flex-wrap gap-3 items-center">
+                @php
+                    $isAll = ($selectedCategory === 'Semua Artikel') || (! $selectedCategory);
+                @endphp
+                @if ($isAll)
+                    <a href="{{ route('artikel') }}"
+                       class="px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.05em] shadow-md transition"
+                       style="background-color: #0c4185; color: #ffffff; border: 2px solid #0c4185;">
+                        Semua Artikel
+                    </a>
+                @else
+                    <a href="{{ route('artikel') }}"
+                       class="px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.05em] transition hover:shadow-sm"
+                       style="background-color: #ffffff; color: #374151; border: 2px solid #e5e7eb;">
+                        Semua Artikel
+                    </a>
+                @endif
+
+                @foreach ($categories as $cat)
+                    @php
+                        $isActive = ($selectedCategory === $cat->slug || $selectedCategory === $cat->name);
+                    @endphp
+                    @if ($isActive)
+                        <a href="{{ route('artikel', ['kategori' => $cat->slug]) }}"
+                           class="px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.05em] shadow-md transition"
+                           style="background-color: #e95605; color: #ffffff; border: 2px solid #e95605;">
+                            {{ $cat->name }}
+                        </a>
+                    @else
+                        <a href="{{ route('artikel', ['kategori' => $cat->slug]) }}"
+                           class="px-5 py-2.5 rounded-full text-xs font-bold tracking-[0.05em] transition hover:shadow-sm"
+                           style="background-color: #ffffff; color: #374151; border: 2px solid #e5e7eb;">
+                            {{ $cat->name }}
+                        </a>
+                    @endif
+                @endforeach
             </div>
         </section>
 
         {{-- ARTICLE GRID --}}
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="articleGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                {{-- Dynamic Articles from Database --}}
-                @foreach ($articles as $article)
-                    <div class="bg-[#fbf8fc] border-4 border-[#0c4185] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                        <a href="/artikel/{{ $article->slug }}" class="relative h-52 bg-[#f5f3f6] block">
-                            @if ($article->image)
-                                <img src="{{ asset('storage/' . $article->image) }}"
-                                     alt="{{ $article->title }}" class="w-full h-full object-cover" />
-                            @else
-                                <img src="https://www.figma.com/api/mcp/asset/9e59e8cb-3bdf-4022-ab51-0c9b1344f224.png"
-                                     alt="{{ $article->title }}" class="w-full h-full object-cover" />
-                            @endif
+                @php
+                    $borderColors = ['#0c4185', '#6c26d5', '#2230ad', '#d88c0a', '#42b404', '#e95605'];
+                @endphp
+
+                @forelse ($articles as $index => $article)
+                    @php
+                        $bColor = $borderColors[$index % count($borderColors)];
+                        $imgSrc = $article->image ? asset('storage/' . $article->image) : asset('img/Kids1.png');
+                    @endphp
+                    <div class="article-card bg-[#fbf8fc] border-4 rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200"
+                         style="border-color: {{ $bColor }}">
+                        <a href="{{ route('artikel.detail', $article->slug) }}" class="relative h-52 bg-[#f5f3f6] block overflow-hidden">
+                            <img src="{{ $imgSrc }}"
+                                 alt="{{ $article->title }}" class="w-full h-full object-cover hover:scale-105 transition duration-300" />
                             @if ($article->category)
-                                <span class="absolute top-3 left-3 backdrop-blur-sm bg-[rgba(228,226,229,0.9)] text-[#031636] text-xs px-2.5 py-1 rounded-md shadow-sm">
+                                <span class="absolute top-3 left-3 backdrop-blur-sm bg-[rgba(228,226,229,0.95)] text-[#031636] font-bold text-xs px-3 py-1 rounded-md shadow-sm">
                                     {{ $article->category->name }}
                                 </span>
                             @endif
                         </a>
                         <div class="p-5 flex flex-col flex-1">
                             <div class="flex items-center justify-between text-xs text-[#44474e] mb-3">
-                                <span class="flex items-center gap-1">
-                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                    {{ $article->published_at ? $article->published_at->format('d M Y') : $article->created_at->format('d M Y') }}
+                                <span class="flex items-center gap-1 font-medium">
+                                    <svg class="w-3.5 h-3.5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    {{ ($article->published_at ?? $article->created_at)->format('d M Y') }}
                                 </span>
-                                <span>3 Min</span>
+                                <span class="text-gray-400">3 Min</span>
                             </div>
-                            <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-tight hover:text-[#0c4185] transition"
+                            <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-snug hover:text-orange transition"
                                 style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
-                                <a href="/artikel/{{ $article->slug }}">{{ $article->title }}</a>
+                                <a href="{{ route('artikel.detail', $article->slug) }}">{{ $article->title }}</a>
                             </h3>
-                            <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1 line-clamp-3">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($article->content), 120) }}
+                            <p class="text-[#44474e] text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
+                                {{ Str::limit(strip_tags($article->content), 110) }}
                             </p>
-                            <a href="/artikel/{{ $article->slug }}" class="flex items-center gap-1 text-[#003134] text-xs font-semibold hover:text-[#fc6c29] transition hover:underline">
+                            <a href="{{ route('artikel.detail', $article->slug) }}" class="flex items-center gap-1.5 text-[#003134] text-xs font-bold hover:text-orange transition hover:underline mt-auto">
                                 Baca Selengkapnya
                                 <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                         </div>
                     </div>
-                @endforeach
-
-                {{-- Card 1 --}}
-                <div class="bg-[#fbf8fc] border-4 border-[#6c26d5] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-52 bg-[#f5f3f6]">
-                        <img src="https://www.figma.com/api/mcp/asset/9e59e8cb-3bdf-4022-ab51-0c9b1344f224.png"
-                             alt="Pencampuran Warna" class="w-full h-full object-cover" />
-                        <span class="absolute top-3 left-3 backdrop-blur-sm bg-[rgba(228,226,229,0.9)] text-[#031636] text-xs px-2.5 py-1 rounded-md shadow-sm">Eksperimen Seru</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between text-xs text-[#44474e] mb-3">
-                            <span class="flex items-center gap-1">
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                08 Okt 2024
-                            </span>
-                            <span>3 Min</span>
-                        </div>
-                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-tight"
-                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Keajaiban Warna: Belajar Pencampuran Warna Dasar</h3>
-                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">Panduan langkah demi langkah untuk melakukan eksperimen pencampuran warna yang aman dan menyenangkan di rumah.</p>
-                        <a href="#" class="flex items-center gap-1 text-[#003134] text-xs font-medium hover:underline">
-                            Baca Selengkapnya
-                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                </div>
-
-                {{-- Card 2 --}}
-                <div class="bg-[#fbf8fc] border-4 border-[rgba(34,48,173,0.78)] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-52 bg-[#f5f3f6]">
-                        <img src="https://www.figma.com/api/mcp/asset/910591e3-093e-4cc7-b01e-052aa2d1a34d.png"
-                             alt="Tips Orang Tua" class="w-full h-full object-cover" />
-                        <span class="absolute top-3 left-3 backdrop-blur-sm bg-[rgba(228,226,229,0.9)] text-[#031636] text-xs px-2.5 py-1 rounded-md shadow-sm">Tips Orang Tua</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between text-xs text-[#44474e] mb-3">
-                            <span class="flex items-center gap-1">
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                05 Okt 2024
-                            </span>
-                            <span>4 Min</span>
-                        </div>
-                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-tight"
-                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">5 Cara Mudah Menjawab Pertanyaan "Mengapa?" dari Si Kecil</h3>
-                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">Anak-anak secara alami memiliki rasa ingin tahu yang besar. Pelajari strategi komunikasi efektif untuk memuaskan rasa ingin tahu mereka.</p>
-                        <a href="#" class="flex items-center gap-1 text-[#003134] text-xs font-medium hover:underline">
-                            Baca Selengkapnya
-                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                </div>
-
-                {{-- Promo Card --}}
-                <div class="bg-[#001b3d] rounded-2xl overflow-hidden flex flex-col justify-between p-8 relative shadow-md md:row-span-2">
-                    <div class="absolute right-[-1rem] top-[-1rem] w-40 h-40 opacity-30 pointer-events-none">
-                        <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="80" cy="80" r="76" stroke="white" stroke-width="1.5" stroke-dasharray="6 4"/>
-                            <circle cx="80" cy="80" r="50" stroke="white" stroke-width="1" stroke-dasharray="4 4"/>
-                            <circle cx="80" cy="80" r="26" stroke="white" stroke-width="0.8"/>
-                        </svg>
-                    </div>
-                    <div class="flex flex-col gap-4 pb-8 relative z-10">
-                        <span class="bg-[#fd6c1a] text-white text-xs font-medium px-3 py-1 rounded-full self-start">Info Program</span>
-                        <h3 class="font-bold text-white text-3xl leading-tight">
-                            Pendaftaran Kelas Holiday Camp Musim Dingin Telah Dibuka!
-                        </h3>
-                        <p class="text-white/80 text-base leading-6">
-                            Liburan sekolah akan segera tiba. Bergabunglah dengan program spesial kami selama dua minggu yang penuh dengan eksperimen bertema es dan salju. Kuota sangat terbatas.
+                @empty
+                    <div class="col-span-full py-16 px-6 text-center bg-white border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-3 shadow-sm">
+                        <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-3xl">📚</div>
+                        <h3 class="font-display font-bold text-[#031636] text-2xl">Belum Ada Artikel</h3>
+                        <p class="text-gray-600 text-sm max-w-md">
+                            Belum ada artikel yang diterbitkan untuk kategori {{ $selectedCategory ?? 'ini' }}.
                         </p>
-                    </div>
-                    <a href="#" class="bg-[#fd6c1a] hover:bg-[#e55a0a] text-white text-sm font-bold tracking-[0.05em] text-center py-3 rounded-lg transition relative z-10">
-                        Daftar Sekarang
-                    </a>
-                </div>
-
-                {{-- Card 4 --}}
-                <div class="bg-[#fbf8fc] border-4 border-[#d88c0a] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-52 bg-[#f5f3f6]">
-                        <img src="https://www.figma.com/api/mcp/asset/a087bcb6-7fad-4090-8a40-f63b878d68a4.png"
-                             alt="Festival Roket" class="w-full h-full object-cover" />
-                        <span class="absolute top-3 left-3 backdrop-blur-sm bg-[rgba(228,226,229,0.9)] text-[#031636] text-xs px-2.5 py-1 rounded-md shadow-sm">Kisah Inspiratif</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between text-xs text-[#44474e] mb-3">
-                            <span class="flex items-center gap-1">
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                28 Sep 2024
-                            </span>
-                            <span>6 Min</span>
-                        </div>
-                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-tight"
-                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Laporan Lapangan: Festival Roket Air Amma Science 2024</h3>
-                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">Lebih dari 50 ilmuwan cilik berpartisipasi dalam merancang, membangun, dan meluncurkan roket air mereka sendiri.</p>
-                        <a href="#" class="flex items-center gap-1 text-[#003134] text-xs font-medium hover:underline">
-                            Baca Selengkapnya
-                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <a href="{{ route('artikel') }}" class="mt-3 inline-flex items-center gap-2 px-6 py-2.5 bg-[#0c4185] text-white text-sm font-bold rounded-full hover:bg-navy transition shadow-sm">
+                            Tampilkan Semua Artikel
                         </a>
                     </div>
-                </div>
-
-                {{-- Card 5 --}}
-                <div class="bg-[#fbf8fc] border-4 border-[#42b404] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-52 bg-[#f5f3f6]">
-                        <img src="https://www.figma.com/api/mcp/asset/06adc14f-f805-4c41-8246-1e25c66c2cc5.png"
-                             alt="Struktur Daun" class="w-full h-full object-cover" />
-                        <span class="absolute top-3 left-3 backdrop-blur-sm bg-[rgba(228,226,229,0.9)] text-[#031636] text-xs px-2.5 py-1 rounded-md shadow-sm">Eksperimen Seru</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex items-center justify-between text-xs text-[#44474e] mb-3">
-                            <span class="flex items-center gap-1">
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                20 Sep 2024
-                            </span>
-                            <span>4 Min</span>
-                        </div>
-                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-tight"
-                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Mengamati Struktur Daun: Biologi Dasar di Halaman Rumah</h3>
-                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">Ajak anak mengeksplorasi alam sekitar. Dengan bermodalkan kaca pembesar, halaman rumah bisa menjadi laboratorium.</p>
-                        <a href="#" class="flex items-center gap-1 text-[#003134] text-xs font-medium hover:underline">
-                            Baca Selengkapnya
-                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                </div>
+                @endforelse
 
             </div>
 
-            {{-- Load More --}}
-            <div class="flex justify-center mt-10">
-                <button class="border-2 border-[#031636] text-[#031636] text-sm tracking-[0.05em] px-7 py-3.5 rounded-full flex items-center gap-2 hover:bg-[#031636] hover:text-white transition">
-                    Muat Lebih Banyak
-                    <svg class="w-3 h-2" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
+            {{-- Load More Section --}}
+            <div id="loadMoreSection" class="flex flex-col items-center justify-center mt-12 gap-3">
+                @if ($hasMore)
+                    <button id="loadMoreBtn" onclick="loadMoreArticles()"
+                            class="border-2 border-[#031636] text-[#031636] text-sm font-bold tracking-[0.05em] px-9 py-3.5 rounded-full flex items-center gap-2 hover:bg-[#031636] hover:text-white transition shadow-sm cursor-pointer">
+                        <span id="loadMoreText">Muat Lebih Banyak</span>
+                        <svg id="loadMoreIcon" class="w-3 h-2" viewBox="0 0 12 8" fill="none">
+                            <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <p id="endOfArticlesNotice" class="hidden text-sm text-gray-500 font-medium py-2.5 px-6 bg-gray-50 rounded-full border border-gray-200 text-center">
+                        ✨ Ini halaman terakhir — Semua artikel telah ditampilkan
+                    </p>
+                @elseif ($articles->isNotEmpty())
+                    <p id="endOfArticlesNotice" class="text-sm text-gray-500 font-medium py-2.5 px-6 bg-gray-50 rounded-full border border-gray-200 text-center">
+                        ✨ Ini halaman terakhir — Semua artikel telah ditampilkan
+                    </p>
+                @endif
             </div>
         </section>
+
+    </main>
+
+    <script>
+        let currentArticlePage = {{ $articles->currentPage() }};
+        let currentCategory = @json($selectedCategory ?? 'Semua Artikel');
+        let isLoadingArticle = false;
+
+        const borderPalette = ['#0c4185', '#6c26d5', '#2230ad', '#d88c0a', '#42b404', '#e95605'];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const filter = document.getElementById('articleFilter');
+            if (!filter) return;
+
+            filter.addEventListener('click', function (event) {
+                const link = event.target.closest('a');
+                if (!link) return;
+
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#')) return;
+
+                event.preventDefault();
+
+                fetch(href, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'text/html'
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const filterNode = doc.getElementById('articleFilter');
+                    const grid = doc.getElementById('articleGrid');
+                    const loadMore = doc.getElementById('loadMoreSection');
+
+                    if (filterNode) {
+                        document.getElementById('articleFilter').innerHTML = filterNode.innerHTML;
+                    }
+
+                    if (grid) {
+                        document.getElementById('articleGrid').innerHTML = grid.innerHTML;
+                    }
+
+                    if (loadMore) {
+                        document.getElementById('loadMoreSection').innerHTML = loadMore.innerHTML;
+                    }
+
+                    const url = new URL(href, window.location.origin);
+                    currentCategory = url.searchParams.get('kategori') || 'Semua Artikel';
+                    currentArticlePage = 1;
+                });
+            });
+        });
+
+        async function loadMoreArticles() {
+            if (isLoadingArticle) return;
+
+            const btn = document.getElementById('loadMoreBtn');
+            const text = document.getElementById('loadMoreText');
+            const notice = document.getElementById('endOfArticlesNotice');
+            const grid = document.getElementById('articleGrid');
+
+            isLoadingArticle = true;
+            if (text) text.innerText = 'Memuat artikel...';
+
+            try {
+                const nextPage = currentArticlePage + 1;
+                const response = await fetch(`{{ route('artikel') }}?kategori=${encodeURIComponent(currentCategory)}&page=${nextPage}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) throw new Error('Gagal memuat artikel');
+
+                const data = await response.json();
+
+                if (data.items && data.items.length > 0) {
+                    data.items.forEach((item, index) => {
+                        const card = createArticleCard(item, grid.children.length + index);
+                        grid.appendChild(card);
+                    });
+
+                    currentArticlePage = data.current_page;
+                }
+
+                if (!data.has_more) {
+                    if (btn) btn.style.display = 'none';
+                    if (notice) notice.classList.remove('hidden');
+                } else {
+                    if (text) text.innerText = 'Muat Lebih Banyak';
+                }
+            } catch (err) {
+                console.error(err);
+                if (text) text.innerText = 'Coba Lagi';
+            } finally {
+                isLoadingArticle = false;
+            }
+        }
+
+        function createArticleCard(item, index) {
+            const bColor = borderPalette[index % borderPalette.length];
+            const div = document.createElement('div');
+            div.className = 'article-card bg-[#fbf8fc] border-4 rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200';
+            div.style.borderColor = bColor;
+
+            div.innerHTML = `
+                <a href="${item.url}" class="relative h-52 bg-[#f5f3f6] block overflow-hidden">
+                    <img src="${item.image}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover hover:scale-105 transition duration-300" />
+                    <span class="absolute top-3 left-3 backdrop-blur-sm bg-[rgba(228,226,229,0.95)] text-[#031636] font-bold text-xs px-3 py-1 rounded-md shadow-sm">
+                        ${escapeHtml(item.category_name)}
+                    </span>
+                </a>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex items-center justify-between text-xs text-[#44474e] mb-3">
+                        <span class="flex items-center gap-1 font-medium">
+                            <svg class="w-3.5 h-3.5 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            ${escapeHtml(item.date)}
+                        </span>
+                        <span class="text-gray-400">3 Min</span>
+                    </div>
+                    <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-snug hover:text-orange transition"
+                        style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
+                        <a href="${item.url}">${escapeHtml(item.title)}</a>
+                    </h3>
+                    <p class="text-[#44474e] text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
+                        ${escapeHtml(item.excerpt)}
+                    </p>
+                    <a href="${item.url}" class="flex items-center gap-1.5 text-[#003134] text-xs font-bold hover:text-orange transition hover:underline mt-auto">
+                        Baca Selengkapnya
+                        <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            `;
+            return div;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, function(m) {
+                return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'}[m];
+            });
+        }
+    </script>
 
     </main>
 

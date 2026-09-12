@@ -40,9 +40,19 @@ class ProgramResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
+                        Forms\Components\Select::make('category')
+                            ->label('Kategori Program')
+                            ->options([
+                                'Program Anak' => 'Program Anak',
+                                'Workshop Guru & Ortu' => 'Workshop Guru & Ortu',
+                                'Family Learning' => 'Family Learning',
+                                'Event Festival' => 'Event Festival',
+                                'Lainnya' => 'Lainnya',
+                            ])
+                            ->searchable(),
                         Forms\Components\TextInput::make('target_age')
                             ->label('Target Usia')
-                            ->placeholder('Contoh: 5 - 8 Tahun')
+                            ->placeholder('Contoh: TK/RA, SD/MI')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('price')
                             ->label('Harga')
@@ -81,6 +91,11 @@ class ProgramResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->weight('bold'),
+                Tables\Columns\TextColumn::make('category')
+                    ->label('Kategori')
+                    ->badge()
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('target_age')
                     ->label('Target Usia')
                     ->searchable(),
@@ -97,6 +112,15 @@ class ProgramResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('category')
+                    ->label('Kategori')
+                    ->options([
+                        'Program Anak' => 'Program Anak',
+                        'Workshop Guru & Ortu' => 'Workshop Guru & Ortu',
+                        'Family Learning' => 'Family Learning',
+                        'Event Festival' => 'Event Festival',
+                        'Lainnya' => 'Lainnya',
+                    ]),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Status Aktif'),
             ])

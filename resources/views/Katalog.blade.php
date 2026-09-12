@@ -13,7 +13,7 @@
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
         <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
                 <a href="/" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('build/assets/IMG/Logo.png') }}"
+                <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
                      class="h-[56px] w-[56px] object-contain rounded" />
             </a>
@@ -54,220 +54,274 @@
     {{-- MAIN CONTENT --}}
     <main class="max-w-7xl mx-auto px-6 md:px-10 py-16 flex flex-col lg:flex-row gap-8">
 
-        {{-- SIDEBAR --}}
+        {{-- SIDEBAR FILTER FORM --}}
         <aside class="w-full lg:w-64 shrink-0 flex flex-col gap-4">
-            {{-- Search --}}
-            <div class="relative border-[3px] border-black rounded-xl overflow-hidden">
-                <div class="absolute left-3 top-1/2 -translate-y-1/2">
-                    <svg class="w-4 h-4 text-[#44474e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
+            <form id="filterForm" action="{{ route('program') }}" method="GET" class="flex flex-col gap-4">
+                <input type="hidden" name="kategori" id="inputKategori" value="{{ $selectedCategory ?? 'Semua Program' }}">
+                <input type="hidden" name="sort" id="inputSort" value="{{ $sort ?? 'terpopuler' }}">
+
+                {{-- Search --}}
+                <div class="relative border-[3px] border-black rounded-xl overflow-hidden bg-white shadow-sm">
+                    <div class="absolute left-3 top-1/2 -translate-y-1/2">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari program..."
+                           class="w-full bg-[#fce8e8] text-gray-800 pl-9 pr-4 py-3 text-sm outline-none placeholder-gray-500 font-medium" />
                 </div>
-                <input type="text" placeholder="Cari program..."
-                       class="w-full bg-[rgba(235,88,88,0.94)] text-[#44474e] pl-9 pr-4 py-3 text-sm outline-none placeholder-[#44474e]" />
-            </div>
 
-            {{-- Kategori --}}
-            <div class="bg-white border border-black rounded-xl p-4 flex flex-col gap-3 shadow-sm">
-                <h3 class="font-display font-bold text-[#a63b00] text-xl"
-                    style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Kategori</h3>
-                <ul class="flex flex-col gap-2 text-sm">
-                    <li class="flex items-center gap-2">
-                        <span class="w-4 h-4 rounded-full bg-[#a63b00] flex items-center justify-center shrink-0">
-                            <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 10 10"><path d="M2 5l3 3 3-3"/></svg>
-                        </span>
-                        <span class="text-[#031636] tracking-[0.05em]">Semua Program</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-4 h-4 rounded-full border border-[#6b7280] bg-white shrink-0"></span>
-                        <span class="text-[#44474e] tracking-[0.05em]">Program Anak</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-4 h-4 rounded-full border border-[#6b7280] bg-white shrink-0"></span>
-                        <span class="text-[#44474e] tracking-[0.05em]">Workshop Guru &amp; Ortu</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-4 h-4 rounded-full border border-[#6b7280] bg-white shrink-0"></span>
-                        <span class="text-[#44474e] tracking-[0.05em]">Family Learning</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <span class="w-4 h-4 rounded-full border border-[#6b7280] bg-white shrink-0"></span>
-                        <span class="text-[#44474e] tracking-[0.05em]">Event Festival</span>
-                    </li>
-                </ul>
-            </div>
+                {{-- Kategori --}}
+                <div class="bg-white border border-black rounded-xl p-4 flex flex-col gap-3 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-display font-bold text-[#a63b00] text-xl"
+                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Kategori</h3>
+                        @if ($selectedCategory && $selectedCategory !== 'Semua Program')
+                            <button type="button" onclick="selectCategory('Semua Program')" class="text-xs text-orange hover:underline">Reset</button>
+                        @endif
+                    </div>
+                    <ul class="flex flex-col gap-2 text-sm">
+                        @foreach ($categories as $cat)
+                            @php
+                                $isActive = ($selectedCategory === $cat) || (! $selectedCategory && $cat === 'Semua Program');
+                            @endphp
+                            <li onclick="selectCategory('{{ $cat }}')"
+                                class="flex items-center gap-2 cursor-pointer p-1.5 rounded-lg hover:bg-orange/5 transition {{ $isActive ? 'font-bold' : '' }}">
+                                @if ($isActive)
+                                    <span class="w-4 h-4 rounded-full bg-[#a63b00] flex items-center justify-center shrink-0">
+                                        <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 10 10"><path d="M2 5l3 3 3-3"/></svg>
+                                    </span>
+                                    <span class="text-[#031636] tracking-[0.05em]">{{ $cat }}</span>
+                                @else
+                                    <span class="w-4 h-4 rounded-full border border-[#6b7280] bg-white shrink-0"></span>
+                                    <span class="text-[#44474e] tracking-[0.05em]">{{ $cat }}</span>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
 
-            {{-- Usia --}}
-            <div class="bg-white border border-black rounded-xl p-4 flex flex-col gap-3 shadow-sm">
-                <h3 class="font-display font-bold text-[#a63b00] text-xl"
-                    style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Cocok Untuk (Usia)</h3>
-                <ul class="flex flex-col gap-2 text-sm">
-                    <li class="flex items-center gap-2">
-                        <input type="checkbox" class="w-4 h-4 rounded border-[#6b7280]" />
-                        <span class="text-[#44474e]">TK/RA</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <input type="checkbox" class="w-4 h-4 rounded border-[#6b7280]" />
-                        <span class="text-[#44474e]">SD/MI</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <input type="checkbox" class="w-4 h-4 rounded border-[#6b7280]" />
-                        <span class="text-[#44474e]">Homeschooling / PKBM</span>
-                    </li>
-                </ul>
-            </div>
+                {{-- Usia --}}
+                <div class="bg-white border border-black rounded-xl p-4 flex flex-col gap-3 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-display font-bold text-[#a63b00] text-xl"
+                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Cocok Untuk (Usia)</h3>
+                        @if (! empty($selectedAges))
+                            <a href="{{ route('program', array_merge(request()->except('usia'), ['kategori' => $selectedCategory])) }}" class="text-xs text-orange hover:underline">Hapus</a>
+                        @endif
+                    </div>
+                    <ul class="flex flex-col gap-2 text-sm">
+                        @foreach ($availableAges as $age)
+                            @php
+                                $isChecked = in_array($age, $selectedAges ?? []);
+                            @endphp
+                            <li class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="usia[]" value="{{ $age }}" id="age_{{ Str::slug($age) }}"
+                                       {{ $isChecked ? 'checked' : '' }}
+                                       onchange="submitAgeFilter(this)"
+                                       class="w-4 h-4 rounded border-[#6b7280] text-[#a63b00] focus:ring-[#a63b00] cursor-pointer" />
+                                <label for="age_{{ Str::slug($age) }}" class="text-[#44474e] cursor-pointer select-none">{{ $age }}</label>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="flex gap-2">
+                    <button type="submit" class="w-full bg-orange hover:bg-orange-dark text-white font-bold py-2.5 px-4 rounded-xl text-sm transition shadow-sm">
+                        Terapkan Filter
+                    </button>
+                    @if (request()->hasAny(['search', 'kategori', 'usia', 'sort']))
+                        <a href="{{ route('program') }}" class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl text-sm transition text-center flex items-center justify-center">
+                            Reset
+                        </a>
+                    @endif
+                </div>
+            </form>
         </aside>
 
         {{-- PROGRAM GRID --}}
         <div class="flex-1 min-w-0 border border-[#e7e7e7] rounded-xl p-4 flex flex-col gap-4">
             {{-- Toolbar --}}
-            <div class="flex items-center justify-between pb-4 border-b border-[#c5c6cf]">
-                <span class="text-[#44474e] text-sm">Menampilkan {{ $programs->count() + 3 }} program unggulan</span>
+            <div id="programToolbar" class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#c5c6cf]">
+                <span id="programCount" class="text-[#44474e] text-sm">
+                    Menampilkan <strong id="programCounter" class="text-[#031636]">{{ $programs->count() }}</strong> program unggulan
+                    @if ($selectedCategory && $selectedCategory !== 'Semua Program')
+                        dalam <span class="bg-orange/10 text-orange font-semibold px-2 py-0.5 rounded text-xs">{{ $selectedCategory }}</span>
+                    @endif
+                </span>
                 <div class="flex items-center gap-2 text-sm">
                     <span class="text-[#44474e]">Urutkan:</span>
-                    <select class="bg-white border border-[rgba(197,198,207,0.3)] text-[#031636] text-sm rounded-lg px-3 py-1.5 outline-none">
-                        <option>Terpopuler</option>
-                        <option>Terbaru</option>
+                    <select onchange="updateSort(this.value)" class="bg-white border border-[rgba(197,198,207,0.3)] text-[#031636] text-sm rounded-lg px-3 py-1.5 outline-none cursor-pointer">
+                        <option value="terpopuler" {{ ($sort ?? '') === 'terpopuler' ? 'selected' : '' }}>Terpopuler</option>
+                        <option value="terbaru" {{ ($sort ?? '') === 'terbaru' ? 'selected' : '' }}>Terbaru</option>
+                        <option value="harga-rendah" {{ ($sort ?? '') === 'harga-rendah' ? 'selected' : '' }}>Harga Terendah</option>
+                        <option value="harga-tinggi" {{ ($sort ?? '') === 'harga-tinggi' ? 'selected' : '' }}>Harga Tertinggi</option>
                     </select>
                 </div>
             </div>
 
-            {{-- Cards --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            {{-- Cards Grid --}}
+            <div id="programGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
 
-                {{-- Dynamic Cards dari Database / Admin --}}
-                @foreach ($programs as $program)
-                <div class="bg-white border-4 border-[#0c4185] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#f5f3f6]">
-                        @if ($program->image)
-                            <img src="{{ asset('storage/' . $program->image) }}"
-                                 alt="{{ $program->title }}" class="w-full h-full object-cover" />
-                        @else
-                            <div class="w-full h-full bg-gradient-to-br from-[#aadaff] to-[#0c4185] flex items-center justify-center">
-                                <svg class="w-16 h-16 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                            </div>
-                        @endif
-                        <span class="absolute top-3 left-3 bg-[#fc6c29] text-white text-xs font-medium px-3 py-1 rounded-full shadow-sm">Program Baru</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2"
-                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">{{ $program->title }}</h3>
-                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">
-                            {{ Str::limit($program->description, 120) }}
-                        </p>
-                        <div class="border-t border-[rgba(197,198,207,0.1)] pt-4 flex flex-col gap-2 text-xs text-[#44474e] mb-4">
-                            @if ($program->target_age)
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                {{ $program->target_age }}
-                            </div>
+                @php
+                    $colors = ['#0c4185', '#293def', '#751664', '#fe6f6f', '#006b58', '#fc6c29'];
+                @endphp
+
+                @forelse ($programs as $index => $program)
+                    @php
+                        $borderColor = $colors[$index % count($colors)];
+                    @endphp
+                    <div class="bg-white border-4 rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200"
+                         style="border-color: {{ $borderColor }}">
+                        <div class="relative h-48 bg-[#f5f3f6]">
+                            @if ($program->image)
+                                <img src="{{ asset('storage/' . $program->image) }}"
+                                     alt="{{ $program->title }}" class="w-full h-full object-cover" />
+                            @else
+                                <div class="w-full h-full bg-gradient-to-br from-[#aadaff] to-[#0c4185] flex items-center justify-center relative overflow-hidden">
+                                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#fff 1.5px, transparent 1.5px); background-size: 16px 16px;"></div>
+                                    <svg class="w-16 h-16 text-white/70 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                    </svg>
+                                </div>
                             @endif
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                Rp {{ number_format((float) $program->price, 0, ',', '.') }}
-                            </div>
+                            <span class="absolute top-3 left-3 bg-[#fc6c29] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+                                {{ $program->category ?? 'Program Sains' }}
+                            </span>
                         </div>
-                        <a href="#" class="bg-[rgba(12,65,133,0.15)] border border-[#0c4185] text-[#031636] text-sm tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[rgba(12,65,133,0.3)] transition">
-                            Lihat Detail
-                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
+                        <div class="p-5 flex flex-col flex-1">
+                            <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-snug"
+                                style="font-variation-settings: 'YTLC' 500, 'wdth' 100">{{ $program->title }}</h3>
+                            <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">
+                                {{ Str::limit($program->description, 110) }}
+                            </p>
+                            <div class="border-t border-[rgba(197,198,207,0.1)] pt-4 flex flex-col gap-2 text-xs text-[#44474e] mb-4">
+                                @if ($program->target_age)
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-3.5 h-3.5 text-orange shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    <span>{{ $program->target_age }}</span>
+                                </div>
+                                @endif
+                                <div class="flex items-center gap-2 font-semibold text-[#031636]">
+                                    <svg class="w-3.5 h-3.5 text-teal-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    @if ($program->price > 0)
+                                        Rp {{ number_format((float) $program->price, 0, ',', '.') }}
+                                    @else
+                                        <span class="text-teal-700">Hubungi Kami</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <a href="{{ route('kontak') }}" class="bg-[rgba(12,65,133,0.1)] border border-[#0c4185] text-[#031636] text-sm font-semibold tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[#0c4185] hover:text-white transition">
+                                Pesan Program Ini
+                                <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                @endforeach
-
-                {{-- Card 1: Roadshow Sekolah (Statis) --}}
-                <div class="bg-white border-4 border-[#293def] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#f5f3f6]">
-                        <img src="https://www.figma.com/api/mcp/asset/b71d45bf-55ef-4944-8f7f-706639de9b7d.png"
-                             alt="Roadshow Sekolah" class="w-full h-full object-cover" />
-                        <span class="absolute top-3 left-3 bg-[#7ef4fc] text-[#002022] text-xs font-medium px-3 py-1 rounded-full shadow-sm">Program Sekolah</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2"
-                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Roadshow Sekolah</h3>
-                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">
-                            Menghadirkan pembelajaran interaktif langsung di lingkungan sekolah melalui eksperimen nyata.
+                @empty
+                    <div class="col-span-full py-16 px-6 text-center bg-white border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-3 shadow-sm">
+                        <div class="w-16 h-16 rounded-full bg-orange/10 flex items-center justify-center text-3xl">🧪</div>
+                        <h3 class="font-display font-bold text-[#031636] text-2xl">Program Tidak Ditemukan</h3>
+                        <p class="text-gray-600 text-sm max-w-md">
+                            Tidak ada program sains yang sesuai dengan kriteria filter atau kata kunci pencarian Anda saat ini.
                         </p>
-                        <div class="border-t border-[rgba(197,198,207,0.1)] pt-4 flex flex-col gap-2 text-xs text-[#44474e] mb-4">
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                TK/RA, SD/MI
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                Fleksibel (Sesuai kesepakatan)
-                            </div>
-                        </div>
-                        <a href="#" class="bg-[rgba(59,117,231,0.46)] border border-black text-[#031636] text-sm tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[rgba(59,117,231,0.65)] transition">
-                            Lihat Detail
-                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <a href="{{ route('program') }}" class="mt-3 inline-flex items-center gap-2 px-6 py-2.5 bg-orange text-white text-sm font-bold rounded-full hover:bg-orange-dark transition shadow-sm">
+                            Reset Semua Filter
                         </a>
                     </div>
-                </div>
-
-                {{-- Card 2: Science Festival --}}
-                <div class="bg-white border-4 border-[#751664] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#f5f3f6]">
-                        <img src="https://www.figma.com/api/mcp/asset/cc7ec6f7-c25b-4b84-b761-5d9376bf31fd.png"
-                             alt="Science Festival" class="w-full h-full object-cover" />
-                        <span class="absolute top-3 left-3 bg-[#ffdbce] text-[#370e00] text-xs font-medium px-3 py-1 rounded-full shadow-sm">Event Besar</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2"
-                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Science Festival</h3>
-                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">
-                            Festival edukasi meriah yang menggabungkan berbagai zona permainan, tantangan, dan Science Show.
-                        </p>
-                        <div class="border-t border-[rgba(197,198,207,0.1)] pt-4 flex flex-col gap-2 text-xs text-[#44474e] mb-4">
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                Umum &amp; Keluarga
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                Event Tahunan / Custom
-                            </div>
-                        </div>
-                        <a href="#" class="bg-[rgba(82,31,111,0.44)] border border-black text-[#031636] text-sm tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[rgba(82,31,111,0.6)] transition">
-                            Lihat Detail
-                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                </div>
-
-                {{-- Card 3: Family Learning --}}
-                <div class="bg-white border-4 border-[#fe6f6f] rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#f6f3f5]">
-                        <img src="https://www.figma.com/api/mcp/asset/b6d72d45-f5ce-4e84-a8e0-dcb66d7f1a7b.png"
-                             alt="Family Learning" class="w-full h-full object-cover" />
-                        <span class="absolute top-3 left-3 bg-[#7ef4fc] text-[#002022] text-xs font-medium px-3 py-1 rounded-full shadow-sm">Keluarga</span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-display font-bold text-[#031636] text-xl mb-2"
-                            style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Family Learning Experience</h3>
-                        <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">
-                            Program yang mengajak orang tua dan anak belajar bersama melalui eksplorasi proyek keluarga.
-                        </p>
-                        <div class="border-t border-[rgba(197,198,207,0.1)] pt-4 flex flex-col gap-2 text-xs text-[#44474e] mb-4">
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                Anak &amp; Orang Tua
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
-                                Di Rumah / Komunitas
-                            </div>
-                        </div>
-                        <a href="#" class="bg-[rgba(120,128,38,0.35)] border border-black text-[#031636] text-sm tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[rgba(120,128,38,0.5)] transition">
-                            Lihat Detail
-                            <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                </div>
+                @endforelse
 
             </div>
         </div>
     </main>
+
+    <script>
+        function submitFilterForm(form) {
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData);
+            const formAction = form.getAttribute('action') || '{{ route('program') }}';
+
+            fetch(formAction + '?' + params.toString(), {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'text/html'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const grid = doc.getElementById('programGrid');
+                const toolbar = doc.getElementById('programToolbar');
+                const count = doc.getElementById('programCount');
+                const newFilterForm = doc.getElementById('filterForm');
+
+                if (grid) {
+                    document.getElementById('programGrid').innerHTML = grid.innerHTML;
+                }
+
+                if (toolbar) {
+                    document.getElementById('programToolbar').innerHTML = toolbar.innerHTML;
+                }
+
+                if (count) {
+                    document.getElementById('programCount').innerHTML = count.innerHTML;
+                }
+
+                if (newFilterForm) {
+                    const oldForm = document.getElementById('filterForm');
+                    if (oldForm) {
+                        oldForm.action = newFilterForm.getAttribute('action') || '{{ route('program') }}';
+                        oldForm.method = newFilterForm.getAttribute('method') || 'GET';
+                        oldForm.innerHTML = newFilterForm.innerHTML;
+                    }
+                }
+            });
+        }
+
+        function selectCategory(cat) {
+            const form = document.getElementById('filterForm');
+            const k = document.getElementById('inputKategori');
+            if (k) {
+                k.value = cat;
+            }
+            submitFilterForm(form);
+        }
+
+        function updateSort(val) {
+            const form = document.getElementById('filterForm');
+            const s = document.getElementById('inputSort');
+            if (s) {
+                s.value = val;
+            }
+            submitFilterForm(form);
+        }
+
+        function submitAgeFilter(checkbox) {
+            const form = checkbox.closest('form');
+            if (form) {
+                submitFilterForm(form);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('submit', function (event) {
+                if (event.target && event.target.id === 'filterForm') {
+                    event.preventDefault();
+                    submitFilterForm(event.target);
+                }
+            });
+
+            document.addEventListener('change', function (event) {
+                if (event.target && event.target.matches('input[type="checkbox"][name="usia[]"]')) {
+                    const form = event.target.closest('form');
+                    if (form && form.id === 'filterForm') {
+                        event.preventDefault();
+                        submitFilterForm(form);
+                    }
+                }
+            });
+        });
+    </script>
 
     {{-- FOOTER --}}
     @include('partials.footer')

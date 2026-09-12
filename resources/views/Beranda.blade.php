@@ -8,32 +8,36 @@
 </head>
 <body class="font-sans antialiased text-gray-700 bg-doodle relative">
 
-    <header class="bg-navy text-white px-6 md:px-12 py-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
-        <div class="flex items-center gap-2 cursor-pointer">
-               {{-- Logo --}}
+    <header class="sticky top-0 z-50 border-b border-white/20 shadow-md"
+            style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
             <a href="/" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('build/assets/IMG/Logo.png') }}"
+                <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
                      class="h-[56px] w-[56px] object-contain rounded" />
             </a>
-           
-        </div>
 
-        <nav class="hidden lg:flex items-center gap-8 font-medium text-sm">
-            <a href="/" class="text-orange border-b-2 border-orange pb-1">Beranda</a>
-            <a href="/tentang" class="hover:text-orange transition">Tentang Kami</a>
-            <a href="/program" class="hover:text-orange transition">Program</a>
-            <a href="/artikel" class="hover:text-orange transition">Artikel</a>
-            <a href="/galeri" class="hover:text-orange transition">Galeri</a>
-            <a href="/kontak" class="hover:text-orange transition">Kontak</a>
-        </nav>
+            <nav class="hidden lg:flex items-center gap-1 text-sm font-medium">
+                <a href="/" class="px-3 py-2 rounded-lg text-[#fc6c29] tracking-[0.05em] transition">Beranda</a>
+                <a href="/tentang" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition leading-tight">Tentang<br>Kami</a>
+                <a href="/program" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Program</a>
+                <a href="/artikel" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Artikel</a>
+                <a href="/galeri" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Galeri</a>
+                <a href="/kontak" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
+            </nav>
 
-        <div class="flex items-center gap-5">
-            <button class="hover:text-orange text-lg" aria-label="Keranjang">🛒</button>
-            <a href="#" class="hidden md:block font-medium hover:text-orange transition">Masuk</a>
-            <button class="bg-orange hover:bg-orange-dark text-white px-6 py-2 rounded-full font-bold transition shadow-sm">
-                Pesan Sekarang
-            </button>
+            <div class="flex items-center gap-4">
+                <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </button>
+                <a href="#" class="hidden md:flex items-center justify-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                <a href="#" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm leading-tight text-center">
+                    Pesan<br>Sekarang
+                </a>
+            </div>
         </div>
     </header>
 

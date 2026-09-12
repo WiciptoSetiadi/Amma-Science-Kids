@@ -26,7 +26,7 @@
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
         <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
             <a href="/" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('build/assets/IMG/Logo.png') }}"
+                <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
                      class="h-[56px] w-[56px] object-contain rounded" />
             </a>
