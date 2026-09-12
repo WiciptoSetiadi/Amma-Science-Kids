@@ -57,7 +57,32 @@ body {
     background-size: 40px 40px;
     background-position: 0 0, 20px 20px;
     background-attachment: fixed;
-    opacity: 0.95; /* Sedikit transparan agar konten teks lebih terbaca */
+    opacity: 0.95;
+}
+
+/* Doodle background hanya untuk area konten beranda agar header/footer/card tetap solid */
+.home-doodle {
+    position: relative;
+    background-color: #fffaf6;
+    background-image: url('/img/vecteezy_school-education-and-science-doodle-background_13717509.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.home-doodle::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.85);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.home-doodle > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* Efek Teks Amma Science Outline (Bila digunakan di halaman lain) */

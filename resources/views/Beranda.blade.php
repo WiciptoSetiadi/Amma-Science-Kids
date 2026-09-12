@@ -6,7 +6,7 @@
     <title>Amma Science Kids</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased text-gray-700 bg-doodle relative">
+<body class="font-sans antialiased text-gray-700 relative">
 
     <header class="sticky top-0 z-50 border-b border-white/20 shadow-md"
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
@@ -41,7 +41,7 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-24">
+    <main class="home-doodle max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-24">
         
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
             <div class="flex flex-col items-start gap-6">
