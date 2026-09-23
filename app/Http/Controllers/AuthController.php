@@ -19,11 +19,7 @@ class AuthController extends Controller
 
     public function storeLogin(LoginRequest $request): RedirectResponse
     {
-        if (! Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-            throw ValidationException::withMessages([
-                'email' => 'Email atau kata sandi tidak sesuai.',
-            ]);
-        }
+        $request->authenticate();
 
         $request->session()->regenerate();
 
