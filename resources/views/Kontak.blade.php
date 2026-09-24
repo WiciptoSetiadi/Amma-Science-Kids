@@ -66,26 +66,38 @@
                     <h2 class="font-display font-bold text-[#031636] text-3xl mb-6"
                         style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Kirim Pesan</h2>
 
-                    <form class="flex flex-col gap-4">
+                    @if(session('success'))
+                        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-start gap-3">
+                            <svg class="w-5 h-5 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <p class="text-sm font-medium">{{ session('success') }}</p>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('kontak.store') }}" method="POST" class="flex flex-col gap-4">
+                        @csrf
                         <div class="flex flex-col gap-2">
                             <label class="text-[#1b1b1e] text-xs font-medium">Nama Lengkap</label>
-                            <input type="text" placeholder="Nama Anda atau Orang Tua"
-                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60" />
+                            <input type="text" name="name" value="{{ old('name') }}" required placeholder="Nama Anda atau Orang Tua"
+                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60 @error('name') border-red-500 @enderror" />
+                            @error('name') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="text-[#1b1b1e] text-xs font-medium">Email</label>
-                            <input type="email" placeholder="contoh@email.com"
-                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60" />
+                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="contoh@email.com"
+                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60 @error('email') border-red-500 @enderror" />
+                            @error('email') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="text-[#1b1b1e] text-xs font-medium">Subjek</label>
-                            <input type="text" placeholder="Pertanyaan tentang program"
-                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60" />
+                            <input type="text" name="subject" value="{{ old('subject') }}" required placeholder="Pertanyaan tentang program"
+                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60 @error('subject') border-red-500 @enderror" />
+                            @error('subject') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="text-[#1b1b1e] text-xs font-medium">Pesan</label>
-                            <textarea rows="5" placeholder="Tuliskan pesan Anda di sini..."
-                                      class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition resize-none placeholder-[#44474e]/60"></textarea>
+                            <textarea rows="5" name="message" required placeholder="Tuliskan pesan Anda di sini..."
+                                      class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition resize-none placeholder-[#44474e]/60 @error('message') border-red-500 @enderror">{{ old('message') }}</textarea>
+                            @error('message') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
                         <div class="pt-4">
                             <button type="submit"

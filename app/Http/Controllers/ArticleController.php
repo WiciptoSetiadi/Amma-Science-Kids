@@ -43,7 +43,7 @@ class ArticleController extends Controller
                     'slug' => $item->slug,
                     'url' => route('artikel.detail', $item->slug),
                     'category_name' => $item->relationLoaded('category') && $item->category ? $item->category->name : 'Sains',
-                    'image' => $item->image ? asset('storage/' . $item->image) : asset('img/Kids1.png'),
+                    'image' => $item->image ? asset('storage/'.$item->image) : asset('img/Kids1.png'),
                     'excerpt' => Str::limit(strip_tags((string) $item->content), 120),
                     'date' => $publishedOrCreated ? $publishedOrCreated->format('d M Y') : '',
                 ];

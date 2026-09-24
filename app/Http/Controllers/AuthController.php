@@ -7,8 +7,8 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -34,6 +34,8 @@ class AuthController extends Controller
     public function storeRegister(RegisterRequest $request): RedirectResponse
     {
         $user = User::create($request->validated());
+        Role::findOrCreate('user', 'web');
+        $user->assignRole('user');
 
         Auth::login($user);
         $request->session()->regenerate();

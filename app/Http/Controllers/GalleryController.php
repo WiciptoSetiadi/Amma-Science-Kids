@@ -33,7 +33,7 @@ class GalleryController extends Controller
                     'id' => $item->id,
                     'title' => $item->title,
                     'category' => $item->category ?? 'Kegiatan',
-                    'image' => $item->image ? asset('storage/' . $item->image) : asset('img/Kids1.png'),
+                    'image' => $item->image ? asset('storage/'.$item->image) : asset('img/Kids1.png'),
                     'description' => $item->description ?? '',
                 ];
             }

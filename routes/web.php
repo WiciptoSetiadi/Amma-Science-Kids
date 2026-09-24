@@ -32,6 +32,7 @@ Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('artikel
 
 Route::get('/galeri', [GalleryController::class, 'index'])->name('galeri');
 
-Route::get('/kontak', function () {
-    return view('Kontak');
-})->name('kontak');
+use App\Http\Controllers\ContactController;
+
+Route::get('/kontak', [ContactController::class, 'index'])->name('kontak');
+Route::post('/kontak', [ContactController::class, 'store'])->name('kontak.store');
