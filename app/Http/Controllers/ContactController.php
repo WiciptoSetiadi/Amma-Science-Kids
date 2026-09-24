@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 
 class ContactController extends Controller
 {

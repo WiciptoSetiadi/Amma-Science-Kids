@@ -26,11 +26,16 @@
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
             <div class="flex items-center gap-4">
-                <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
+                <a href="{{ route('cart.index') }}" class="relative flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                </button>
-                <a href="#" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
-                <a href="#" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
+                    @if (session('cart') && count(session('cart')) > 0)
+                        <span class="absolute -top-1 -right-1 bg-[#fc6c29] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                            {{ array_sum(array_column(session('cart'), 'quantity')) }}
+                        </span>
+                    @endif
+                </a>
+                <a href="{{ route('login') }}" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                <a href="{{ route('cart.index') }}" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
                     Pesan<br>Sekarang
                 </a>
             </div>
@@ -211,10 +216,14 @@
                                     @endif
                                 </div>
                             </div>
-                            <a href="{{ route('kontak') }}" class="bg-[rgba(12,65,133,0.1)] border border-[#0c4185] text-[#031636] text-sm font-semibold tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[#0c4185] hover:text-white transition">
-                                Pesan Program Ini
-                                <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </a>
+                            <form action="{{ route('cart.add') }}" method="POST" class="w-full">
+                                @csrf
+                                <input type="hidden" name="program_id" value="{{ $program->id }}">
+                                <button type="submit" class="w-full bg-[rgba(12,65,133,0.1)] border border-[#0c4185] text-[#031636] text-sm font-semibold tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[#0c4185] hover:text-white transition">
+                                    <span>Pesan Program Ini</span>
+                                    <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 @empty
