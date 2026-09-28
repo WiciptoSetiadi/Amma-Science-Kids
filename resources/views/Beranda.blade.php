@@ -81,7 +81,7 @@
             <div class="relative w-full max-w-lg mx-auto lg:ml-auto mt-10 lg:mt-0">
                 <div class="absolute inset-0 bg-mint-light rounded-[3rem] transform translate-x-4 translate-y-4 shadow-xl border border-mint/20"></div>
                 
-                <img src="{{ asset('build/assets/IMG/Kids1.png') }}" 
+                <img src="{{ asset('img/Kids1.png') }}" 
                      alt="Anak belajar sains" 
                      class="relative z-10 w-full h-[500px] object-cover rounded-[3rem] shadow-md border-4 border-white" />
                 
@@ -140,7 +140,7 @@
                 <div class="lg:col-span-5 flex flex-col gap-6">
                     
                     <div class="bg-orange border-[3px] border-navy rounded-[1.5rem] p-5 flex gap-5 items-center shadow-[4px_4px_0px_#0F1C35] hover:translate-x-1 hover:-translate-y-1 transition duration-300 cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1603352591605-7f41530e71ce?auto=format&fit=crop&w=200&q=80" 
+                        <img src="{{ asset('img/Kids1.png') }}" 
                              class="w-24 h-24 object-cover rounded-xl border-2 border-navy bg-white" alt="Ilmuwan Cilik">
                         <div class="text-navy">
                             <h4 class="font-black font-display text-xl mb-1">Ilmuwan Cilik</h4>

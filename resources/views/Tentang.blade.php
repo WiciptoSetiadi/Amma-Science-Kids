@@ -142,7 +142,7 @@
                 {{-- Kanan: Gambar miring --}}
                 <div class="lg:col-span-3 flex items-center justify-center lg:col-start-10">
                     <div class="-rotate-[1.73deg] hover:rotate-0 transition duration-300 relative">
-                        <img src="{{ asset('build/assets/IMG/Kids1.png') }}"
+                        <img src="{{ asset('img\DETEKTIF.png') }}"
                              alt="Anak bereksplorasi di alam"
                              class="w-full max-w-[330px] h-[500px] md:h-[580px] object-cover rounded-xl
                                     border-[6px] border-[#b628cc] shadow-[10px_20px_6px_0px_rgba(0,0,0,0.25)]" />
