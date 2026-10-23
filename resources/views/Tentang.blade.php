@@ -105,7 +105,7 @@
 
                     {{-- CTA --}}
                     <div class="pt-4">
-                        <a href="#program"
+                        <a href="{{ route('program') }}"
                            class="inline-flex items-center gap-2 bg-[#031636] hover:bg-[#1E2D4A] text-white text-sm tracking-[0.05em] px-6 py-3 rounded-full transition">
                             Jelajahi Program
                             <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none">

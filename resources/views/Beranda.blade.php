@@ -41,7 +41,7 @@
                 @else
                     <a href="{{ route('login') }}" class="hidden md:flex items-center justify-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
                 @endauth
-                <a href="#" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm leading-tight text-center">
+                <a href="{{ route('cart.index') }}" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm leading-tight text-center">
                     Pesan<br>Sekarang
                 </a>
             </div>
@@ -69,12 +69,12 @@
                 </p>
 
                 <div class="flex flex-wrap items-center gap-4 mt-2">
-                    <button class="bg-orange hover:bg-orange-dark text-white px-8 py-3.5 rounded-full font-bold transition shadow-lg shadow-orange/30 flex items-center gap-2">
+                    <a href="{{ route('program') }}" class="bg-orange hover:bg-orange-dark text-white px-8 py-3.5 rounded-full font-bold transition shadow-lg shadow-orange/30 flex items-center gap-2">
                         Jelajahi Program <span class="text-xl">→</span>
-                    </button>
-                    <button class="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-3.5 rounded-full font-bold transition">
+                    </a>
+                    <a href="{{ route('tentang') }}" class="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-3.5 rounded-full font-bold transition">
                         Kenali AMMA
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -107,7 +107,7 @@
                         Kurikulum yang dirancang khusus sesuai dengan fitrah dan tahapan usia anak, menghadirkan pembelajaran yang membumi dan nyata.
                     </p>
                 </div>
-                <a href="#" class="text-mint font-bold hover:underline whitespace-nowrap">Lihat Semua Program →</a>
+                <a href="{{ route('program') }}" class="text-mint font-bold hover:underline whitespace-nowrap">Lihat Semua Program →</a>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -165,9 +165,9 @@
                         </div>
                         <h4 class="font-bold text-navy mb-2">Punya minat khusus?</h4>
                         <p class="text-sm font-medium text-navy/80 mb-6">Konsultasikan kurikulum yang tepat untuk anak Anda.</p>
-                        <button class="bg-yellow border-2 border-navy px-6 py-2 rounded-full font-bold text-navy hover:bg-orange transition shadow-[2px_2px_0px_#0F1C35]">
+                        <a href="{{ route('kontak') }}" class="bg-yellow border-2 border-navy px-6 py-2 rounded-full font-bold text-navy hover:bg-orange transition shadow-[2px_2px_0px_#0F1C35]">
                             Hubungi Fasilitator
-                        </button>
+                        </a>
                     </div>
 
                 </div>
