@@ -49,7 +49,7 @@
         </div>
     </header>
 
-    <main class="bg-white">
+    <main class="home-doodle">
 
         {{-- HEADER SECTION --}}
         <section class="max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-4">

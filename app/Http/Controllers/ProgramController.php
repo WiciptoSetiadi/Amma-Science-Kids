@@ -78,4 +78,14 @@ class ProgramController extends Controller
             'sort'
         ));
     }
+
+    public function show(string $slug): View
+    {
+        $program = Program::query()
+            ->where('is_active', true)
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return view('ProgramDetail', compact('program'));
+    }
 }

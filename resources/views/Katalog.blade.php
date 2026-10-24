@@ -67,7 +67,8 @@
     </section>
 
     {{-- MAIN CONTENT --}}
-    <main class="max-w-7xl mx-auto px-6 md:px-10 py-16 flex flex-col lg:flex-row gap-8">
+    <main class="home-doodle w-full py-16">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 flex flex-col lg:flex-row gap-8">
 
         {{-- SIDEBAR FILTER FORM --}}
         <aside class="w-full lg:w-64 shrink-0 flex flex-col gap-4">
@@ -226,14 +227,10 @@
                                     @endif
                                 </div>
                             </div>
-                            <form action="{{ route('cart.add') }}" method="POST" class="w-full">
-                                @csrf
-                                <input type="hidden" name="program_id" value="{{ $program->id }}">
-                                <button type="submit" class="w-full bg-[rgba(12,65,133,0.1)] border border-[#0c4185] text-[#031636] text-sm font-semibold tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[#0c4185] hover:text-white transition">
-                                    <span>Pesan Program Ini</span>
-                                    <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </button>
-                            </form>
+                            <a href="{{ route('program.detail', $program->slug) }}" class="w-full bg-[rgba(12,65,133,0.1)] border border-[#0c4185] text-[#031636] text-sm font-semibold tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[#0c4185] hover:text-white transition">
+                                <span>Lihat Detail Program</span>
+                                <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
                         </div>
                     </div>
                 @empty
@@ -250,6 +247,7 @@
                 @endforelse
 
             </div>
+        </div>
         </div>
     </main>
 

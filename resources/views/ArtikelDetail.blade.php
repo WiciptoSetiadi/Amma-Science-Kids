@@ -60,7 +60,7 @@
         </div>
     </header>
 
-    <main class="bg-white py-10">
+    <main class="home-doodle py-10">
 
         <article class="max-w-4xl mx-auto px-6 md:px-10">
             {{-- BACK BUTTON & METADATA --}}

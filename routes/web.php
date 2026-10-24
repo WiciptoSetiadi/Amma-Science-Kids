@@ -7,13 +7,12 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\PurchaseHistoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('Beranda');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'createLogin'])->name('login');
@@ -29,6 +28,7 @@ Route::redirect('/jelajahi-program', '/program');
 Route::get('/tentang', [AboutController::class, 'index'])->name('tentang');
 
 Route::get('/program', [ProgramController::class, 'index'])->name('program');
+Route::get('/program/{slug}', [ProgramController::class, 'show'])->name('program.detail');
 
 Route::get('/artikel', [ArticleController::class, 'index'])->name('artikel');
 Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('artikel.detail');

@@ -20,7 +20,7 @@
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-6 md:px-10 py-10 flex-1 w-full">
+    <main class="home-doodle max-w-5xl mx-auto px-6 md:px-10 py-10 flex-1 w-full">
         <div class="mb-8">
             <p class="text-[#e95605] text-sm font-bold tracking-wider uppercase mb-2">Akun Saya</p>
             <h1 class="font-display font-extrabold text-[#031636] text-3xl md:text-4xl tracking-tight">Riwayat Pembelian</h1>

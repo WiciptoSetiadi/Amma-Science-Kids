@@ -51,7 +51,8 @@
         </div>
     </header>
 
-    <main class="home-doodle max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-24">
+    <main class="home-doodle w-full pt-12 pb-24">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
         
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
             <div class="flex flex-col items-start gap-6">
@@ -100,7 +101,7 @@
             </div>
         </section>
 
-        <section class="mt-32" id="program">
+        <section class="mt-32 bg-white rounded-[2rem] p-6 md:p-8 shadow-sm" id="program">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                 <div class="max-w-xl">
                     <div class="text-mint font-bold flex items-center gap-2 mb-3">
@@ -114,53 +115,56 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
-                <div class="lg:col-span-7 bg-purple-soft border-[4px] border-[#FBCFB6] rounded-[2rem] overflow-hidden flex flex-col hover:shadow-2xl transition duration-300">
-                    <div class="relative h-64 md:h-80 bg-gray-200 p-4">
-                        <div class="absolute top-6 left-6 z-10 bg-cyan-200 text-cyan-900 text-xs font-black px-3 py-1 uppercase rounded-md tracking-wider border-2 border-cyan-800">
-                            Online Play Date
+                @if ($featuredArticle)
+                    <a href="{{ route('artikel.detail', $featuredArticle->slug) }}" class="lg:col-span-7 bg-purple-soft border-[4px] border-[#FBCFB6] rounded-[2rem] overflow-hidden flex flex-col hover:shadow-2xl transition duration-300">
+                        <div class="relative h-64 md:h-80 bg-gray-200 p-4">
+                            <div class="absolute top-6 left-6 z-10 bg-cyan-200 text-cyan-900 text-xs font-black px-3 py-1 uppercase rounded-md tracking-wider border-2 border-cyan-800">
+                                {{ $featuredArticle->category?->name ?? 'Artikel Pilihan' }}
+                            </div>
+                            <img src="{{ $featuredArticle->image ? asset('storage/' . $featuredArticle->image) : asset('img/Kids1.png') }}"
+                                 alt="{{ $featuredArticle->title }}"
+                                 class="w-full h-full object-cover rounded-2xl border-[3px] border-navy" />
                         </div>
-                        <img src="https://images.unsplash.com/photo-1540479859555-17af45c78602?auto=format&fit=crop&w=900&q=80" 
-                             alt="Penjelajah Gaya & Gerak" 
-                             class="w-full h-full object-cover rounded-2xl border-[3px] border-navy" />
+                        <div class="p-8 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-2xl md:text-3xl font-display font-black text-navy mb-4">{{ $featuredArticle->title }}</h3>
+                                <p class="text-gray-700 leading-relaxed mb-6">
+                                    {{ \Illuminate\Support\Str::limit(strip_tags((string) $featuredArticle->content), 180) }}
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between pt-6 border-t border-purple-300">
+                                <span class="text-sm font-bold text-gray-600">
+                                    {{ optional($featuredArticle->published_at ?? $featuredArticle->created_at)->translatedFormat('d M Y') }}
+                                </span>
+                                <span class="text-mint font-bold">Baca Artikel →</span>
+                            </div>
+                        </div>
+                    </a>
+                @else
+                    <div class="lg:col-span-7 bg-purple-soft border-[4px] border-[#FBCFB6] rounded-[2rem] p-8 flex items-center">
+                        <p class="text-gray-700">Artikel pilihan akan segera hadir.</p>
                     </div>
-                    <div class="p-8 flex-1 flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-3xl font-display font-black text-navy mb-4">Penjelajah Gaya & Gerak</h3>
-                            <p class="text-gray-700 leading-relaxed mb-6">
-                                Memahami konsep dasar fisika melalui aktivitas lapangan dan permainan interaktif yang melibatkan gerak, gaya, dan energi mekanik dalam kehidupan sehari-hari anak.
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between pt-6 border-t border-purple-300">
-                            <span class="text-sm font-bold text-gray-600 flex items-center gap-2">
-                                ⏱️ Usia 5-8 Tahun
-                            </span>
-                            <a href="#" class="text-mint font-bold hover:underline">Baca Jurnal →</a>
-                        </div>
-                    </div>
-                </div>
+                @endif
 
                 <div class="lg:col-span-5 flex flex-col gap-6">
-                    
-                    <div class="bg-orange border-[3px] border-navy rounded-[1.5rem] p-5 flex gap-5 items-center shadow-[4px_4px_0px_#0F1C35] hover:translate-x-1 hover:-translate-y-1 transition duration-300 cursor-pointer">
-                        <img src="{{ asset('img/Kids1.png') }}" 
-                             class="w-24 h-24 object-cover rounded-xl border-2 border-navy bg-white" alt="Ilmuwan Cilik">
-                        <div class="text-navy">
-                            <h4 class="font-black font-display text-xl mb-1">Ilmuwan Cilik</h4>
-                            <p class="text-sm font-medium leading-tight mb-2 opacity-90">Eksperimen aman mengenalkan reaksi perubahan wujud zat.</p>
-                            <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded">📅 Usia 6-10 Thn</span>
+                    @php
+                        $programCardColors = ['bg-orange', 'bg-yellow'];
+                    @endphp
+                    @forelse ($featuredPrograms as $index => $program)
+                        <a href="{{ route('program.detail', $program->slug) }}" class="{{ $programCardColors[$index % count($programCardColors)] }} border-[3px] border-navy rounded-[1.5rem] p-5 flex gap-5 items-center shadow-[4px_4px_0px_#0F1C35] hover:translate-x-1 hover:-translate-y-1 transition duration-300">
+                            <img src="{{ $program->image ? asset('storage/' . $program->image) : asset('img/Kids1.png') }}"
+                                 class="w-24 h-24 object-cover rounded-xl border-2 border-navy bg-white shrink-0" alt="{{ $program->title }}">
+                            <div class="text-navy min-w-0">
+                                <h4 class="font-black font-display text-xl mb-1">{{ $program->title }}</h4>
+                                <p class="text-sm font-medium leading-tight mb-2 opacity-90">{{ \Illuminate\Support\Str::limit($program->description ?: 'Temukan pengalaman belajar sains seru untuk anak.', 100) }}</p>
+                                <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded">📅 {{ $program->target_age ?: 'Program Sains' }}</span>
+                            </div>
+                        </a>
+                    @empty
+                        <div class="bg-orange border-[3px] border-navy rounded-[1.5rem] p-5 text-navy">
+                            Program unggulan akan segera hadir.
                         </div>
-                    </div>
-
-                    <div class="bg-yellow border-[3px] border-navy rounded-[1.5rem] p-5 flex gap-5 items-center shadow-[4px_4px_0px_#0F1C35] hover:translate-x-1 hover:-translate-y-1 transition duration-300 cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=200&q=80" 
-                             class="w-24 h-24 object-cover rounded-xl border-2 border-navy bg-white" alt="Detektif Alam">
-                        <div class="text-navy">
-                            <h4 class="font-black font-display text-xl mb-1">Detektif Alam</h4>
-                            <p class="text-sm font-medium leading-tight mb-2 opacity-90">Mengamati ekosistem dan serangga secara langsung di...</p>
-                            <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded">📅 Usia 4-7 Thn</span>
-                        </div>
-                    </div>
+                    @endforelse
 
                     <div class="bg-green-neon border-[3px] border-dashed border-navy rounded-[1.5rem] p-8 flex flex-col items-center text-center mt-2 flex-1 justify-center">
                         <div class="bg-mint p-3 rounded-full text-white text-xl border-2 border-navy mb-4">
@@ -177,6 +181,7 @@
             </div>
         </section>
 
+        </div>
     </main>
 
     <footer class="bg-navy text-white pt-16 pb-8" id="contact">

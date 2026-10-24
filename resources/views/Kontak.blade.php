@@ -47,7 +47,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="home-doodle">
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-16">
 
             {{-- Hero Header --}}
@@ -136,7 +136,10 @@
                                 </div>
                                 <div>
                                     <p class="text-[#6f84ac] text-xs font-medium uppercase tracking-widest mb-1">Lokasi</p>
-                                    <p class="text-white text-base leading-6">Surabaya, Jawa Timur</p>
+                                    <a href="https://maps.app.goo.gl/Y2sKHokhTJ5qBfY26" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white text-base leading-6 hover:text-[#4bc8ea] transition">
+                                        Surabaya, Jawa Timur
+                                        <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M11 3a1 1 0 100 2h2.586l-7.293 7.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 100-2H5z"/></svg>
+                                    </a>
                                 </div>
                             </li>
                             {{-- Email --}}
@@ -172,17 +175,20 @@
                         </a>
                     </div>
 
-                    {{-- Map Placeholder --}}
+                    {{-- Google Maps --}}
                     <div class="border border-[rgba(177,199,242,0.2)] rounded-xl overflow-hidden relative h-48 z-10">
-                        <img src="https://www.figma.com/api/mcp/asset/4710089b-ef17-476e-97ee-6b2fb5237efb.png"
-                             alt="Peta Lokasi" class="w-full h-full object-cover opacity-80" />
-                        <div class="absolute inset-0 bg-[rgba(0,27,61,0.1)]"></div>
-                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                            <span class="bg-white text-[#001b3d] text-xs font-medium px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5">
-                                <svg class="w-3 h-3.5 text-[#e95605]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                                Amma Science Kids
-                            </span>
-                        </div>
+                        <iframe
+                            src="https://maps.google.com/maps?q=Gulakong&output=embed"
+                            title="Peta Gulakong di Surabaya"
+                            class="w-full h-full border-0"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen>
+                        </iframe>
+                        <a href="https://maps.app.goo.gl/Y2sKHokhTJ5qBfY26" target="_blank" rel="noopener noreferrer" class="absolute bottom-3 left-3 inline-flex items-center gap-2 bg-white hover:bg-[#eaf8fc] text-[#001b3d] text-xs font-bold px-3 py-2 rounded-full shadow-lg transition">
+                            <svg class="w-3.5 h-3.5 text-[#e95605]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            Buka lokasi di Google Maps
+                        </a>
                     </div>
                 </div>
 

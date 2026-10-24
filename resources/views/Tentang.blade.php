@@ -6,7 +6,7 @@
     <title>Tentang Kami - Amma Science Kids</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased text-gray-700 bg-doodle relative">
+<body class="font-sans antialiased text-gray-700 relative">
 
     {{-- =========================================
          NAVBAR
@@ -59,7 +59,7 @@
     {{-- =========================================
          MAIN CONTENT
     ========================================= --}}
-    <main class="bg-white">
+    <main class="home-doodle flex flex-col gap-8">
 
         {{-- =========================================
              HERO SECTION
@@ -159,7 +159,7 @@
              KISAH AWAL MULA KAMI
              bg #a6fffe, drop-cap 55px, quote box border-left #7ef4fc
         ========================================= --}}
-        <section class="border-t border-[rgba(197,198,207,0.1)]">
+        <section class="bg-white border-t border-[rgba(197,198,207,0.1)]">
             <div class="max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-16">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12">
 
@@ -220,7 +220,7 @@
              EMPAT PILAR PEMBELAJARAN
              Bento grid layout, warna & border baru, dekorasi corner, teks diperbarui
         ========================================= --}}
-        <section class="max-w-7xl mx-auto px-6 md:px-10 py-20">
+        <section class="max-w-7xl mx-auto px-6 md:px-10 py-20 bg-white rounded-3xl shadow-sm">
             <div class="flex flex-col gap-16 items-start">
 
                 {{-- Header --}}
@@ -326,7 +326,7 @@
              TIM EDUKATOR KAMI
              aspect-[4/5], border colors baru, rounded-[12px]
         ========================================= --}}
-        <section class="max-w-7xl mx-auto px-6 md:px-10 pb-20 pt-4">
+        <section class="max-w-7xl mx-auto px-6 md:px-10 pb-20 pt-4 bg-white rounded-3xl shadow-sm">
             <div class="flex flex-col gap-12">
 
                 {{-- Header --}}
@@ -407,7 +407,7 @@
 
                 {{-- Button --}}
                 <div class="relative z-10 shrink-0">
-                    <a href="#"
+                    <a href="/program"
                        class="bg-[#a63b00] hover:bg-[#8a3000] text-white text-sm tracking-[0.05em] px-8 py-4 rounded-full font-normal transition
                               shadow-[0px_4px_10px_rgba(26,43,76,0.15)]">
                         Daftar Kelas Trial

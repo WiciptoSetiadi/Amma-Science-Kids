@@ -30,7 +30,7 @@
     </header>
 
     {{-- MAIN CONTAINER --}}
-    <main class="max-w-7xl mx-auto px-6 md:px-10 py-10 flex-1 w-full relative">
+    <main class="home-doodle max-w-7xl mx-auto px-6 md:px-10 py-10 flex-1 w-full relative">
 
         {{-- Page Title --}}
         <div class="mb-8">

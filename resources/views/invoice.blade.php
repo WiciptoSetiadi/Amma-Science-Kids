@@ -53,7 +53,7 @@
     @endphp
 
     {{-- MAIN CONTAINER --}}
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 md:px-10 py-10 flex-1 w-full relative">
+    <main class="home-doodle max-w-4xl mx-auto px-4 sm:px-6 md:px-10 py-10 flex-1 w-full relative">
         {{-- Background Pattern Decoration --}}
         <div class="absolute inset-0 pointer-events-none opacity-40 overflow-hidden -z-10 no-print" style="background-image: radial-gradient(#0c4185 0.75px, transparent 0.75px); background-size: 24px 24px;"></div>
 

@@ -47,7 +47,7 @@
         </div>
     </header>
 
-    <main class="bg-white overflow-hidden">
+    <main class="home-doodle overflow-hidden">
 
         {{-- HEADER SECTION --}}
         <section class="max-w-7xl mx-auto px-6 md:px-10 pt-12 pb-4">
