@@ -31,6 +31,9 @@
             </nav>
 
             <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                @endauth
                 <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -337,51 +340,34 @@
                             Lebih dari sekadar pengajar, mereka adalah fasilitator keajaiban. Para ilmuwan dan pendidik yang mendedikasikan diri untuk membimbing anak-anak menelusuri fenomena alam.
                         </p>
                     </div>
-                    <a href="#"
-                       class="flex items-center gap-2 text-[#003134] text-sm tracking-[0.05em] hover:opacity-70 transition whitespace-nowrap shrink-0">
-                        Lihat Semua Profil
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                        </svg>
-                    </a>
                 </div>
 
                 {{-- Kartu Edukator --}}
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                    {{-- Card 1 � border rgba(1,23,218,0.79) --}}
-                    <div class="flex flex-col gap-2">
-                        <div class="aspect-[4/5] bg-[#f5f3f6] border-4 border-[rgba(1,23,218,0.79)] rounded-xl"></div>
-                        <div class="flex flex-col gap-0.5 px-1">
-                            <h4 class="font-display font-normal text-[#031636] text-xl leading-7"
-                                style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
-                                Ustazah
-                            </h4>
-                        </div>
-                    </div>
-
-                    {{-- Card 2 � border #fac234 --}}
-                    <div class="flex flex-col gap-2">
-                        <div class="aspect-[4/5] bg-[#f5f3f6] border-4 border-[#fac234] rounded-xl -translate-x-1"></div>
-                        <div class="flex flex-col gap-0.5 px-1">
-                            <h4 class="font-display font-normal text-[#031636] text-xl leading-7"
-                                style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
-                                Ustadz
-                            </h4>
-                        </div>
-                    </div>
-
-                    {{-- Card 3 � border #98162c --}}
-                    <div class="flex flex-col gap-2">
-                        <div class="aspect-[4/5] bg-[#f5f3f6] border-4 border-[#98162c] rounded-xl"></div>
-                        <div class="flex flex-col gap-0.5 px-1">
-                            <h4 class="font-display font-normal text-[#031636] text-xl leading-7"
-                                style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
-                                Ustazah
-                            </h4>
-                        </div>
-                    </div>
-
+                    @foreach ($educators as $educator)
+                        <article class="flex flex-col gap-3">
+                            <div class="aspect-[4/5] bg-[#f5f3f6] rounded-xl overflow-hidden border-4" style="border-color: {{ $educator->accent_color }}">
+                                @if ($educator->image)
+                                    <img src="{{ asset('storage/' . $educator->image) }}" alt="Foto {{ $educator->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-6xl font-display font-bold text-white" style="background-color: {{ $educator->accent_color }}">
+                                        {{ \Illuminate\Support\Str::of($educator->name)->trim()->substr(0, 1)->upper() }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex flex-col gap-1 px-1">
+                                <h3 class="font-display font-normal text-[#031636] text-xl leading-7" style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
+                                    {{ $educator->name }}
+                                </h3>
+                                @if ($educator->role)
+                                    <p class="text-sm font-semibold text-[#a63b00]">{{ $educator->role }}</p>
+                                @endif
+                                @if ($educator->bio)
+                                    <p class="text-sm leading-6 text-[#59606d]">{{ $educator->bio }}</p>
+                                @endif
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -438,3 +424,5 @@
 
 </body>
 </html>
+
+

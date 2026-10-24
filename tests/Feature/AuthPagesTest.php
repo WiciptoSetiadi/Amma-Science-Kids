@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -88,5 +89,38 @@ class AuthPagesTest extends TestCase
 
         $this->assertGuest();
         $this->get(route('register'))->assertOk();
+    }
+
+    public function test_public_page_navigation_reflects_authentication_state_after_logout(): void
+    {
+        $user = User::factory()->create();
+        $article = Article::factory()->create();
+        $pages = [
+            route('home'),
+            route('tentang'),
+            route('program'),
+            route('artikel'),
+            route('artikel.detail', $article->slug),
+            route('galeri'),
+            route('kontak'),
+        ];
+
+        $this->actingAs($user);
+
+        foreach ($pages as $page) {
+            $this->get($page)
+                ->assertOk()
+                ->assertSee('Keluar');
+        }
+
+        $this->post(route('logout'))->assertRedirect(route('home'));
+        $this->assertGuest();
+
+        foreach ($pages as $page) {
+            $this->get($page)
+                ->assertOk()
+                ->assertSee('Masuk')
+                ->assertDontSee('Keluar');
+        }
     }
 }

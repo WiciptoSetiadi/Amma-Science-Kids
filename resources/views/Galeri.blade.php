@@ -26,11 +26,21 @@
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
             <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                @endauth
                 <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </button>
-                <a href="#" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
-                <a href="#" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
+                @auth
+                    <form method="POST" action="{{ route('logout') }}" class="hidden md:flex">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 text-sm text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                @endauth
+                <a href="/pesan" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
                     Pesan<br>Sekarang
                 </a>
             </div>
@@ -367,4 +377,5 @@
 
 </body>
 </html>
+
 

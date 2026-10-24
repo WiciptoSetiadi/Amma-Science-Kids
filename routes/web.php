@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\PurchaseHistoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,9 +26,7 @@ Route::post('/logout', [AuthController::class, 'destroy'])->middleware('auth')->
 
 Route::redirect('/jelajahi-program', '/program');
 
-Route::get('/tentang', function () {
-    return view('Tentang');
-})->name('tentang');
+Route::get('/tentang', [AboutController::class, 'index'])->name('tentang');
 
 Route::get('/program', [ProgramController::class, 'index'])->name('program');
 
@@ -54,3 +54,8 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 
 // 3. Invoice (/invoice/{id})
 Route::get('/invoice/{id}', [CheckoutController::class, 'invoice'])->name('invoice.show');
+
+// 4. Riwayat pembelian pengguna
+Route::get('/riwayat-pembelian', [PurchaseHistoryController::class, 'index'])
+    ->middleware('auth')
+    ->name('purchase-history.index');

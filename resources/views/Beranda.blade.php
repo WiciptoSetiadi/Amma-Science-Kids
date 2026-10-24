@@ -27,6 +27,9 @@
             </nav>
 
             <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                @endauth
                 <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -226,3 +229,5 @@
     </footer>
 </body>
 </html>
+
+
