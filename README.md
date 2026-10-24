@@ -76,11 +76,11 @@ Pastikan Anda sudah menginstal aplikasi berikut di komputer Anda:
    ```
 
 9. **Buat Akun Admin (Filament):**
-   Aplikasi ini menggunakan panel admin Filament v3. Buat user pertama Anda dengan perintah:
+   Buat akun administrator dengan perintah berikut. Password diminta secara tersembunyi dan akun akan otomatis mendapat role `admin`:
    ```bash
-   php artisan make:filament-user
+   php artisan make:filament-admin-user
    ```
-   *(Ikuti instruksi di terminal untuk mengisi nama, email, dan password admin)*
+   *(Isi nama, email, password minimal 8 karakter, lalu konfirmasi password. Pendaftar melalui formulir website tetap mendapat role `user`.)*
 
 10. **Kompilasi aset frontend (CSS & JavaScript):**
     Agar tampilan Tailwind CSS dan efek-efek lainnya berfungsi, jalankan proses build Vite:
