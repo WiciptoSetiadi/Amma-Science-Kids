@@ -13,7 +13,7 @@
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
         <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
               <a href="/" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('build/assets/IMG/Logo.png') }}"
+                <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
                      class="h-[56px] w-[56px] object-contain rounded" />
             </a>
@@ -26,10 +26,20 @@
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-[#fc6c29] tracking-[0.05em] transition">Kontak</a>
             </nav>
             <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                @endauth
                 <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </button>
-                <a href="#" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                @auth
+                    <form method="POST" action="{{ route('logout') }}" class="hidden md:flex">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 text-sm text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                @endauth
                 <a href="#" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
                     Pesan<br>Sekarang
                 </a>
@@ -37,7 +47,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="home-doodle">
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-16">
 
             {{-- Hero Header --}}
@@ -66,26 +76,38 @@
                     <h2 class="font-display font-bold text-[#031636] text-3xl mb-6"
                         style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Kirim Pesan</h2>
 
-                    <form class="flex flex-col gap-4">
+                    @if(session('success'))
+                        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-start gap-3">
+                            <svg class="w-5 h-5 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <p class="text-sm font-medium">{{ session('success') }}</p>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('kontak.store') }}" method="POST" class="flex flex-col gap-4">
+                        @csrf
                         <div class="flex flex-col gap-2">
                             <label class="text-[#1b1b1e] text-xs font-medium">Nama Lengkap</label>
-                            <input type="text" placeholder="Nama Anda atau Orang Tua"
-                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60" />
+                            <input type="text" name="name" value="{{ old('name') }}" required placeholder="Nama Anda atau Orang Tua"
+                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60 @error('name') border-red-500 @enderror" />
+                            @error('name') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="text-[#1b1b1e] text-xs font-medium">Email</label>
-                            <input type="email" placeholder="contoh@email.com"
-                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60" />
+                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="contoh@email.com"
+                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60 @error('email') border-red-500 @enderror" />
+                            @error('email') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="text-[#1b1b1e] text-xs font-medium">Subjek</label>
-                            <input type="text" placeholder="Pertanyaan tentang program"
-                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60" />
+                            <input type="text" name="subject" value="{{ old('subject') }}" required placeholder="Pertanyaan tentang program"
+                                   class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition placeholder-[#44474e]/60 @error('subject') border-red-500 @enderror" />
+                            @error('subject') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="text-[#1b1b1e] text-xs font-medium">Pesan</label>
-                            <textarea rows="5" placeholder="Tuliskan pesan Anda di sini..."
-                                      class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition resize-none placeholder-[#44474e]/60"></textarea>
+                            <textarea rows="5" name="message" required placeholder="Tuliskan pesan Anda di sini..."
+                                      class="bg-[#fbf8fc] border-2 border-[#71ccd0] rounded-lg px-4 py-4 text-[#44474e] text-base outline-none focus:border-[#14B8A6] transition resize-none placeholder-[#44474e]/60 @error('message') border-red-500 @enderror">{{ old('message') }}</textarea>
+                            @error('message') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                         </div>
                         <div class="pt-4">
                             <button type="submit"
@@ -114,7 +136,10 @@
                                 </div>
                                 <div>
                                     <p class="text-[#6f84ac] text-xs font-medium uppercase tracking-widest mb-1">Lokasi</p>
-                                    <p class="text-white text-base leading-6">Surabaya, Jawa Timur</p>
+                                    <a href="https://maps.app.goo.gl/Y2sKHokhTJ5qBfY26" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white text-base leading-6 hover:text-[#4bc8ea] transition">
+                                        Surabaya, Jawa Timur
+                                        <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M11 3a1 1 0 100 2h2.586l-7.293 7.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 100-2H5z"/></svg>
+                                    </a>
                                 </div>
                             </li>
                             {{-- Email --}}
@@ -150,17 +175,20 @@
                         </a>
                     </div>
 
-                    {{-- Map Placeholder --}}
+                    {{-- Google Maps --}}
                     <div class="border border-[rgba(177,199,242,0.2)] rounded-xl overflow-hidden relative h-48 z-10">
-                        <img src="https://www.figma.com/api/mcp/asset/4710089b-ef17-476e-97ee-6b2fb5237efb.png"
-                             alt="Peta Lokasi" class="w-full h-full object-cover opacity-80" />
-                        <div class="absolute inset-0 bg-[rgba(0,27,61,0.1)]"></div>
-                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                            <span class="bg-white text-[#001b3d] text-xs font-medium px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5">
-                                <svg class="w-3 h-3.5 text-[#e95605]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                                Amma Science Kids
-                            </span>
-                        </div>
+                        <iframe
+                            src="https://maps.google.com/maps?q=Gulakong&output=embed"
+                            title="Peta Gulakong di Surabaya"
+                            class="w-full h-full border-0"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen>
+                        </iframe>
+                        <a href="https://maps.app.goo.gl/Y2sKHokhTJ5qBfY26" target="_blank" rel="noopener noreferrer" class="absolute bottom-3 left-3 inline-flex items-center gap-2 bg-white hover:bg-[#eaf8fc] text-[#001b3d] text-xs font-bold px-3 py-2 rounded-full shadow-lg transition">
+                            <svg class="w-3.5 h-3.5 text-[#e95605]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            Buka lokasi di Google Maps
+                        </a>
                     </div>
                 </div>
 
@@ -173,3 +201,5 @@
 
 </body>
 </html>
+
+

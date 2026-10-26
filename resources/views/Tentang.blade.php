@@ -6,48 +6,49 @@
     <title>Tentang Kami - Amma Science Kids</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased text-gray-700 bg-doodle relative">
+<body class="font-sans antialiased text-gray-700 relative">
 
     {{-- =========================================
          NAVBAR
          bg blur, logo gambar, aktif = Tentang Kami
     ========================================= --}}
-    <header class="sticky top-0 z-50 shadow-md border-b border-white/20"
+    <header class="sticky top-0 z-50 border-b border-white/20 shadow-md"
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
         <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
-
-            {{-- Logo --}}
             <a href="/" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('build/assets/IMG/Logo.png') }}"
+                <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
                      class="h-[56px] w-[56px] object-contain rounded" />
             </a>
 
-            {{-- Nav Links --}}
-        <nav class="hidden lg:flex items-center gap-8 font-medium text-sm">
-            <a href="/" class="hover:text-orange transition">Beranda</a>
-            <a href="/tentang" class="text-orange border-b-2 border-orange pb-1">Tentang Kami</a>
-            <a href="/program" class="hover:text-orange transition">Program</a>
-            <a href="/artikel" class="hover:text-orange transition">Artikel</a>
-            <a href="/galeri" class="hover:text-orange transition">Galeri</a>
-            <a href="/kontak" class="hover:text-orange transition">Kontak</a>
-        </nav>
+            <nav class="hidden lg:flex items-center gap-1 text-sm font-medium">
+                <a href="/" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Beranda</a>
+                <a href="/tentang" class="px-3 py-2 rounded-lg text-[#fc6c29] tracking-[0.05em] transition leading-tight">Tentang<br>Kami</a>
+                <a href="/program" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Program</a>
+                <a href="/artikel" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Artikel</a>
+                <a href="/galeri" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Galeri</a>
+                <a href="/kontak" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
+            </nav>
 
-            {{-- Right Actions --}}
             <div class="flex items-center gap-4">
-                <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition"
-                        aria-label="Keranjang">
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                @endauth
+                <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                 </button>
-                <a href="#"
-                   class="hidden md:flex items-center justify-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">
-                    Masuk
-                </a>
-                <a href="#"
-                   class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm leading-tight text-center">
+                @auth
+                    <form method="POST" action="{{ route('logout') }}" class="hidden md:flex">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 text-sm text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="hidden md:flex items-center justify-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                @endauth
+                <a href="#" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm leading-tight text-center">
                     Pesan<br>Sekarang
                 </a>
             </div>
@@ -58,7 +59,7 @@
     {{-- =========================================
          MAIN CONTENT
     ========================================= --}}
-    <main class="bg-white">
+    <main class="home-doodle flex flex-col gap-8">
 
         {{-- =========================================
              HERO SECTION
@@ -107,7 +108,7 @@
 
                     {{-- CTA --}}
                     <div class="pt-4">
-                        <a href="#program"
+                        <a href="{{ route('program') }}"
                            class="inline-flex items-center gap-2 bg-[#031636] hover:bg-[#1E2D4A] text-white text-sm tracking-[0.05em] px-6 py-3 rounded-full transition">
                             Jelajahi Program
                             <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none">
@@ -144,7 +145,7 @@
                 {{-- Kanan: Gambar miring --}}
                 <div class="lg:col-span-3 flex items-center justify-center lg:col-start-10">
                     <div class="-rotate-[1.73deg] hover:rotate-0 transition duration-300 relative">
-                        <img src="{{ asset('build/assets/IMG/Kids1.png') }}"
+                        <img src="{{ asset('img\DETEKTIF.png') }}"
                              alt="Anak bereksplorasi di alam"
                              class="w-full max-w-[330px] h-[500px] md:h-[580px] object-cover rounded-xl
                                     border-[6px] border-[#b628cc] shadow-[10px_20px_6px_0px_rgba(0,0,0,0.25)]" />
@@ -158,7 +159,7 @@
              KISAH AWAL MULA KAMI
              bg #a6fffe, drop-cap 55px, quote box border-left #7ef4fc
         ========================================= --}}
-        <section class="border-t border-[rgba(197,198,207,0.1)]">
+        <section class="bg-white border-t border-[rgba(197,198,207,0.1)]">
             <div class="max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-16">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12">
 
@@ -219,7 +220,7 @@
              EMPAT PILAR PEMBELAJARAN
              Bento grid layout, warna & border baru, dekorasi corner, teks diperbarui
         ========================================= --}}
-        <section class="max-w-7xl mx-auto px-6 md:px-10 py-20">
+        <section class="max-w-7xl mx-auto px-6 md:px-10 py-20 bg-white rounded-3xl shadow-sm">
             <div class="flex flex-col gap-16 items-start">
 
                 {{-- Header --}}
@@ -325,7 +326,7 @@
              TIM EDUKATOR KAMI
              aspect-[4/5], border colors baru, rounded-[12px]
         ========================================= --}}
-        <section class="max-w-7xl mx-auto px-6 md:px-10 pb-20 pt-4">
+        <section class="max-w-7xl mx-auto px-6 md:px-10 pb-20 pt-4 bg-white rounded-3xl shadow-sm">
             <div class="flex flex-col gap-12">
 
                 {{-- Header --}}
@@ -339,51 +340,34 @@
                             Lebih dari sekadar pengajar, mereka adalah fasilitator keajaiban. Para ilmuwan dan pendidik yang mendedikasikan diri untuk membimbing anak-anak menelusuri fenomena alam.
                         </p>
                     </div>
-                    <a href="#"
-                       class="flex items-center gap-2 text-[#003134] text-sm tracking-[0.05em] hover:opacity-70 transition whitespace-nowrap shrink-0">
-                        Lihat Semua Profil
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                        </svg>
-                    </a>
                 </div>
 
                 {{-- Kartu Edukator --}}
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                    {{-- Card 1 � border rgba(1,23,218,0.79) --}}
-                    <div class="flex flex-col gap-2">
-                        <div class="aspect-[4/5] bg-[#f5f3f6] border-4 border-[rgba(1,23,218,0.79)] rounded-xl"></div>
-                        <div class="flex flex-col gap-0.5 px-1">
-                            <h4 class="font-display font-normal text-[#031636] text-xl leading-7"
-                                style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
-                                Ustazah
-                            </h4>
-                        </div>
-                    </div>
-
-                    {{-- Card 2 � border #fac234 --}}
-                    <div class="flex flex-col gap-2">
-                        <div class="aspect-[4/5] bg-[#f5f3f6] border-4 border-[#fac234] rounded-xl -translate-x-1"></div>
-                        <div class="flex flex-col gap-0.5 px-1">
-                            <h4 class="font-display font-normal text-[#031636] text-xl leading-7"
-                                style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
-                                Ustadz
-                            </h4>
-                        </div>
-                    </div>
-
-                    {{-- Card 3 � border #98162c --}}
-                    <div class="flex flex-col gap-2">
-                        <div class="aspect-[4/5] bg-[#f5f3f6] border-4 border-[#98162c] rounded-xl"></div>
-                        <div class="flex flex-col gap-0.5 px-1">
-                            <h4 class="font-display font-normal text-[#031636] text-xl leading-7"
-                                style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
-                                Ustazah
-                            </h4>
-                        </div>
-                    </div>
-
+                    @foreach ($educators as $educator)
+                        <article class="flex flex-col gap-3">
+                            <div class="aspect-[4/5] bg-[#f5f3f6] rounded-xl overflow-hidden border-4" style="border-color: {{ $educator->accent_color }}">
+                                @if ($educator->image)
+                                    <img src="{{ asset('storage/' . $educator->image) }}" alt="Foto {{ $educator->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-6xl font-display font-bold text-white" style="background-color: {{ $educator->accent_color }}">
+                                        {{ \Illuminate\Support\Str::of($educator->name)->trim()->substr(0, 1)->upper() }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex flex-col gap-1 px-1">
+                                <h3 class="font-display font-normal text-[#031636] text-xl leading-7" style="font-variation-settings: 'YTLC' 500, 'wdth' 100">
+                                    {{ $educator->name }}
+                                </h3>
+                                @if ($educator->role)
+                                    <p class="text-sm font-semibold text-[#a63b00]">{{ $educator->role }}</p>
+                                @endif
+                                @if ($educator->bio)
+                                    <p class="text-sm leading-6 text-[#59606d]">{{ $educator->bio }}</p>
+                                @endif
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -423,7 +407,7 @@
 
                 {{-- Button --}}
                 <div class="relative z-10 shrink-0">
-                    <a href="#"
+                    <a href="/program"
                        class="bg-[#a63b00] hover:bg-[#8a3000] text-white text-sm tracking-[0.05em] px-8 py-4 rounded-full font-normal transition
                               shadow-[0px_4px_10px_rgba(26,43,76,0.15)]">
                         Daftar Kelas Trial
@@ -440,3 +424,5 @@
 
 </body>
 </html>
+
+

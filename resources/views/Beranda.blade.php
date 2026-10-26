@@ -6,38 +6,53 @@
     <title>Amma Science Kids</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased text-gray-700 bg-doodle relative">
+<body class="font-sans antialiased text-gray-700 relative">
 
-    <header class="bg-navy text-white px-6 md:px-12 py-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
-        <div class="flex items-center gap-2 cursor-pointer">
-               {{-- Logo --}}
+    <header class="sticky top-0 z-50 border-b border-white/20 shadow-md"
+            style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
             <a href="/" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('build/assets/IMG/Logo.png') }}"
+                <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
                      class="h-[56px] w-[56px] object-contain rounded" />
             </a>
-           
-        </div>
 
-        <nav class="hidden lg:flex items-center gap-8 font-medium text-sm">
-            <a href="/" class="text-orange border-b-2 border-orange pb-1">Beranda</a>
-            <a href="/tentang" class="hover:text-orange transition">Tentang Kami</a>
-            <a href="/program" class="hover:text-orange transition">Program</a>
-            <a href="/artikel" class="hover:text-orange transition">Artikel</a>
-            <a href="/galeri" class="hover:text-orange transition">Galeri</a>
-            <a href="/kontak" class="hover:text-orange transition">Kontak</a>
-        </nav>
+            <nav class="hidden lg:flex items-center gap-1 text-sm font-medium">
+                <a href="/" class="px-3 py-2 rounded-lg text-[#fc6c29] tracking-[0.05em] transition">Beranda</a>
+                <a href="/tentang" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition leading-tight">Tentang<br>Kami</a>
+                <a href="/program" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Program</a>
+                <a href="/artikel" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Artikel</a>
+                <a href="/galeri" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Galeri</a>
+                <a href="/kontak" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
+            </nav>
 
-        <div class="flex items-center gap-5">
-            <button class="hover:text-orange text-lg" aria-label="Keranjang">🛒</button>
-            <a href="#" class="hidden md:block font-medium hover:text-orange transition">Masuk</a>
-            <button class="bg-orange hover:bg-orange-dark text-white px-6 py-2 rounded-full font-bold transition shadow-sm">
-                Pesan Sekarang
-            </button>
+            <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                @endauth
+                <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </button>
+                @auth
+                    <form method="POST" action="{{ route('logout') }}" class="hidden md:flex">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 text-sm text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="hidden md:flex items-center justify-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                @endauth
+                <a href="{{ route('cart.index') }}" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm leading-tight text-center">
+                    Pesan<br>Sekarang
+                </a>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-24">
+    <main class="home-doodle w-full pt-12 pb-24">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
         
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
             <div class="flex flex-col items-start gap-6">
@@ -58,19 +73,19 @@
                 </p>
 
                 <div class="flex flex-wrap items-center gap-4 mt-2">
-                    <button class="bg-orange hover:bg-orange-dark text-white px-8 py-3.5 rounded-full font-bold transition shadow-lg shadow-orange/30 flex items-center gap-2">
+                    <a href="{{ route('program') }}" class="bg-orange hover:bg-orange-dark text-white px-8 py-3.5 rounded-full font-bold transition shadow-lg shadow-orange/30 flex items-center gap-2">
                         Jelajahi Program <span class="text-xl">→</span>
-                    </button>
-                    <button class="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-3.5 rounded-full font-bold transition">
+                    </a>
+                    <a href="{{ route('tentang') }}" class="border-2 border-navy text-navy hover:bg-navy hover:text-white px-8 py-3.5 rounded-full font-bold transition">
                         Kenali AMMA
-                    </button>
+                    </a>
                 </div>
             </div>
 
             <div class="relative w-full max-w-lg mx-auto lg:ml-auto mt-10 lg:mt-0">
                 <div class="absolute inset-0 bg-mint-light rounded-[3rem] transform translate-x-4 translate-y-4 shadow-xl border border-mint/20"></div>
                 
-                <img src="{{ asset('build/assets/IMG/Kids1.png') }}" 
+                <img src="{{ asset('img/Kids1.png') }}" 
                      alt="Anak belajar sains" 
                      class="relative z-10 w-full h-[500px] object-cover rounded-[3rem] shadow-md border-4 border-white" />
                 
@@ -86,7 +101,7 @@
             </div>
         </section>
 
-        <section class="mt-32" id="program">
+        <section class="mt-32 bg-white rounded-[2rem] p-6 md:p-8 shadow-sm" id="program">
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                 <div class="max-w-xl">
                     <div class="text-mint font-bold flex items-center gap-2 mb-3">
@@ -96,57 +111,60 @@
                         Kurikulum yang dirancang khusus sesuai dengan fitrah dan tahapan usia anak, menghadirkan pembelajaran yang membumi dan nyata.
                     </p>
                 </div>
-                <a href="#" class="text-mint font-bold hover:underline whitespace-nowrap">Lihat Semua Program →</a>
+                <a href="{{ route('program') }}" class="text-mint font-bold hover:underline whitespace-nowrap">Lihat Semua Program →</a>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
-                <div class="lg:col-span-7 bg-purple-soft border-[4px] border-[#FBCFB6] rounded-[2rem] overflow-hidden flex flex-col hover:shadow-2xl transition duration-300">
-                    <div class="relative h-64 md:h-80 bg-gray-200 p-4">
-                        <div class="absolute top-6 left-6 z-10 bg-cyan-200 text-cyan-900 text-xs font-black px-3 py-1 uppercase rounded-md tracking-wider border-2 border-cyan-800">
-                            Online Play Date
+                @if ($featuredArticle)
+                    <a href="{{ route('artikel.detail', $featuredArticle->slug) }}" class="lg:col-span-7 bg-purple-soft border-[4px] border-[#FBCFB6] rounded-[2rem] overflow-hidden flex flex-col hover:shadow-2xl transition duration-300">
+                        <div class="relative h-64 md:h-80 bg-gray-200 p-4">
+                            <div class="absolute top-6 left-6 z-10 bg-cyan-200 text-cyan-900 text-xs font-black px-3 py-1 uppercase rounded-md tracking-wider border-2 border-cyan-800">
+                                {{ $featuredArticle->category?->name ?? 'Artikel Pilihan' }}
+                            </div>
+                            <img src="{{ $featuredArticle->image ? asset('storage/' . $featuredArticle->image) : asset('img/Kids1.png') }}"
+                                 alt="{{ $featuredArticle->title }}"
+                                 class="w-full h-full object-cover rounded-2xl border-[3px] border-navy" />
                         </div>
-                        <img src="https://images.unsplash.com/photo-1540479859555-17af45c78602?auto=format&fit=crop&w=900&q=80" 
-                             alt="Penjelajah Gaya & Gerak" 
-                             class="w-full h-full object-cover rounded-2xl border-[3px] border-navy" />
+                        <div class="p-8 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-2xl md:text-3xl font-display font-black text-navy mb-4">{{ $featuredArticle->title }}</h3>
+                                <p class="text-gray-700 leading-relaxed mb-6">
+                                    {{ \Illuminate\Support\Str::limit(strip_tags((string) $featuredArticle->content), 180) }}
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between pt-6 border-t border-purple-300">
+                                <span class="text-sm font-bold text-gray-600">
+                                    {{ optional($featuredArticle->published_at ?? $featuredArticle->created_at)->translatedFormat('d M Y') }}
+                                </span>
+                                <span class="text-mint font-bold">Baca Artikel →</span>
+                            </div>
+                        </div>
+                    </a>
+                @else
+                    <div class="lg:col-span-7 bg-purple-soft border-[4px] border-[#FBCFB6] rounded-[2rem] p-8 flex items-center">
+                        <p class="text-gray-700">Artikel pilihan akan segera hadir.</p>
                     </div>
-                    <div class="p-8 flex-1 flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-3xl font-display font-black text-navy mb-4">Penjelajah Gaya & Gerak</h3>
-                            <p class="text-gray-700 leading-relaxed mb-6">
-                                Memahami konsep dasar fisika melalui aktivitas lapangan dan permainan interaktif yang melibatkan gerak, gaya, dan energi mekanik dalam kehidupan sehari-hari anak.
-                            </p>
-                        </div>
-                        <div class="flex items-center justify-between pt-6 border-t border-purple-300">
-                            <span class="text-sm font-bold text-gray-600 flex items-center gap-2">
-                                ⏱️ Usia 5-8 Tahun
-                            </span>
-                            <a href="#" class="text-mint font-bold hover:underline">Baca Jurnal →</a>
-                        </div>
-                    </div>
-                </div>
+                @endif
 
                 <div class="lg:col-span-5 flex flex-col gap-6">
-                    
-                    <div class="bg-orange border-[3px] border-navy rounded-[1.5rem] p-5 flex gap-5 items-center shadow-[4px_4px_0px_#0F1C35] hover:translate-x-1 hover:-translate-y-1 transition duration-300 cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1603352591605-7f41530e71ce?auto=format&fit=crop&w=200&q=80" 
-                             class="w-24 h-24 object-cover rounded-xl border-2 border-navy bg-white" alt="Ilmuwan Cilik">
-                        <div class="text-navy">
-                            <h4 class="font-black font-display text-xl mb-1">Ilmuwan Cilik</h4>
-                            <p class="text-sm font-medium leading-tight mb-2 opacity-90">Eksperimen aman mengenalkan reaksi perubahan wujud zat.</p>
-                            <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded">📅 Usia 6-10 Thn</span>
+                    @php
+                        $programCardColors = ['bg-orange', 'bg-yellow'];
+                    @endphp
+                    @forelse ($featuredPrograms as $index => $program)
+                        <a href="{{ route('program.detail', $program->slug) }}" class="{{ $programCardColors[$index % count($programCardColors)] }} border-[3px] border-navy rounded-[1.5rem] p-5 flex gap-5 items-center shadow-[4px_4px_0px_#0F1C35] hover:translate-x-1 hover:-translate-y-1 transition duration-300">
+                            <img src="{{ $program->image ? asset('storage/' . $program->image) : asset('img/Kids1.png') }}"
+                                 class="w-24 h-24 object-cover rounded-xl border-2 border-navy bg-white shrink-0" alt="{{ $program->title }}">
+                            <div class="text-navy min-w-0">
+                                <h4 class="font-black font-display text-xl mb-1">{{ $program->title }}</h4>
+                                <p class="text-sm font-medium leading-tight mb-2 opacity-90">{{ \Illuminate\Support\Str::limit($program->description ?: 'Temukan pengalaman belajar sains seru untuk anak.', 100) }}</p>
+                                <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded">📅 {{ $program->target_age ?: 'Program Sains' }}</span>
+                            </div>
+                        </a>
+                    @empty
+                        <div class="bg-orange border-[3px] border-navy rounded-[1.5rem] p-5 text-navy">
+                            Program unggulan akan segera hadir.
                         </div>
-                    </div>
-
-                    <div class="bg-yellow border-[3px] border-navy rounded-[1.5rem] p-5 flex gap-5 items-center shadow-[4px_4px_0px_#0F1C35] hover:translate-x-1 hover:-translate-y-1 transition duration-300 cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=200&q=80" 
-                             class="w-24 h-24 object-cover rounded-xl border-2 border-navy bg-white" alt="Detektif Alam">
-                        <div class="text-navy">
-                            <h4 class="font-black font-display text-xl mb-1">Detektif Alam</h4>
-                            <p class="text-sm font-medium leading-tight mb-2 opacity-90">Mengamati ekosistem dan serangga secara langsung di...</p>
-                            <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded">📅 Usia 4-7 Thn</span>
-                        </div>
-                    </div>
+                    @endforelse
 
                     <div class="bg-green-neon border-[3px] border-dashed border-navy rounded-[1.5rem] p-8 flex flex-col items-center text-center mt-2 flex-1 justify-center">
                         <div class="bg-mint p-3 rounded-full text-white text-xl border-2 border-navy mb-4">
@@ -154,15 +172,16 @@
                         </div>
                         <h4 class="font-bold text-navy mb-2">Punya minat khusus?</h4>
                         <p class="text-sm font-medium text-navy/80 mb-6">Konsultasikan kurikulum yang tepat untuk anak Anda.</p>
-                        <button class="bg-yellow border-2 border-navy px-6 py-2 rounded-full font-bold text-navy hover:bg-orange transition shadow-[2px_2px_0px_#0F1C35]">
+                        <a href="{{ route('kontak') }}" class="bg-yellow border-2 border-navy px-6 py-2 rounded-full font-bold text-navy hover:bg-orange transition shadow-[2px_2px_0px_#0F1C35]">
                             Hubungi Fasilitator
-                        </button>
+                        </a>
                     </div>
 
                 </div>
             </div>
         </section>
 
+        </div>
     </main>
 
     <footer class="bg-navy text-white pt-16 pb-8" id="contact">
@@ -215,3 +234,5 @@
     </footer>
 </body>
 </html>
+
+

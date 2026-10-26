@@ -13,7 +13,7 @@
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
         <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
                 <a href="/" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('build/assets/IMG/Logo.png') }}"
+                <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
                      class="h-[56px] w-[56px] object-contain rounded" />
             </a>
@@ -26,18 +26,28 @@
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
             <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                @endauth
                 <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </button>
-                <a href="#" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
-                <a href="#" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
+                @auth
+                    <form method="POST" action="{{ route('logout') }}" class="hidden md:flex">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 text-sm text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                @endauth
+                <a href="/pesan" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
                     Pesan<br>Sekarang
                 </a>
             </div>
         </div>
     </header>
 
-    <main class="bg-white overflow-hidden">
+    <main class="home-doodle overflow-hidden">
 
         {{-- HEADER SECTION --}}
         <section class="max-w-7xl mx-auto px-6 md:px-10 pt-12 pb-4">
@@ -54,113 +64,318 @@
                 </p>
 
                 {{-- Filter Buttons --}}
-                <div class="flex flex-wrap justify-center gap-3 pt-2">
-                    <button class="bg-[#006b58] border-2 border-[#006b58] text-white text-sm font-bold tracking-[0.05em] px-7 py-2.5 rounded-full shadow-sm">Semua</button>
-                    <button class="bg-[#fbf9f1] border-2 border-[#00c9a7] text-[#00c9a7] text-sm font-bold tracking-[0.05em] px-7 py-2.5 rounded-full hover:bg-[#00c9a7] hover:text-white transition">Eksperimen</button>
-                    <button class="bg-[#fbf9f1] border-2 border-[#ff9583] text-[#ac3323] text-sm font-bold tracking-[0.05em] px-7 py-2.5 rounded-full hover:bg-[#ff9583] hover:text-white transition">Workshop</button>
-                    <button class="bg-[#fbf9f1] border-2 border-[#745ffb] text-[#52006b] text-sm font-bold tracking-[0.05em] px-7 py-2.5 rounded-full hover:bg-[#745ffb] hover:text-white transition">Science Festival</button>
-                    <button class="bg-[#fbf9f1] border-2 border-[#ff061b] text-[#6b0000] text-sm font-bold tracking-[0.05em] px-7 py-2.5 rounded-full hover:bg-[#ff061b] hover:text-white transition">Roadshow</button>
+                <div id="galleryFilter" class="flex flex-wrap justify-center gap-3 pt-2">
+                    @php
+                        $filterOptions = [
+                            ['label' => 'Semua', 'color' => '#006b58', 'text' => '#006b58'],
+                            ['label' => 'Eksperimen', 'color' => '#00c9a7', 'text' => '#00c9a7'],
+                            ['label' => 'Workshop', 'color' => '#ff9583', 'text' => '#ac3323'],
+                            ['label' => 'Science Festival', 'color' => '#745ffb', 'text' => '#52006b'],
+                            ['label' => 'Roadshow', 'color' => '#ff061b', 'text' => '#6b0000'],
+                        ];
+                    @endphp
+
+                    @foreach ($filterOptions as $filter)
+                        @php
+                            $isActive = ($selectedCategory === $filter['label']) || (! $selectedCategory && $filter['label'] === 'Semua');
+                        @endphp
+                        @if ($isActive)
+                            <a href="{{ route('galeri', ['kategori' => $filter['label']]) }}"
+                               class="border-2 text-white text-sm font-bold tracking-[0.05em] px-7 py-2.5 rounded-full shadow-md transition"
+                               style="background-color: {{ $filter['color'] }}; border-color: {{ $filter['color'] }}">
+                                {{ $filter['label'] }}
+                            </a>
+                        @else
+                            <a href="{{ route('galeri', ['kategori' => $filter['label']]) }}"
+                               class="bg-[#fbf9f1] border-2 text-sm font-bold tracking-[0.05em] px-7 py-2.5 rounded-full transition hover:text-white"
+                               style="border-color: {{ $filter['color'] }}; color: {{ $filter['text'] }}"
+                               onmouseover="this.style.backgroundColor='{{ $filter['color'] }}'; this.style.color='#fff'"
+                               onmouseout="this.style.backgroundColor='#fbf9f1'; this.style.color='{{ $filter['text'] }}'">
+                                {{ $filter['label'] }}
+                            </a>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </section>
 
         {{-- GALLERY GRID --}}
         <section class="max-w-7xl mx-auto px-6 md:px-10 py-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                {{-- Card 1: Walkie Talkies --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#00c9a7] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
-                        <img src="https://www.figma.com/api/mcp/asset/067fdf7b-553f-496b-b885-bfedc02aa986.png"
-                             alt="Membuat Walkie Talkies" class="w-full h-full object-cover" />
-                        <span class="absolute top-4 left-4 bg-[#5ffbd6] text-[#002019] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Eksperimen</span>
+                @forelse ($galleries as $item)
+                    @php
+                        $badgeBg = match ($item->category) {
+                            'Eksperimen' => '#00c9a7',
+                            'Workshop' => '#ff9583',
+                            'Science Festival' => '#745ffb',
+                            'Roadshow' => '#ff061b',
+                            default => '#5ffbd6',
+                        };
+                        $badgeText = match ($item->category) {
+                            'Eksperimen' => '#002019',
+                            'Workshop' => '#87180c',
+                            'Science Festival' => '#ffffff',
+                            'Roadshow' => '#ffffff',
+                            default => '#002019',
+                        };
+                        $imageSrc = $item->image ? asset('storage/' . $item->image) : asset('img/Kids1.png');
+                    @endphp
+                    <div onclick="openGalleryModal('{{ addslashes($item->title) }}', '{{ $imageSrc }}', '{{ addslashes($item->category ?? 'Kegiatan') }}', '{{ addslashes($item->description ?? '') }}')"
+                         class="gallery-item bg-[#fbf9f1] border-2 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group"
+                         style="border-color: {{ $badgeBg }}">
+                        <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
+                            <img src="{{ $imageSrc }}"
+                                 alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                            @if ($item->category)
+                                <span class="absolute top-4 left-4 text-xs font-bold px-3 py-1 rounded-full shadow-sm"
+                                      style="background-color: {{ $badgeBg }}; color: {{ $badgeText }}">
+                                    {{ $item->category }}
+                                </span>
+                            @endif
+                        </div>
+                        <div class="p-6 flex flex-col flex-1">
+                            <h3 class="font-semibold text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition"
+                                style="color: {{ $badgeBg === '#00c9a7' ? '#006b58' : ($badgeBg === '#ff9583' ? '#ac3323' : '#031636') }}">
+                                {{ $item->title }}
+                            </h3>
+                            <p class="text-[#3c4a45] text-base leading-6 line-clamp-3 mb-4">{{ $item->description }}</p>
+                            <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#006b58] group-hover:underline">
+                                🔍 Lihat Detail Foto
+                            </span>
+                        </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#006b58] text-2xl mb-2 leading-tight">Membuat Cup Walkie Talkies</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Anak-anak bereksperimen membuat alat bantu dengar dan komunikasi jarak jauh secara sederhana.</p>
+                @empty
+                    <div class="col-span-full py-16 px-6 text-center bg-white border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-3">
+                        <div class="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center text-3xl">📸</div>
+                        <h3 class="font-display font-bold text-[#006b58] text-2xl">Belum Ada Foto Kegiatan</h3>
+                        <p class="text-gray-600 text-sm max-w-md">
+                            Belum ada foto kegiatan yang diunggah untuk kategori {{ $selectedCategory ?? 'ini' }}.
+                        </p>
+                        <a href="{{ route('galeri') }}" class="mt-3 inline-flex items-center gap-2 px-6 py-2.5 bg-[#006b58] text-white text-sm font-bold rounded-full hover:bg-[#005243] transition shadow-sm">
+                            Tampilkan Semua Galeri
+                        </a>
                     </div>
-                </div>
-
-                {{-- Card 2: Outdoor Sensory --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#ff9583] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
-                        <img src="https://www.figma.com/api/mcp/asset/1e3838bf-44db-418c-bd45-c7747591ad59.png"
-                             alt="Outdoor Sensory Play" class="w-full h-full object-cover" />
-                        <span class="absolute top-4 left-4 bg-[#ff9583] text-[#87180c] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Workshop</span>
-                    </div>
-                    <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#ac3323] text-2xl mb-2 leading-tight">Outdoor Sensory Play</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Bermain sambil belajar di alam terbuka dengan berbagai alat jelajah untuk menstimulasi panca indera.</p>
-                    </div>
-                </div>
-
-                {{-- Card 3: Virtual Playdate --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#ffc72c] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
-                        <img src="https://www.figma.com/api/mcp/asset/4f8a227e-e1a9-430f-9050-5af43c028cd7.png"
-                             alt="Virtual Playdate" class="w-full h-full object-cover" />
-                        <span class="absolute top-4 left-4 bg-[#ffc72c] text-[#6f5400] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Online</span>
-                    </div>
-                    <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#775a00] text-2xl mb-2 leading-tight">Virtual Playdate</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Keseruan belajar sains dari rumah melalui sesi interaktif yang dipandu oleh instruktur berpengalaman.</p>
-                    </div>
-                </div>
-
-                {{-- Card 4: Sensory Obstacle --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#00c9a7] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
-                        <img src="https://www.figma.com/api/mcp/asset/27b63f4b-41a9-4f54-b246-3da8d57835c2.png"
-                             alt="Sensory Obstacle Course" class="w-full h-full object-cover" />
-                        <span class="absolute top-4 left-4 bg-[#5ffbd6] text-[#002019] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Workshop</span>
-                    </div>
-                    <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#006b58] text-2xl mb-2 leading-tight">Sensory Obstacle Course</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Melatih motorik kasar dan ketangkasan anak melalui rintangan sensorik yang seru dan menantang.</p>
-                    </div>
-                </div>
-
-                {{-- Card 5: Mystery Box --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#ff9583] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
-                        <img src="https://www.figma.com/api/mcp/asset/7e84a8db-89df-4e95-9bf5-37954d9ddcb3.png"
-                             alt="Mystery Box Experiment" class="w-full h-full object-cover" />
-                        <span class="absolute top-4 left-4 bg-[#ff9583] text-[#87180c] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Eksperimen</span>
-                    </div>
-                    <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#ac3323] text-2xl mb-2 leading-tight">Mystery Box Experiment</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Menebak dan mengidentifikasi berbagai benda menarik yang tersembunyi di dalam kotak misteri.</p>
-                    </div>
-                </div>
-
-                {{-- Card 6: Interactive Session --}}
-                <div class="bg-[#fbf9f1] border-2 border-[#ffc72c] rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200">
-                    <div class="relative h-48 bg-[#e4e3db]">
-                        <img src="https://www.figma.com/api/mcp/asset/902d8274-7ba7-4d8b-98c1-489805deeb80.png"
-                             alt="Interactive Session" class="w-full h-full object-cover" />
-                        <span class="absolute top-4 left-4 bg-[#ffc72c] text-[#6f5400] text-xs font-bold px-3 py-1 rounded-full shadow-sm">Online</span>
-                    </div>
-                    <div class="p-6 flex flex-col flex-1">
-                        <h3 class="font-semibold text-[#775a00] text-2xl mb-2 leading-tight">Interactive Session</h3>
-                        <p class="text-[#3c4a45] text-base leading-6">Sesi tanya jawab dan demonstrasi sains virtual yang interaktif dan melibatkan partisipasi anak.</p>
-                    </div>
-                </div>
+                @endforelse
 
             </div>
 
-            {{-- Load More --}}
-            <div class="flex justify-center mt-12">
-                <button class="bg-[#fbf9f1] border-2 border-[#6b7a75] text-[#1b1c17] text-sm font-bold tracking-[0.05em] px-9 py-3.5 rounded-full flex items-center gap-2 shadow-sm hover:bg-[#e8f5f2] transition">
-                    Muat Lebih Banyak
-                    <svg class="w-2.5 h-1.5" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
+            {{-- Load More Section --}}
+            <div id="loadMoreSection" class="flex flex-col items-center justify-center mt-12 gap-3">
+                @if ($hasMore)
+                    <button id="loadMoreBtn" onclick="loadMoreGalleries()"
+                            class="bg-[#fbf9f1] border-2 border-[#6b7a75] text-[#1b1c17] text-sm font-bold tracking-[0.05em] px-9 py-3.5 rounded-full flex items-center gap-2 shadow-sm hover:bg-[#e8f5f2] transition cursor-pointer">
+                        <span id="loadMoreText">Muat Lebih Banyak</span>
+                        <svg id="loadMoreIcon" class="w-2.5 h-1.5" viewBox="0 0 10 6" fill="none">
+                            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <p id="endOfGalleryNotice" class="hidden text-sm text-gray-500 font-medium py-2.5 px-6 bg-gray-50 rounded-full border border-gray-200 text-center">
+                        ✨ Ini halaman terakhir — Semua foto kegiatan telah ditampilkan
+                    </p>
+                @elseif ($galleries->isNotEmpty())
+                    <p id="endOfGalleryNotice" class="text-sm text-gray-500 font-medium py-2.5 px-6 bg-gray-50 rounded-full border border-gray-200 text-center">
+                        ✨ Ini halaman terakhir — Semua foto kegiatan telah ditampilkan
+                    </p>
+                @endif
             </div>
         </section>
 
     </main>
+
+    {{-- GALLERY MODAL LIGHTBOX --}}
+    <div id="galleryModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl overflow-hidden max-w-2xl w-full shadow-2xl relative">
+            <button onclick="closeGalleryModal()" class="absolute top-4 right-4 z-10 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center text-lg font-bold transition">
+                ✕
+            </button>
+            <div class="relative h-72 md:h-96 bg-gray-100">
+                <img id="modalImage" src="" alt="" class="w-full h-full object-cover" />
+                <span id="modalCategory" class="absolute top-4 left-4 text-xs font-bold px-3.5 py-1.5 rounded-full shadow-sm bg-[#5ffbd6] text-[#002019]"></span>
+            </div>
+            <div class="p-6 md:p-8 bg-white">
+                <h3 id="modalTitle" class="font-display font-bold text-[#006b58] text-2xl md:text-3xl mb-3"></h3>
+                <p id="modalDescription" class="text-[#3c4a45] text-base leading-relaxed"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentGalleryPage = {{ $galleries->currentPage() }};
+        let currentCategory = @json($selectedCategory ?? 'Semua');
+        let isLoadingGallery = false;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const filter = document.getElementById('galleryFilter');
+            if (!filter) return;
+
+            filter.addEventListener('click', function (event) {
+                const link = event.target.closest('a');
+                if (!link) return;
+
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#')) return;
+
+                event.preventDefault();
+
+                fetch(href, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'text/html'
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const filterNode = doc.getElementById('galleryFilter');
+                    const grid = doc.getElementById('galleryGrid');
+                    const loadMore = doc.getElementById('loadMoreSection');
+
+                    if (filterNode) {
+                        document.getElementById('galleryFilter').innerHTML = filterNode.innerHTML;
+                    }
+
+                    if (grid) {
+                        document.getElementById('galleryGrid').innerHTML = grid.innerHTML;
+                    }
+
+                    if (loadMore) {
+                        document.getElementById('loadMoreSection').innerHTML = loadMore.innerHTML;
+                    }
+
+                    const url = new URL(href, window.location.origin);
+                    currentCategory = url.searchParams.get('kategori') || 'Semua';
+                    currentGalleryPage = 1;
+                });
+            });
+        });
+
+        async function loadMoreGalleries() {
+            if (isLoadingGallery) return;
+
+            const btn = document.getElementById('loadMoreBtn');
+            const text = document.getElementById('loadMoreText');
+            const notice = document.getElementById('endOfGalleryNotice');
+            const grid = document.getElementById('galleryGrid');
+
+            isLoadingGallery = true;
+            if (text) text.innerText = 'Memuat foto...';
+
+            try {
+                const nextPage = currentGalleryPage + 1;
+                const response = await fetch(`{{ route('galeri') }}?kategori=${encodeURIComponent(currentCategory)}&page=${nextPage}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) throw new Error('Gagal mengambil data');
+
+                const data = await response.json();
+
+                if (data.items && data.items.length > 0) {
+                    data.items.forEach(item => {
+                        const card = createGalleryCard(item);
+                        grid.appendChild(card);
+                    });
+
+                    currentGalleryPage = data.current_page;
+                }
+
+                if (!data.has_more) {
+                    if (btn) btn.style.display = 'none';
+                    if (notice) notice.classList.remove('hidden');
+                } else {
+                    if (text) text.innerText = 'Muat Lebih Banyak';
+                }
+            } catch (err) {
+                console.error(err);
+                if (text) text.innerText = 'Coba Lagi';
+            } finally {
+                isLoadingGallery = false;
+            }
+        }
+
+        function createGalleryCard(item) {
+            let badgeBg = '#5ffbd6';
+            let badgeText = '#002019';
+            let titleColor = '#031636';
+
+            if (item.category === 'Eksperimen') {
+                badgeBg = '#00c9a7';
+                badgeText = '#002019';
+                titleColor = '#006b58';
+            } else if (item.category === 'Workshop') {
+                badgeBg = '#ff9583';
+                badgeText = '#87180c';
+                titleColor = '#ac3323';
+            } else if (item.category === 'Science Festival') {
+                badgeBg = '#745ffb';
+                badgeText = '#ffffff';
+                titleColor = '#52006b';
+            } else if (item.category === 'Roadshow') {
+                badgeBg = '#ff061b';
+                badgeText = '#ffffff';
+                titleColor = '#6b0000';
+            }
+
+            const div = document.createElement('div');
+            div.className = 'gallery-item bg-[#fbf9f1] border-2 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group';
+            div.style.borderColor = badgeBg;
+            div.onclick = function() {
+                openGalleryModal(item.title, item.image, item.category, item.description);
+            };
+
+            div.innerHTML = `
+                <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
+                    <img src="${item.image}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                    <span class="absolute top-4 left-4 text-xs font-bold px-3 py-1 rounded-full shadow-sm" style="background-color: ${badgeBg}; color: ${badgeText}">
+                        ${escapeHtml(item.category)}
+                    </span>
+                </div>
+                <div class="p-6 flex flex-col flex-1">
+                    <h3 class="font-semibold text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition" style="color: ${titleColor}">
+                        ${escapeHtml(item.title)}
+                    </h3>
+                    <p class="text-[#3c4a45] text-base leading-6 line-clamp-3 mb-4">${escapeHtml(item.description)}</p>
+                    <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#006b58] group-hover:underline">
+                        🔍 Lihat Detail Foto
+                    </span>
+                </div>
+            `;
+            return div;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, function(m) {
+                return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'}[m];
+            });
+        }
+
+        function openGalleryModal(title, imageSrc, category, description) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalCategory').innerText = category || 'Kegiatan';
+            document.getElementById('modalDescription').innerText = description || '';
+            document.getElementById('galleryModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeGalleryModal() {
+            document.getElementById('galleryModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        document.getElementById('galleryModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeGalleryModal();
+        });
+    </script>
 
     {{-- FOOTER --}}
     @include('partials.footer')
 
 </body>
 </html>
+
+
