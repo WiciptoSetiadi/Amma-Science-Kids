@@ -9,7 +9,7 @@
 <body class="font-sans antialiased bg-white text-[#44474e]">
 
     {{-- NAVBAR --}}
-    <header class="sticky top-0 z-50 border-b border-white/20 shadow-md"
+    <header class="sticky top-0 z-50 border-b border-white/20 shadow-md relative"
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
         <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
                 <a href="/" class="flex items-center gap-3 shrink-0">
@@ -25,6 +25,9 @@
                 <a href="/galeri"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Galeri</a>
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
+            <button type="button" class="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
             <div class="flex items-center gap-4">
                 @auth
                     <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
@@ -50,6 +53,16 @@
                 </a>
             </div>
         </div>
+            <nav id="mobile-navigation" class="hidden lg:hidden absolute left-0 right-0 top-full border-t border-white/10 bg-[#0c4185] px-6 py-3 shadow-lg" aria-label="Navigasi mobile" data-mobile-menu>
+            <div class="mx-auto flex max-w-7xl flex-col gap-1 text-sm font-medium">
+                <a href="/" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Beranda</a>
+                <a href="/tentang" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Tentang Kami</a>
+                <a href="/program" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Program</a>
+                <a href="/artikel" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Artikel</a>
+                <a href="/galeri" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Galeri</a>
+                <a href="/kontak" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Kontak</a>
+            </div>
+        </nav>
     </header>
 
     {{-- PAGE HEADER --}}

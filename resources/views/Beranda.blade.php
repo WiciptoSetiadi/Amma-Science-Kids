@@ -27,6 +27,11 @@
             </nav>
 
             <div class="flex items-center gap-4">
+                <button type="button" class="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
                 @auth
                     <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
                 @endauth
@@ -49,6 +54,16 @@
                 </a>
             </div>
         </div>
+        <nav id="mobile-navigation" class="hidden lg:hidden border-t border-white/10 px-6 py-3" aria-label="Navigasi mobile" data-mobile-menu>
+            <div class="mx-auto flex max-w-7xl flex-col gap-1 text-sm font-medium">
+                <a href="/" class="rounded-lg px-3 py-2 text-[#fc6c29]">Beranda</a>
+                <a href="/tentang" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Tentang Kami</a>
+                <a href="/program" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Program</a>
+                <a href="/artikel" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Artikel</a>
+                <a href="/galeri" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Galeri</a>
+                <a href="/kontak" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Kontak</a>
+            </div>
+        </nav>
     </header>
 
     <main class="home-doodle w-full pt-12 pb-24">
@@ -82,23 +97,21 @@
                 </div>
             </div>
 
-            <div class="relative w-full max-w-lg mx-auto lg:ml-auto mt-10 lg:mt-0">
+            <div class="relative mx-auto mt-10 w-full max-w-[337.5px] lg:ml-auto lg:mt-0" style="width: min(337.5px, calc(100vw - 3rem));">
                 <div class="absolute inset-0 bg-mint-light rounded-[3rem] transform translate-x-4 translate-y-4 shadow-xl border border-mint/20"></div>
                 
-                <img src="{{ asset('img/Kids1.png') }}" 
-                     alt="Anak belajar sains" 
-                     class="relative z-10 w-full h-[500px] object-cover rounded-[3rem] shadow-md border-4 border-white" />
+                @if (file_exists(public_path('videos/homepage.mp4')))
+                    <video class="relative z-10 block aspect-[9/16] h-[600px] w-full rounded-[3rem] border-4 border-white bg-black object-contain shadow-md" style="height: min(600px, calc((100vw - 3rem) * 16 / 9));" controls playsinline preload="metadata" poster="{{ asset('img/Kids1.png') }}" aria-label="Video Amma Science Kids">
+                        <source src="{{ asset('videos/homepage.mp4') }}" type="video/mp4">
+                        Browser Anda tidak mendukung pemutaran video.
+                    </video>
+                @else
+                    <img src="{{ asset('img/Kids1.png') }}"
+                         alt="Anak belajar sains"
+                         class="relative z-10 w-full h-[500px] object-cover rounded-[3rem] shadow-md border-4 border-white" />
+                @endif
                 
                 <div class="absolute -bottom-6 -left-6 md:-left-12 z-20 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 flex items-center gap-4 hover:-translate-y-1 transition duration-300">
-                    <div class="bg-mint p-3 rounded-full text-white text-xl">
-                        🔬
-                    </div>
-                    <div>
-                        <div class="font-bold text-navy">EKSPERIMEN SERU</div>
-                        <div class="text-xs text-gray-500 font-medium">Belajar langsung di alam</div>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <section class="mt-32 bg-white rounded-[2rem] p-6 md:p-8 shadow-sm" id="program">
@@ -190,7 +203,7 @@
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center gap-2 mb-6">
                         <div class="bg-white rounded-lg p-1 flex items-center justify-center h-10 w-10">
-                            <span class="text-xl text-navy">🔬</span>
+                            <span class="text-xl text-navy"><img src="{{ asset('img/Logo.png') }}" alt="Logo Amma Science Kids" class="h-full w-full object-contain"></span>
                         </div>
                         <span class="font-display font-black text-xl tracking-wide">
                             Amma Science

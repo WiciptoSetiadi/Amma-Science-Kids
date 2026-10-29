@@ -10,8 +10,7 @@
 
             {{-- Brand --}}
             <div class="md:col-span-2 flex flex-col gap-4 items-start">
-                <img src="https://www.figma.com/api/mcp/asset/2106bd43-a7b4-4af3-bc9c-99cd9f3313e6.png"
-                     alt="Amma Science Kids Logo"
+                <img src="{{ asset('img/Logo.png') }}"
                      class="h-16 w-16 object-contain bg-white rounded p-1" />
                 <p class="text-[#d8e2ff] text-sm leading-[1.625] opacity-90 max-w-md">
                     Amma Science Kids menghadirkan pengalaman belajar berbasis permainan, petualangan, eksperimen, dan tantangan yang mengajak anak mentadabburi ayat-ayat kauniyah Allah.

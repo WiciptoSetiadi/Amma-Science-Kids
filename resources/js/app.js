@@ -1,3 +1,35 @@
+document.querySelectorAll('[data-mobile-menu-toggle]').forEach((button) => {
+    const menu = document.getElementById(button.getAttribute('aria-controls'));
+
+    if (! menu) {
+        return;
+    }
+
+    const closeMenu = () => {
+        menu.classList.add('hidden');
+        button.setAttribute('aria-expanded', 'false');
+        button.setAttribute('aria-label', 'Buka menu navigasi');
+    };
+
+    button.addEventListener('click', () => {
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+        menu.classList.toggle('hidden', isExpanded);
+        button.setAttribute('aria-expanded', String(! isExpanded));
+        button.setAttribute('aria-label', isExpanded ? 'Buka menu navigasi' : 'Tutup menu navigasi');
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeMenu();
+        }
+    });
+});
+
 document.querySelectorAll('[data-password-toggle]').forEach((button) => {
     button.addEventListener('click', () => {
         const input = document.getElementById(button.dataset.passwordToggle);
