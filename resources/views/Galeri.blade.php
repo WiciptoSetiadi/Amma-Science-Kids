@@ -25,7 +25,7 @@
                 <a href="/galeri"  class="px-3 py-2 rounded-lg text-[#fc6c29] tracking-[0.05em] transition">Galeri</a>
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
-            <button type="button" class="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
+            <button type="button" class="lg:hidden flex h-11 w-11 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
             <div class="flex items-center gap-4">
@@ -114,7 +114,7 @@
 
         {{-- GALLERY GRID --}}
         <section class="max-w-7xl mx-auto px-6 md:px-10 py-10">
-            <div id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="galleryGrid" class="grid grid-cols-1 min-[360px]:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
 
                 @forelse ($galleries as $item)
                     @php
@@ -137,7 +137,7 @@
                     <div onclick="openGalleryModal('{{ addslashes($item->title) }}', '{{ $imageSrc }}', '{{ addslashes($item->category ?? 'Kegiatan') }}', '{{ addslashes($item->description ?? '') }}')"
                          class="gallery-item bg-[#fbf9f1] border-2 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-1 hover:shadow-md transition duration-200 cursor-pointer group"
                          style="border-color: {{ $badgeBg }}">
-                        <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
+                        <div class="relative h-36 sm:h-44 lg:h-48 bg-[#e4e3db] overflow-hidden">
                             <img src="{{ $imageSrc }}"
                                  alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                             @if ($item->category)
@@ -147,12 +147,12 @@
                                 </span>
                             @endif
                         </div>
-                        <div class="p-6 flex flex-col flex-1">
-                            <h3 class="font-semibold text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition"
+                        <div class="p-3 sm:p-5 lg:p-6 flex flex-col flex-1">
+                            <h3 class="font-semibold text-base sm:text-lg lg:text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition"
                                 style="color: {{ $badgeBg === '#00c9a7' ? '#006b58' : ($badgeBg === '#ff9583' ? '#ac3323' : '#031636') }}">
                                 {{ $item->title }}
                             </h3>
-                            <p class="text-[#3c4a45] text-base leading-6 line-clamp-3 mb-4">{{ $item->description }}</p>
+                            <p class="text-[#3c4a45] text-xs sm:text-sm lg:text-base leading-5 lg:leading-6 line-clamp-3 mb-4">{{ $item->description }}</p>
                             <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#006b58] group-hover:underline">
                                 🔍 Lihat Detail Foto
                             </span>
@@ -178,18 +178,20 @@
                 @if ($hasMore)
                     <button id="loadMoreBtn" onclick="loadMoreGalleries()"
                             class="bg-[#fbf9f1] border-2 border-[#6b7a75] text-[#1b1c17] text-sm font-bold tracking-[0.05em] px-9 py-3.5 rounded-full flex items-center gap-2 shadow-sm hover:bg-[#e8f5f2] transition cursor-pointer">
-                        <span id="loadMoreText">Muat Lebih Banyak</span>
+                        <span id="loadMoreText">Lihat lebih banyak</span>
                         <svg id="loadMoreIcon" class="w-2.5 h-1.5" viewBox="0 0 10 6" fill="none">
                             <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </button>
-                    <p id="endOfGalleryNotice" class="hidden text-sm text-gray-500 font-medium py-2.5 px-6 bg-gray-50 rounded-full border border-gray-200 text-center">
-                        ✨ Ini halaman terakhir — Semua foto kegiatan telah ditampilkan
-                    </p>
+                    <button id="endOfGalleryNotice" type="button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+                            class="hidden text-sm text-gray-500 font-medium py-2.5 px-6 bg-gray-50 rounded-full border border-gray-200 text-center hover:bg-gray-100 transition cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#006b58]">
+                        Kembali ke atas
+                    </button>
                 @elseif ($galleries->isNotEmpty())
-                    <p id="endOfGalleryNotice" class="text-sm text-gray-500 font-medium py-2.5 px-6 bg-gray-50 rounded-full border border-gray-200 text-center">
-                        ✨ Ini halaman terakhir — Semua foto kegiatan telah ditampilkan
-                    </p>
+                    <button id="endOfGalleryNotice" type="button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+                            class="text-sm text-gray-500 font-medium py-2.5 px-6 bg-gray-50 rounded-full border border-gray-200 text-center hover:bg-gray-100 transition cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#006b58]">
+                        Kembali ke atas
+                    </button>
                 @endif
             </div>
         </section>
@@ -301,7 +303,7 @@
                     if (btn) btn.style.display = 'none';
                     if (notice) notice.classList.remove('hidden');
                 } else {
-                    if (text) text.innerText = 'Muat Lebih Banyak';
+                    if (text) text.innerText = 'Lihat lebih banyak';
                 }
             } catch (err) {
                 console.error(err);
@@ -342,17 +344,17 @@
             };
 
             div.innerHTML = `
-                <div class="relative h-48 bg-[#e4e3db] overflow-hidden">
+                <div class="relative h-36 sm:h-44 lg:h-48 bg-[#e4e3db] overflow-hidden">
                     <img src="${item.image}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
                     <span class="absolute top-4 left-4 text-xs font-bold px-3 py-1 rounded-full shadow-sm" style="background-color: ${badgeBg}; color: ${badgeText}">
                         ${escapeHtml(item.category)}
                     </span>
                 </div>
-                <div class="p-6 flex flex-col flex-1">
-                    <h3 class="font-semibold text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition" style="color: ${titleColor}">
+                <div class="p-3 sm:p-5 lg:p-6 flex flex-col flex-1">
+                    <h3 class="font-semibold text-base sm:text-lg lg:text-2xl mb-2 leading-tight group-hover:text-[#fc6c29] transition" style="color: ${titleColor}">
                         ${escapeHtml(item.title)}
                     </h3>
-                    <p class="text-[#3c4a45] text-base leading-6 line-clamp-3 mb-4">${escapeHtml(item.description)}</p>
+                    <p class="text-[#3c4a45] text-xs sm:text-sm lg:text-base leading-5 lg:leading-6 line-clamp-3 mb-4">${escapeHtml(item.description)}</p>
                     <span class="mt-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#006b58] group-hover:underline">
                         🔍 Lihat Detail Foto
                     </span>
@@ -390,5 +392,3 @@
 
 </body>
 </html>
-
-

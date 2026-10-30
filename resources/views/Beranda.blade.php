@@ -27,7 +27,7 @@
             </nav>
 
             <div class="flex items-center gap-4">
-                <button type="button" class="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
+                <button type="button" class="lg:hidden flex h-11 w-11 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
@@ -78,8 +78,8 @@
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-black font-display text-navy leading-[1.1]">
                     Belajar Menjelajahi Ciptaan Allah bersama 
                     <span class="block mt-2">
-                        <span class="text-outline text-5xl md:text-7xl tracking-wide">Amma Science</span> 
-                        <span class="text-5xl md:text-7xl"><span class="text-orange">K</span><span class="text-blue-500">i</span><span class="text-yellow">D</span><span class="text-mint">S</span></span>
+                        <span class="text-outline text-4xl sm:text-5xl md:text-7xl tracking-wide">Amma Science</span>
+                        <span class="text-4xl sm:text-5xl md:text-7xl"><span class="text-orange">K</span><span class="text-blue-500">i</span><span class="text-yellow">D</span><span class="text-mint">S</span></span>
                     </span>
                 </h1>
 
@@ -100,9 +100,17 @@
             <div class="relative mx-auto mt-10 w-full max-w-[337.5px] lg:ml-auto lg:mt-0" style="width: min(337.5px, calc(100vw - 3rem));">
                 <div class="absolute inset-0 bg-mint-light rounded-[3rem] transform translate-x-4 translate-y-4 shadow-xl border border-mint/20"></div>
                 
-                @if (file_exists(public_path('videos/homepage.mp4')))
+                @php
+                    /** @var \Illuminate\Filesystem\FilesystemAdapter $publicStorage */
+                    $publicStorage = Storage::disk('public');
+                    $homepageVideoUrl = $homepageVideo
+                        ? $publicStorage->url($homepageVideo->video_path)
+                        : (file_exists(public_path('videos/homepage.mp4')) ? asset('videos/homepage.mp4') : null);
+                @endphp
+
+                @if ($homepageVideoUrl)
                     <video class="relative z-10 block aspect-[9/16] h-[600px] w-full rounded-[3rem] border-4 border-white bg-black object-contain shadow-md" style="height: min(600px, calc((100vw - 3rem) * 16 / 9));" controls playsinline preload="metadata" poster="{{ asset('img/Kids1.png') }}" aria-label="Video Amma Science Kids">
-                        <source src="{{ asset('videos/homepage.mp4') }}" type="video/mp4">
+                        <source src="{{ $homepageVideoUrl }}">
                         Browser Anda tidak mendukung pemutaran video.
                     </video>
                 @else
@@ -140,7 +148,7 @@
                         </div>
                         <div class="p-8 flex-1 flex flex-col justify-between">
                             <div>
-                                <h3 class="text-2xl md:text-3xl font-display font-black text-navy mb-4">{{ $featuredArticle->title }}</h3>
+                                <h3 class="text-2xl md:text-3xl font-display font-black text-navy mb-4 break-words">{{ $featuredArticle->title }}</h3>
                                 <p class="text-gray-700 leading-relaxed mb-6">
                                     {{ \Illuminate\Support\Str::limit(strip_tags((string) $featuredArticle->content), 180) }}
                                 </p>
@@ -167,7 +175,7 @@
                         <a href="{{ route('program.detail', $program->slug) }}" class="{{ $programCardColors[$index % count($programCardColors)] }} border-[3px] border-navy rounded-[1.5rem] p-5 flex gap-5 items-center shadow-[4px_4px_0px_#0F1C35] hover:translate-x-1 hover:-translate-y-1 transition duration-300">
                             <img src="{{ $program->image ? asset('storage/' . $program->image) : asset('img/Kids1.png') }}"
                                  class="w-24 h-24 object-cover rounded-xl border-2 border-navy bg-white shrink-0" alt="{{ $program->title }}">
-                            <div class="text-navy min-w-0">
+                            <div class="text-navy min-w-0 break-words">
                                 <h4 class="font-black font-display text-xl mb-1">{{ $program->title }}</h4>
                                 <p class="text-sm font-medium leading-tight mb-2 opacity-90">{{ \Illuminate\Support\Str::limit($program->description ?: 'Temukan pengalaman belajar sains seru untuk anak.', 100) }}</p>
                                 <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded">📅 {{ $program->target_age ?: 'Program Sains' }}</span>
@@ -199,7 +207,7 @@
 
     <footer class="bg-navy text-white pt-16 pb-8" id="contact">
         <div class="max-w-7xl mx-auto px-6 md:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 border-b border-white/10 pb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 border-b border-white/10 pb-12">
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center gap-2 mb-6">
                         <div class="bg-white rounded-lg p-1 flex items-center justify-center h-10 w-10">
@@ -213,15 +221,6 @@
                     <p class="text-gray-400 leading-relaxed max-w-sm text-sm">
                         Amma Science Kids menghadirkan pengalaman belajar berbasis permainan, petualangan, dan eksperimen otentik yang mengajak anak mentadabburi ayat-ayat kauniyah Allah.
                     </p>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg mb-6 text-gray-100">Tautan</h4>
-                    <ul class="space-y-4 text-sm text-gray-400 font-medium">
-                        <li><a href="#" class="hover:text-orange transition">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="hover:text-orange transition">Syarat & Ketentuan</a></li>
-                        <li><a href="#" class="hover:text-orange transition">Bantuan</a></li>
-                    </ul>
                 </div>
 
                 <div>
@@ -247,5 +246,3 @@
     </footer>
 </body>
 </html>
-
-

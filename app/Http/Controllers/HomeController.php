@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\HomepageVideo;
 use App\Models\Program;
 use Illuminate\View\View;
 
@@ -22,6 +23,11 @@ class HomeController extends Controller
             ->take(2)
             ->get();
 
-        return view('Beranda', compact('featuredArticle', 'featuredPrograms'));
+        $homepageVideo = HomepageVideo::query()
+            ->latest('updated_at')
+            ->latest('id')
+            ->first();
+
+        return view('Beranda', compact('featuredArticle', 'featuredPrograms', 'homepageVideo'));
     }
 }

@@ -29,7 +29,7 @@
                 <a href="/galeri" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Galeri</a>
                 <a href="/kontak" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
-            <button type="button" class="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
+            <button type="button" class="lg:hidden flex h-11 w-11 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
 
@@ -248,10 +248,10 @@
                 </div>
 
                 {{-- Bento Grid --}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+                <div class="grid grid-cols-1 min-[360px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
 
                     {{-- Pilar 1: Eksplorasi � bg #66f461, border #046341 --}}
-                    <div class="relative overflow-hidden bg-[#66f461] border-[3px] border-[#046341] rounded-2xl p-7
+                    <div class="relative overflow-hidden bg-[#66f461] border-[3px] border-[#046341] rounded-2xl p-4 sm:p-7
                                 shadow-sm hover:-translate-y-1 transition duration-300">
                         <div class="mb-4">
                             <div class="bg-[rgba(255,219,206,0.5)] rounded-full w-12 h-12 flex items-center justify-center mb-0">
@@ -271,7 +271,7 @@
                     </div>
 
                     {{-- Pilar 2: Eksperimen � bg #e5a6fa, border rgba(186,18,223,0.82) --}}
-                    <div class="relative overflow-hidden bg-[#e5a6fa] border-[3px] border-[rgba(186,18,223,0.82)] rounded-2xl p-7
+                    <div class="relative overflow-hidden bg-[#e5a6fa] border-[3px] border-[rgba(186,18,223,0.82)] rounded-2xl p-4 sm:p-7
                                 shadow-sm hover:-translate-y-1 transition duration-300">
                         <div class="mb-4">
                             <div class="bg-[rgba(94,216,224,0.2)] rounded-full w-12 h-12 flex items-center justify-center">
@@ -291,7 +291,7 @@
                     </div>
 
                     {{-- Pilar 3: Kreativitas � bg #ff7a7a, border #af1217 --}}
-                    <div class="relative overflow-hidden bg-[#ff7a7a] border-[3px] border-[#af1217] rounded-2xl p-7
+                    <div class="relative overflow-hidden bg-[#ff7a7a] border-[3px] border-[#af1217] rounded-2xl p-4 sm:p-7
                                 shadow-sm hover:-translate-y-1 transition duration-300">
                         <div class="mb-4">
                             <div class="bg-[#d8e2ff] rounded-full w-12 h-12 flex items-center justify-center">
@@ -311,7 +311,7 @@
                     </div>
 
                     {{-- Pilar 4: Tauhid � bg #345593, border #0a1e46 --}}
-                    <div class="relative overflow-hidden bg-[#345593] border-[3px] border-[#0a1e46] rounded-2xl p-7
+                    <div class="relative overflow-hidden bg-[#345593] border-[3px] border-[#0a1e46] rounded-2xl p-4 sm:p-7
                                 shadow-sm hover:-translate-y-1 transition duration-300">
                         <div class="mb-4">
                             <div class="bg-[rgba(182,198,240,0.2)] border border-[rgba(216,226,255,0.3)] rounded-full w-12 h-12 flex items-center justify-center">
@@ -356,7 +356,7 @@
                 </div>
 
                 {{-- Kartu Edukator --}}
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                     @foreach ($educators as $educator)
                         <article class="flex flex-col gap-3">
                             <div class="aspect-[4/5] bg-[#f5f3f6] rounded-xl overflow-hidden border-4" style="border-color: {{ $educator->accent_color }}">
@@ -390,7 +390,7 @@
              CTA SECTION
              bg #1a2b4c, button #a63b00, motif SVG background
         ========================================= --}}
-        <section class="max-w-7xl mx-auto px-6 md:px-10 pb-24">
+        <section class="max-w-7xl mx-auto w-full min-w-0 px-6 md:px-10 pb-24">
             <div class="bg-[#1a2b4c] rounded-3xl p-12 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
 
                 {{-- Motif dekorasi background kanan atas --}}
@@ -423,7 +423,7 @@
                     <a href="/program"
                        class="bg-[#a63b00] hover:bg-[#8a3000] text-white text-sm tracking-[0.05em] px-8 py-4 rounded-full font-normal transition
                               shadow-[0px_4px_10px_rgba(26,43,76,0.15)]">
-                        Daftar Kelas Trial
+                        Daftar Kelas
                     </a>
                 </div>
             </div>
@@ -437,5 +437,3 @@
 
 </body>
 </html>
-
-

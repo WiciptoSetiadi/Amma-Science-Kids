@@ -25,7 +25,7 @@
                 <a href="/galeri"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Galeri</a>
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
-            <button type="button" class="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
+            <button type="button" class="lg:hidden flex h-11 w-11 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
             <div class="flex items-center gap-4">
@@ -190,7 +190,7 @@
             </div>
 
             {{-- Cards Grid --}}
-            <div id="programGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div id="programGrid" class="grid grid-cols-1 min-[360px]:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
 
                 @php
                     $colors = ['#0c4185', '#293def', '#751664', '#fe6f6f', '#006b58', '#fc6c29'];
@@ -202,7 +202,7 @@
                     @endphp
                     <div class="bg-white border-4 rounded-xl overflow-hidden flex flex-col shadow-sm hover:-translate-y-0.5 transition duration-200"
                          style="border-color: {{ $borderColor }}">
-                        <div class="relative h-48 bg-[#f5f3f6]">
+                        <div class="relative h-36 sm:h-40 xl:h-48 bg-[#f5f3f6]">
                             @if ($program->image)
                                 <img src="{{ asset('storage/' . $program->image) }}"
                                      alt="{{ $program->title }}" class="w-full h-full object-cover" />
@@ -218,10 +218,10 @@
                                 {{ $program->category ?? 'Program Sains' }}
                             </span>
                         </div>
-                        <div class="p-5 flex flex-col flex-1">
-                            <h3 class="font-display font-bold text-[#031636] text-xl mb-2 leading-snug"
+                        <div class="p-3 sm:p-5 flex flex-col flex-1">
+                            <h3 class="font-display font-bold text-[#031636] text-base sm:text-lg xl:text-xl mb-2 leading-snug"
                                 style="font-variation-settings: 'YTLC' 500, 'wdth' 100">{{ $program->title }}</h3>
-                            <p class="text-[#44474e] text-sm leading-5 mb-4 flex-1">
+                            <p class="text-[#44474e] text-xs sm:text-sm leading-5 mb-4 flex-1 line-clamp-3">
                                 {{ Str::limit($program->description, 110) }}
                             </p>
                             <div class="border-t border-[rgba(197,198,207,0.1)] pt-4 flex flex-col gap-2 text-xs text-[#44474e] mb-4">
@@ -240,7 +240,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <a href="{{ route('program.detail', $program->slug) }}" class="w-full bg-[rgba(12,65,133,0.1)] border border-[#0c4185] text-[#031636] text-sm font-semibold tracking-[0.05em] text-center px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-[#0c4185] hover:text-white transition">
+                            <a href="{{ route('program.detail', $program->slug) }}" class="w-full bg-[rgba(12,65,133,0.1)] border border-[#0c4185] text-[#031636] text-xs sm:text-sm font-semibold tracking-[0.05em] text-center px-2 sm:px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 leading-tight hover:bg-[#0c4185] hover:text-white transition">
                                 <span>Lihat Detail Program</span>
                                 <svg class="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 5h8M5.5 1.5 9 5l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
@@ -358,5 +358,3 @@
 
 </body>
 </html>
-
-
