@@ -28,13 +28,20 @@
     "src": "_instrument-sans-600-normal-B9e8oLYv.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DoY-a0Ns.css",
+    "file": "assets/app-Bi74mIim.css",
     "name": "app",
     "names": [
       "app.css"
     ],
     "src": "resources/css/app.css",
-    "isEntry": true
+    "isEntry": true,
+    "assets": [
+      "assets/sciencevecteezy1-YS4jQkCn.jpg"
+    ]
+  },
+  "resources/images/sciencevecteezy1.jpg": {
+    "file": "assets/sciencevecteezy1-YS4jQkCn.jpg",
+    "src": "resources/images/sciencevecteezy1.jpg"
   },
   "resources/js/app.js": {
     "file": "assets/app-CKZs1SQu.js",

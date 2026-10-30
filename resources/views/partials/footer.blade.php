@@ -6,7 +6,7 @@
     <div class="max-w-7xl mx-auto px-6 md:px-10">
 
         {{-- Grid utama --}}
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-20">
 
             {{-- Brand --}}
             <div class="md:col-span-2 flex flex-col gap-4 items-start">
@@ -15,19 +15,6 @@
                 <p class="text-[#d8e2ff] text-sm leading-[1.625] opacity-90 max-w-md">
                     Amma Science Kids menghadirkan pengalaman belajar berbasis permainan, petualangan, eksperimen, dan tantangan yang mengajak anak mentadabburi ayat-ayat kauniyah Allah.
                 </p>
-            </div>
-
-            {{-- Tautan --}}
-            <div class="flex flex-col items-start">
-                <div class="pb-2 mb-3">
-                    <h4 class="font-display font-bold text-white text-xl leading-7"
-                        style="font-variation-settings: 'YTLC' 500, 'wdth' 100">Tautan</h4>
-                </div>
-                <ul class="flex flex-col gap-3">
-                    <li><a href="#" class="flex items-center gap-2 text-[#d8e2ff] text-sm opacity-80 hover:opacity-100 transition"><span class="w-1 h-1 bg-[#a63b00] rounded-full shrink-0"></span>Kebijakan Privasi</a></li>
-                    <li><a href="#" class="flex items-center gap-2 text-[#d8e2ff] text-sm opacity-80 hover:opacity-100 transition"><span class="w-1 h-1 bg-[#a63b00] rounded-full shrink-0"></span>Syarat &amp; Ketentuan</a></li>
-                    <li><a href="#" class="flex items-center gap-2 text-[#d8e2ff] text-sm opacity-80 hover:opacity-100 transition"><span class="w-1 h-1 bg-[#a63b00] rounded-full shrink-0"></span>Bantuan</a></li>
-                </ul>
             </div>
 
             {{-- Kontak --}}

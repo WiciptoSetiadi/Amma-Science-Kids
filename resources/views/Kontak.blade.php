@@ -25,7 +25,7 @@
                 <a href="/galeri"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Galeri</a>
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-[#fc6c29] tracking-[0.05em] transition">Kontak</a>
             </nav>
-            <button type="button" class="lg:hidden flex h-10 w-10 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
+            <button type="button" class="lg:hidden flex h-11 w-11 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
             <div class="flex items-center gap-4">
@@ -214,5 +214,4 @@
 
 </body>
 </html>
-
 
