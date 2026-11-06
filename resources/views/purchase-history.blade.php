@@ -104,6 +104,6 @@
         @endif
     </main>
 
-    <footer class="text-center text-xs text-[#7a8290] py-6">© {{ date('Y') }} Amma Science Kids</footer>
+    @include('partials.footer')
 </body>
 </html>

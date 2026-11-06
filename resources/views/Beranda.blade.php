@@ -205,44 +205,6 @@
         </div>
     </main>
 
-    <footer class="bg-navy text-white pt-16 pb-8" id="contact">
-        <div class="max-w-7xl mx-auto px-6 md:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 border-b border-white/10 pb-12">
-                <div class="col-span-1 md:col-span-2">
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="bg-white rounded-lg p-1 flex items-center justify-center h-10 w-10">
-                            <span class="text-xl text-navy"><img src="{{ asset('img/Logo.png') }}" alt="Logo Amma Science Kids" class="h-full w-full object-contain"></span>
-                        </div>
-                        <span class="font-display font-black text-xl tracking-wide">
-                            Amma Science
-                            <span class="text-orange">K</span><span class="text-blue-400">i</span><span class="text-yellow">D</span><span class="text-mint">S</span>
-                        </span>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed max-w-sm text-sm">
-                        Amma Science Kids menghadirkan pengalaman belajar berbasis permainan, petualangan, dan eksperimen otentik yang mengajak anak mentadabburi ayat-ayat kauniyah Allah.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg mb-6 text-gray-100">Kontak Kami</h4>
-                    <ul class="space-y-4 text-sm text-gray-400 font-medium">
-                        <li class="flex items-center gap-3">
-                            <span>✉️</span> ammasciencekids@gmail.com
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <span>📞</span> (+62) 851 1324 2985
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <span>📷</span> @ammasciencekids
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="text-center text-sm text-gray-500 font-medium">
-                © 2024 Amma Science Kids. | Menumbuhkan Fitrah Keingintahuan Anak.
-            </div>
-        </div>
-    </footer>
+    @include('partials.footer')
 </body>
 </html>
