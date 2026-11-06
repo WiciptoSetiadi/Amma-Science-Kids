@@ -18,8 +18,12 @@ class CheckoutController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        if (empty($cart)) {
+        if (! is_array($cart) || empty($cart)) {
             return redirect()->route('cart.index')->with('warning', 'Keranjang Anda masih kosong. Silakan pilih program terlebih dahulu.');
+        }
+
+        if (! $this->cartQuantitiesAreValid($cart)) {
+            return redirect()->route('cart.index')->with('warning', 'Periksa kembali jumlah item di keranjang sebelum checkout.');
         }
 
         $subtotal = 0;
@@ -48,8 +52,12 @@ class CheckoutController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        if (empty($cart)) {
+        if (! is_array($cart) || empty($cart)) {
             return redirect()->route('cart.index')->with('warning', 'Keranjang Anda masih kosong.');
+        }
+
+        if (! $this->cartQuantitiesAreValid($cart)) {
+            return redirect()->route('cart.index')->with('warning', 'Periksa kembali jumlah item di keranjang sebelum checkout.');
         }
 
         $validated = $request->validate([
@@ -106,6 +114,7 @@ class CheckoutController extends Controller
 
             return $order;
         });
+        session()->push('my_orders', $order->id);
 
         return redirect()->route('invoice.show', $order->id)->with('success', 'Pesanan berhasil dibuat!');
     }
@@ -116,9 +125,38 @@ class CheckoutController extends Controller
     public function invoice(int $id): View
     {
         $order = Order::with('items')->findOrFail($id);
+        $user = auth()->user();
+
+        $canView = in_array($order->id, session('my_orders', []), true)
+            || ($user && $order->user_id === $user->id)
+            || ($user && $user->hasRole('admin'));
+
+        abort_unless($canView, 404);
 
         return view('invoice', [
             'order' => $order,
         ]);
+    }
+
+    /**
+     * Ensure stale session carts cannot bypass the per-item quantity limit.
+     *
+     * @param  array<string, array<string, mixed>>  $cart
+     */
+    private function cartQuantitiesAreValid(array $cart): bool
+    {
+        $maxItemQuantity = (int) config('cart.max_item_quantity');
+
+        foreach ($cart as $item) {
+            $quantity = is_array($item) && isset($item['quantity'])
+                ? filter_var($item['quantity'], FILTER_VALIDATE_INT)
+                : false;
+
+            if ($quantity === false || $quantity < 1 || $quantity > $maxItemQuantity) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -15,6 +15,36 @@ class CartController extends Controller
     public function index(): View
     {
         $cart = session()->get('cart', []);
+        $maxItemQuantity = (int) config('cart.max_item_quantity');
+        $cartWasAdjusted = false;
+
+        if (! is_array($cart)) {
+            $cart = [];
+            $cartWasAdjusted = true;
+        }
+
+        foreach ($cart as $id => $item) {
+            $quantity = is_array($item) && isset($item['quantity'])
+                ? filter_var($item['quantity'], FILTER_VALIDATE_INT)
+                : false;
+
+            if ($quantity === false || $quantity < 1) {
+                unset($cart[$id]);
+                $cartWasAdjusted = true;
+
+                continue;
+            }
+
+            if ($quantity > $maxItemQuantity) {
+                $cart[$id]['quantity'] = $maxItemQuantity;
+                $cartWasAdjusted = true;
+            }
+        }
+
+        if ($cartWasAdjusted) {
+            session()->put('cart', $cart);
+            session()->flash('warning', 'Jumlah item di keranjang disesuaikan dengan batas maksimal '.$maxItemQuantity.' per program.');
+        }
 
         $subtotal = 0;
         $totalItems = 0;
@@ -36,9 +66,10 @@ class CartController extends Controller
      */
     public function add(Request $request): RedirectResponse
     {
+        $maxItemQuantity = (int) config('cart.max_item_quantity');
         $validated = $request->validate([
             'program_id' => 'required|exists:programs,id',
-            'quantity' => 'nullable|integer|min:1',
+            'quantity' => ['nullable', 'integer', 'min:1', 'max:'.$maxItemQuantity],
             'subtitle' => 'nullable|string|max:255',
         ]);
 
@@ -48,7 +79,14 @@ class CartController extends Controller
         $quantity = $validated['quantity'] ?? 1;
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity'] += $quantity;
+            $newQuantity = $cart[$id]['quantity'] + $quantity;
+
+            if ($newQuantity > $maxItemQuantity) {
+                return redirect()->back()
+                    ->with('error', 'Jumlah maksimal untuk satu program adalah '.$maxItemQuantity.'.');
+            }
+
+            $cart[$id]['quantity'] = $newQuantity;
         } else {
             $subtitle = $validated['subtitle'] ?? ($program->target_age ? 'Target: '.$program->target_age : 'Program Eksperimen Sains');
             $cart[$id] = [
@@ -73,15 +111,25 @@ class CartController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
+        $maxItemQuantity = (int) config('cart.max_item_quantity');
+        $validated = $request->validate([
+            'action' => ['required_without:quantity', 'nullable', 'in:increase,decrease'],
+            'quantity' => ['required_without:action', 'nullable', 'integer', 'min:1', 'max:'.$maxItemQuantity],
+        ]);
         $cart = session()->get('cart', []);
 
         if (! isset($cart[$id])) {
             return redirect()->route('cart.index')->with('error', 'Item tidak ditemukan di keranjang.');
         }
 
-        $action = $request->input('action');
+        $action = $validated['action'] ?? null;
 
         if ($action === 'increase') {
+            if ($cart[$id]['quantity'] >= $maxItemQuantity) {
+                return redirect()->back()
+                    ->with('error', 'Jumlah maksimal untuk satu program adalah '.$maxItemQuantity.'.');
+            }
+
             $cart[$id]['quantity'] += 1;
         } elseif ($action === 'decrease') {
             if ($cart[$id]['quantity'] > 1) {
@@ -89,9 +137,8 @@ class CartController extends Controller
             } else {
                 unset($cart[$id]);
             }
-        } elseif ($request->has('quantity')) {
-            $qty = max(1, (int) $request->input('quantity'));
-            $cart[$id]['quantity'] = $qty;
+        } elseif (isset($validated['quantity'])) {
+            $cart[$id]['quantity'] = $validated['quantity'];
         }
 
         session()->put('cart', $cart);

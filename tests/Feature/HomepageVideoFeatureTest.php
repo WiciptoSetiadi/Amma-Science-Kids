@@ -46,6 +46,21 @@ class HomepageVideoFeatureTest extends TestCase
             ->assertSee(asset('videos/homepage.mp4'));
     }
 
+    public function test_homepage_uses_the_fallback_when_the_latest_video_file_is_missing(): void
+    {
+        Storage::fake('public');
+        $missingVideoPath = 'homepage-videos/missing.mp4';
+
+        HomepageVideo::create([
+            'video_path' => $missingVideoPath,
+        ]);
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertSee(asset('videos/homepage.mp4'))
+            ->assertDontSee(Storage::disk('public')->url($missingVideoPath));
+    }
+
     public function test_admin_can_open_the_homepage_video_upload_form(): void
     {
         Role::findOrCreate('admin', 'web');

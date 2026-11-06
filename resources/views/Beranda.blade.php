@@ -103,7 +103,7 @@
                 @php
                     /** @var \Illuminate\Filesystem\FilesystemAdapter $publicStorage */
                     $publicStorage = Storage::disk('public');
-                    $homepageVideoUrl = $homepageVideo
+                    $homepageVideoUrl = $homepageVideo && $publicStorage->exists($homepageVideo->video_path)
                         ? $publicStorage->url($homepageVideo->video_path)
                         : (file_exists(public_path('videos/homepage.mp4')) ? asset('videos/homepage.mp4') : null);
                 @endphp

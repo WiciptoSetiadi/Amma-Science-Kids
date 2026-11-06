@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Order;
 use App\Models\Program;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -41,6 +42,139 @@ class OrderFlowTest extends TestCase
         $this->assertTrue(session()->has('cart'));
         $this->assertArrayHasKey((string) $program->id, session('cart'));
         $this->assertEquals(1, session('cart')[(string) $program->id]['quantity']);
+    }
+
+    public function test_cart_rejects_quantities_above_the_per_program_limit(): void
+    {
+        $program = Program::create([
+            'title' => 'Eksperimen Sains',
+            'slug' => 'eksperimen-sains',
+            'price' => 55000,
+            'is_active' => true,
+        ]);
+
+        $this->from(route('cart.index'))
+            ->post(route('cart.add'), [
+                'program_id' => $program->id,
+                'quantity' => 999999,
+            ])
+            ->assertRedirect(route('cart.index'))
+            ->assertSessionHasErrors('quantity');
+
+        $this->assertFalse(session()->has('cart'));
+    }
+
+    public function test_cart_cannot_be_increased_or_updated_above_the_per_program_limit(): void
+    {
+        $program = Program::create([
+            'title' => 'Eksperimen Sains',
+            'slug' => 'eksperimen-sains',
+            'price' => 55000,
+            'is_active' => true,
+        ]);
+        $cart = [
+            (string) $program->id => [
+                'id' => $program->id,
+                'program_id' => $program->id,
+                'title' => $program->title,
+                'category' => null,
+                'image' => null,
+                'subtitle' => null,
+                'price' => 55000,
+                'quantity' => 100,
+            ],
+        ];
+
+        $this->from(route('cart.index'))
+            ->withSession(['cart' => $cart])
+            ->post(route('cart.update', $program->id), ['action' => 'increase'])
+            ->assertRedirect(route('cart.index'))
+            ->assertSessionHas('error', 'Jumlah maksimal untuk satu program adalah 100.');
+
+        $this->assertSame(100, session('cart')[(string) $program->id]['quantity']);
+        $this->get(route('cart.index'))
+            ->assertOk()
+            ->assertSee('Jumlah maksimal untuk satu program adalah 100.');
+
+        $this->from(route('cart.index'))
+            ->post(route('cart.update', $program->id), ['quantity' => 999999])
+            ->assertRedirect(route('cart.index'))
+            ->assertSessionHasErrors('quantity');
+
+        $this->assertSame(100, session('cart')[(string) $program->id]['quantity']);
+    }
+
+    public function test_adding_more_of_an_existing_program_cannot_exceed_the_limit(): void
+    {
+        $program = Program::create([
+            'title' => 'Eksperimen Sains',
+            'slug' => 'eksperimen-sains',
+            'price' => 55000,
+            'is_active' => true,
+        ]);
+        $cart = [
+            (string) $program->id => [
+                'id' => $program->id,
+                'program_id' => $program->id,
+                'title' => $program->title,
+                'category' => null,
+                'image' => null,
+                'subtitle' => null,
+                'price' => 55000,
+                'quantity' => 100,
+            ],
+        ];
+
+        $this->from(route('program.detail', $program->slug))
+            ->withSession(['cart' => $cart])
+            ->post(route('cart.add'), ['program_id' => $program->id])
+            ->assertRedirect(route('program.detail', $program->slug))
+            ->assertSessionHas('error', 'Jumlah maksimal untuk satu program adalah 100.');
+
+        $this->assertSame(100, session('cart')[(string) $program->id]['quantity']);
+    }
+
+    public function test_old_cart_quantities_are_capped_before_checkout(): void
+    {
+        $cart = [
+            '1' => [
+                'id' => 1,
+                'program_id' => 1,
+                'title' => 'Eksperimen Sains',
+                'category' => 'Sains',
+                'image' => null,
+                'subtitle' => null,
+                'price' => 55000,
+                'quantity' => 999999,
+            ],
+        ];
+
+        $this->withSession(['cart' => $cart])
+            ->post(route('checkout.store'), [
+                'customer_name' => 'Budi Santoso',
+                'customer_phone' => '081234567890',
+                'customer_email' => 'budi@example.com',
+            ])
+            ->assertRedirect(route('cart.index'));
+
+        $this->assertDatabaseCount('orders', 0);
+
+        $this->get(route('cart.index'))
+            ->assertOk()
+            ->assertSee('Jumlah item di keranjang disesuaikan');
+
+        $this->assertSame(100, session('cart')['1']['quantity']);
+    }
+
+    public function test_checkout_is_rate_limited(): void
+    {
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $this->post(route('checkout.store'), [])
+                ->assertRedirect(route('cart.index'));
+        }
+
+        $this->post(route('checkout.store'), [])->assertTooManyRequests();
+        $this->assertDatabaseCount('orders', 0);
     }
 
     public function test_cart_item_quantity_can_be_updated_and_removed(): void
@@ -213,7 +347,8 @@ class OrderFlowTest extends TestCase
             'subtotal' => 30000,
         ]);
 
-        $response = $this->get(route('invoice.show', $order->id));
+        $response = $this->withSession(['my_orders' => [$order->id]])
+            ->get(route('invoice.show', $order->id));
 
         $response->assertStatus(200);
         $response->assertSee('INV-AMMA-2024001');
@@ -225,5 +360,60 @@ class OrderFlowTest extends TestCase
         $response->assertSee('Bank Mandiri');
         $response->assertSee('Download Invoice');
         $response->assertSee('Konfirmasi Pembayaran via WhatsApp');
+    }
+
+    public function test_stranger_cannot_view_someone_elses_invoice(): void
+    {
+        $order = Order::create([
+            'order_number' => 'INV-AMMA-2024999',
+            'customer_name' => 'Orang Lain',
+            'customer_phone' => '0811111111',
+            'customer_email' => 'lain@email.com',
+            'subtotal' => 10000,
+            'service_fee' => 0,
+            'total_amount' => 10000,
+            'status' => 'menunggu_pembayaran',
+        ]);
+
+        $this->get(route('invoice.show', $order->id))->assertNotFound();
+    }
+
+    public function test_authenticated_stranger_cannot_view_someone_elses_invoice(): void
+    {
+        $order = Order::create([
+            'order_number' => 'INV-AMMA-2024998',
+            'customer_name' => 'Orang Lain',
+            'customer_phone' => '0811111111',
+            'customer_email' => 'lain@email.com',
+            'subtotal' => 10000,
+            'service_fee' => 0,
+            'total_amount' => 10000,
+            'status' => 'menunggu_pembayaran',
+        ]);
+
+        $this->actingAs(User::factory()->create())
+            ->get(route('invoice.show', $order->id))
+            ->assertNotFound();
+    }
+
+    public function test_order_owner_can_view_their_invoice(): void
+    {
+        $user = User::factory()->create();
+        $order = Order::create([
+            'order_number' => 'INV-AMMA-2024997',
+            'user_id' => $user->id,
+            'customer_name' => 'Pemilik Pesanan',
+            'customer_phone' => '081234567890',
+            'customer_email' => $user->email,
+            'subtotal' => 10000,
+            'service_fee' => 0,
+            'total_amount' => 10000,
+            'status' => 'menunggu_pembayaran',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('invoice.show', $order->id))
+            ->assertOk()
+            ->assertSee('INV-AMMA-2024997');
     }
 }

@@ -3,10 +3,13 @@
 namespace Tests\Feature\Console\Commands;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class MakeFilamentAdminUserTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_command_creates_user_with_admin_role(): void
     {
         $this->artisan('make:filament-admin-user')

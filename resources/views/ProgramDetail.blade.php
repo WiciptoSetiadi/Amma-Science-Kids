@@ -52,6 +52,12 @@
                 </div>
             @endif
 
+            @if ($errors->any())
+                <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-800" role="alert">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
             <article class="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-2">
                     <div class="min-h-[280px] lg:min-h-[480px] bg-[#f1f7fb]">

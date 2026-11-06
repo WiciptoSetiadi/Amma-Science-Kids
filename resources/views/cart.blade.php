@@ -69,6 +69,14 @@
         </div>
     @endif
 
+    @if (session('error') || $errors->any())
+        <div class="max-w-7xl mx-auto px-6 md:px-10 pt-6 w-full">
+            <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl text-sm shadow-sm" role="alert">
+                {{ session('error') ?? $errors->first() }}
+            </div>
+        </div>
+    @endif
+
     {{-- MAIN CONTAINER --}}
     <main class="home-doodle max-w-7xl mx-auto px-6 md:px-10 py-10 flex-1 w-full relative">
         
