@@ -11,19 +11,27 @@
 </head>
 <body class="font-sans antialiased bg-[#f8fbff] text-[#44474e] min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 shadow-md bg-[#0c4185] border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 md:px-10 py-3.5 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-10 py-2.5 sm:py-3.5 flex items-center justify-between">
             <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
-                <img src="{{ asset('img/Logo.png') }}" alt="Amma Science Kids Logo" class="h-12 w-12 object-contain rounded" />
+                <img src="{{ asset('img/Logo.png') }}" alt="Amma Science Kids Logo" class="h-10 w-10 sm:h-12 sm:w-12 object-contain rounded" />
                 <span class="font-display font-bold text-white text-xl tracking-tight hidden sm:inline">Amma Science Kids</span>
             </a>
-            <div class="flex items-center gap-3 sm:gap-5">
+            <div class="flex items-center gap-1.5 sm:gap-5">
                 <button type="button" class="lg:hidden flex h-11 w-11 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
-                <a href="{{ route('cart.index') }}" class="text-white hover:text-[#fc6c29] text-sm font-semibold transition">Keranjang</a>
+                <a href="{{ route('cart.index') }}" class="hidden sm:flex text-white hover:text-[#fc6c29] text-sm font-semibold transition">Keranjang</a>
+                @guest
+                    <a href="{{ route('login') }}" class="hidden sm:flex px-2 sm:px-4 py-2 text-sm text-white font-semibold hover:text-[#fc6c29] transition">Masuk</a>
+                @else
+                    <form method="POST" action="{{ route('logout') }}" class="hidden sm:flex">
+                        @csrf
+                        <button type="submit" class="px-2 sm:px-4 py-2 text-sm text-white font-semibold hover:text-[#fc6c29] transition">Keluar</button>
+                    </form>
+                @endguest
                 <a href="{{ route('program') }}" class="flex items-center gap-2 text-white hover:text-[#fc6c29] text-sm font-semibold tracking-wide transition">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                    <span>Katalog Program</span>
+                    <span class="hidden sm:inline">Katalog Program</span>
                 </a>
             </div>
         </div>
@@ -35,6 +43,16 @@
                 <a href="/artikel" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Artikel</a>
                 <a href="/galeri" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Galeri</a>
                 <a href="/kontak" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Kontak</a>
+                <a href="{{ route('cart.index') }}" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Keranjang</a>
+                @guest
+                    <a href="{{ route('login') }}" class="mt-1 rounded-lg bg-[#e95605] px-3 py-2 text-white hover:bg-[#cc4a0f]">Masuk</a>
+                @else
+                    <a href="{{ route('purchase-history.index') }}" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Riwayat Pembelian</a>
+                    <form method="POST" action="{{ route('logout') }}" class="px-3 py-2">
+                        @csrf
+                        <button type="submit" class="text-white hover:text-[#fc6c29]">Keluar</button>
+                    </form>
+                @endguest
             </div>
         </nav>
     </header>

@@ -11,11 +11,11 @@
     {{-- NAVBAR --}}
     <header class="sticky top-0 z-50 border-b border-white/20 shadow-md relative"
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
-        <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-10 py-2.5 sm:py-3 flex items-center justify-between">
                 <a href="/" class="flex items-center gap-3 shrink-0">
                 <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
-                     class="h-[56px] w-[56px] object-contain rounded" />
+                     class="h-11 w-11 sm:h-[56px] sm:w-[56px] object-contain rounded" />
             </a>
             <nav class="hidden lg:flex items-center gap-1 text-sm font-medium">
                 <a href="/"       class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Beranda</a>
@@ -26,14 +26,14 @@
                 <a href="/kontak"  class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-1.5 sm:gap-4">
                 <button type="button" class="lg:hidden flex h-11 w-11 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
                 @auth
-                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                    <a href="{{ route('purchase-history.index') }}" class="hidden lg:inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
                 @endauth
-                <a href="{{ route('cart.index') }}" class="relative flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
+                <a href="{{ route('cart.index') }}" class="relative hidden sm:flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                     @if (session('cart') && count(session('cart')) > 0)
                         <span class="absolute -top-1 -right-1 bg-[#fc6c29] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
@@ -42,15 +42,15 @@
                     @endif
                 </a>
                 @auth
-                    <form method="POST" action="{{ route('logout') }}" class="hidden md:flex">
+                    <form method="POST" action="{{ route('logout') }}" class="flex">
                         @csrf
-                        <button type="submit" class="px-4 py-2 text-sm text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
+                        <button type="submit" class="px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="hidden md:flex items-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                    <a href="{{ route('login') }}" class="flex items-center px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
                 @endauth
-                <a href="{{ route('cart.index') }}" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
-                    Pesan<br>Sekarang
+                <a href="{{ route('cart.index') }}" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-xs sm:text-sm tracking-[0.05em] px-3 sm:px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight whitespace-nowrap">
+                    <span class="sm:hidden">Pesan</span><span class="hidden sm:inline">Pesan<br>Sekarang</span>
                 </a>
             </div>
         </div>
@@ -62,6 +62,9 @@
                 <a href="/artikel" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Artikel</a>
                 <a href="/galeri" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Galeri</a>
                 <a href="/kontak" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Kontak</a>
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Riwayat Pembelian</a>
+                @endauth
             </div>
         </nav>
     </header>
@@ -156,16 +159,9 @@
                     </ul>
                 </div>
 
-                <div class="flex gap-2">
-                    <button type="submit" class="w-full bg-orange hover:bg-orange-dark text-white font-bold py-2.5 px-4 rounded-xl text-sm transition shadow-sm">
-                        Terapkan Filter
-                    </button>
-                    @if (request()->hasAny(['search', 'kategori', 'usia', 'sort']))
-                        <a href="{{ route('program') }}" class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl text-sm transition text-center flex items-center justify-center">
-                            Reset
-                        </a>
-                    @endif
-                </div>
+                <a href="{{ route('program') }}" class="w-full px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-sm transition text-center flex items-center justify-center">
+                    Reset
+                </a>
             </form>
         </aside>
 
