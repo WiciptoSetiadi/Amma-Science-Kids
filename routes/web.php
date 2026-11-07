@@ -52,8 +52,10 @@ Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remov
 Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
 // 2. Checkout (/checkout)
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'store'])->middleware('throttle:5,1,checkout')->name('checkout.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->middleware('throttle:5,1,checkout')->name('checkout.store');
+});
 
 // 3. Invoice (/invoice/{id})
 Route::get('/invoice/{id}', [CheckoutController::class, 'invoice'])->name('invoice.show');

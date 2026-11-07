@@ -49,10 +49,14 @@ class HomeController extends Controller
                 ->get();
         }
 
-        $homepageVideo = HomepageVideo::query()
-            ->latest('updated_at')
-            ->latest('id')
-            ->first();
+        $homepageVideo = $homepageContent?->featuredHomepageVideo;
+
+        if (! $homepageVideo) {
+            $homepageVideo = HomepageVideo::query()
+                ->latest('updated_at')
+                ->latest('id')
+                ->first();
+        }
 
         return view('Beranda', compact('featuredArticle', 'featuredPrograms', 'homepageVideo'));
     }

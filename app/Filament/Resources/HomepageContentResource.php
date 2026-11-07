@@ -27,8 +27,15 @@ class HomepageContentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Pilihan Konten Beranda')
-                    ->description('Pilih artikel dan maksimal dua program yang akan tampil di Beranda. Jika belum disimpan, konten terbaru tetap ditampilkan.')
+                    ->description('Pilih video, artikel, dan maksimal dua program yang akan tampil di Beranda. Jika belum dipilih, video dan konten terbaru tetap ditampilkan.')
                     ->schema([
+                        Forms\Components\Select::make('featured_homepage_video_id')
+                            ->label('Video Beranda')
+                            ->relationship('featuredHomepageVideo', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->nullable()
+                            ->helperText('Kosongkan untuk tetap menampilkan video terakhir diperbarui.'),
                         Forms\Components\Select::make('featured_article_id')
                             ->label('Artikel Pilihan')
                             ->relationship('featuredArticle', 'title')
@@ -60,6 +67,9 @@ class HomepageContentResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('featuredHomepageVideo.name')
+                    ->label('Video Beranda')
+                    ->placeholder('Video terbaru'),
                 Tables\Columns\TextColumn::make('featuredArticle.title')
                     ->label('Artikel Pilihan')
                     ->placeholder('Belum dipilih'),

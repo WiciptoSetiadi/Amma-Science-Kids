@@ -11,6 +11,7 @@ class HomepageContent extends Model
         'featured_article_id',
         'featured_program_one_id',
         'featured_program_two_id',
+        'featured_homepage_video_id',
         'is_configured',
     ];
 
@@ -34,5 +35,10 @@ class HomepageContent extends Model
     public function featuredProgramTwo(): BelongsTo
     {
         return $this->belongsTo(Program::class, 'featured_program_two_id');
+    }
+
+    public function featuredHomepageVideo(): BelongsTo
+    {
+        return $this->belongsTo(HomepageVideo::class, 'featured_homepage_video_id');
     }
 }

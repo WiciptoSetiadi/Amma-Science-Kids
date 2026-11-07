@@ -22,7 +22,7 @@
 <body class="font-sans antialiased bg-[#fbf8fc] text-[#44474e]">
 
     {{-- NAVBAR --}}
-    <header class="sticky top-0 z-50 border-b border-white/20 shadow-md relative"
+    <header class="sticky top-0 z-50 border-b border-white/20 shadow-md"
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
         <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
             <a href="/" class="flex items-center gap-3 shrink-0">
