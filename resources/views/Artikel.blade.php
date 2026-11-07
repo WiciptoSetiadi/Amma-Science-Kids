@@ -48,7 +48,7 @@
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="hidden md:flex items-center justify-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
-                @endauth                <a href="#" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
+                @endauth                <a href="{{ route('cart.index') }}" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm text-center leading-tight">
                     Pesan<br>Sekarang
                 </a>
             </div>
