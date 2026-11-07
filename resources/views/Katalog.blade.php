@@ -159,9 +159,9 @@
                     </ul>
                 </div>
 
-                <a href="{{ route('program') }}" class="w-full px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-sm transition text-center flex items-center justify-center">
+                <button type="button" onclick="resetFilters()" class="w-full px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-sm transition text-center flex items-center justify-center">
                     Reset
-                </a>
+                </button>
             </form>
         </aside>
 
@@ -311,6 +311,22 @@
             if (k) {
                 k.value = cat;
             }
+            submitFilterForm(form);
+        }
+
+        function resetFilters() {
+            const form = document.getElementById('filterForm');
+            if (!form) {
+                return;
+            }
+
+            form.querySelector('input[name="search"]').value = '';
+            document.getElementById('inputKategori').value = 'Semua Program';
+            document.getElementById('inputSort').value = 'terpopuler';
+            form.querySelectorAll('input[name="usia[]"]').forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+
             submitFilterForm(form);
         }
 
