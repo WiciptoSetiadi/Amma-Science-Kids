@@ -10,11 +10,11 @@
 
     <header class="sticky top-0 z-50 border-b border-white/20 shadow-md"
             style="background: rgba(12,65,133,0.95); backdrop-filter: blur(6px);">
-        <div class="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-10 py-2.5 sm:py-3 flex items-center justify-between">
             <a href="/" class="flex items-center gap-3 shrink-0">
                 <img src="{{ asset('img/Logo.png') }}"
                      alt="Amma Science Kids Logo"
-                     class="h-[56px] w-[56px] object-contain rounded" />
+                     class="h-11 w-11 sm:h-[56px] sm:w-[56px] object-contain rounded" />
             </a>
 
             <nav class="hidden lg:flex items-center gap-1 text-sm font-medium">
@@ -26,31 +26,31 @@
                 <a href="/kontak" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Kontak</a>
             </nav>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-1.5 sm:gap-4">
                 <button type="button" class="lg:hidden flex h-11 w-11 items-center justify-center rounded-lg text-white transition hover:bg-white/10" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-navigation" data-mobile-menu-toggle>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
                 @auth
-                    <a href="{{ route('purchase-history.index') }}" class="inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
+                    <a href="{{ route('purchase-history.index') }}" class="hidden lg:inline-flex items-center rounded-full border border-white/50 px-3 py-2 text-xs sm:text-sm font-semibold text-white tracking-wide hover:bg-white/10 hover:text-[#fc6c29] transition">Riwayat Pembelian</a>
                 @endauth
-                <button class="flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
+                <button class="hidden sm:flex items-center justify-center w-9 h-9 rounded-full text-white hover:text-[#fc6c29] transition" aria-label="Keranjang">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                 </button>
                 @auth
-                    <form method="POST" action="{{ route('logout') }}" class="hidden md:flex">
+                    <form method="POST" action="{{ route('logout') }}" class="flex">
                         @csrf
-                        <button type="submit" class="px-4 py-2 text-sm text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
+                        <button type="submit" class="px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap text-white tracking-[0.05em] transition hover:text-[#fc6c29]">Keluar</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="hidden md:flex items-center justify-center px-4 py-2 text-sm text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
+                    <a href="{{ route('login') }}" class="flex items-center justify-center px-2 sm:px-4 py-2 text-xs sm:text-sm whitespace-nowrap text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Masuk</a>
                 @endauth
-                <a href="{{ route('cart.index') }}" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-sm tracking-[0.05em] px-6 py-2.5 rounded-full font-medium transition shadow-sm leading-tight text-center">
-                    Pesan<br>Sekarang
+                <a href="{{ route('cart.index') }}" class="bg-[#e95605] hover:bg-[#cc4a0f] text-white text-xs sm:text-sm tracking-[0.05em] px-3 sm:px-6 py-2.5 rounded-full font-medium transition shadow-sm leading-tight text-center whitespace-nowrap">
+                    <span class="sm:hidden">Pesan</span><span class="hidden sm:inline">Pesan<br>Sekarang</span>
                 </a>
             </div>
         </div>
@@ -62,6 +62,9 @@
                 <a href="/artikel" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Artikel</a>
                 <a href="/galeri" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Galeri</a>
                 <a href="/kontak" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Kontak</a>
+                @auth
+                    <a href="{{ route('purchase-history.index') }}" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Riwayat Pembelian</a>
+                @endauth
             </div>
         </nav>
     </header>
@@ -103,7 +106,7 @@
                 @php
                     /** @var \Illuminate\Filesystem\FilesystemAdapter $publicStorage */
                     $publicStorage = Storage::disk('public');
-                    $homepageVideoUrl = $homepageVideo
+                    $homepageVideoUrl = $homepageVideo && $publicStorage->exists($homepageVideo->video_path)
                         ? $publicStorage->url($homepageVideo->video_path)
                         : (file_exists(public_path('videos/homepage.mp4')) ? asset('videos/homepage.mp4') : null);
                 @endphp
@@ -205,44 +208,6 @@
         </div>
     </main>
 
-    <footer class="bg-navy text-white pt-16 pb-8" id="contact">
-        <div class="max-w-7xl mx-auto px-6 md:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 border-b border-white/10 pb-12">
-                <div class="col-span-1 md:col-span-2">
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="bg-white rounded-lg p-1 flex items-center justify-center h-10 w-10">
-                            <span class="text-xl text-navy"><img src="{{ asset('img/Logo.png') }}" alt="Logo Amma Science Kids" class="h-full w-full object-contain"></span>
-                        </div>
-                        <span class="font-display font-black text-xl tracking-wide">
-                            Amma Science
-                            <span class="text-orange">K</span><span class="text-blue-400">i</span><span class="text-yellow">D</span><span class="text-mint">S</span>
-                        </span>
-                    </div>
-                    <p class="text-gray-400 leading-relaxed max-w-sm text-sm">
-                        Amma Science Kids menghadirkan pengalaman belajar berbasis permainan, petualangan, dan eksperimen otentik yang mengajak anak mentadabburi ayat-ayat kauniyah Allah.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg mb-6 text-gray-100">Kontak Kami</h4>
-                    <ul class="space-y-4 text-sm text-gray-400 font-medium">
-                        <li class="flex items-center gap-3">
-                            <span>✉️</span> ammasciencekids@gmail.com
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <span>📞</span> (+62) 851 1324 2985
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <span>📷</span> @ammasciencekids
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="text-center text-sm text-gray-500 font-medium">
-                © 2024 Amma Science Kids. | Menumbuhkan Fitrah Keingintahuan Anak.
-            </div>
-        </div>
-    </footer>
+    @include('partials.footer')
 </body>
 </html>

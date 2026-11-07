@@ -27,6 +27,7 @@ Pastikan Anda sudah menginstal aplikasi berikut di komputer Anda:
    Jalankan perintah ini di terminal untuk mengunduh semua paket backend.
    ```bash
    composer install
+   composer require laravel/socialite
    ```
 
 3. **Instal dependensi Frontend (Node.js/Tailwind):**

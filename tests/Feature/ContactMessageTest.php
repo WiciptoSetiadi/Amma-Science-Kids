@@ -36,4 +36,25 @@ class ContactMessageTest extends TestCase
 
         $response->assertSessionHasErrors(['name', 'email', 'subject', 'message']);
     }
+
+    public function test_contact_form_is_rate_limited(): void
+    {
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $this->post(route('kontak.store'), [
+                'name' => 'Budi Santoso',
+                'email' => 'budi@example.com',
+                'subject' => 'Tanya Program',
+                'message' => 'Mohon informasi program.',
+            ])->assertRedirect(route('kontak'));
+        }
+
+        $this->post(route('kontak.store'), [
+            'name' => 'Budi Santoso',
+            'email' => 'budi@example.com',
+            'subject' => 'Tanya Program',
+            'message' => 'Mohon informasi program.',
+        ])->assertTooManyRequests();
+
+        $this->assertDatabaseCount('contact_messages', 5);
+    }
 }

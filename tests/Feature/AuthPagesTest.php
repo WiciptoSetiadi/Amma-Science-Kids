@@ -57,6 +57,16 @@ class AuthPagesTest extends TestCase
         $response->assertSessionHasErrors('password');
     }
 
+    public function test_registration_is_rate_limited(): void
+    {
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $this->post(route('register.store'), [])->assertSessionHasErrors();
+        }
+
+        $this->post(route('register.store'), [])->assertTooManyRequests();
+        $this->assertDatabaseCount('users', 0);
+    }
+
     public function test_a_registered_user_can_login(): void
     {
         $user = User::factory()->create([

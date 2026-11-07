@@ -31,7 +31,7 @@ class HomepageVideoResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Video Beranda')
-                    ->description('Video yang terakhir diperbarui akan ditampilkan di halaman beranda.')
+                    ->description('Kelola video yang tersedia untuk dipilih pada pengaturan Konten Beranda.')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Nama Video')

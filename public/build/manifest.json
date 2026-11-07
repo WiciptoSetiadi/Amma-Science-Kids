@@ -28,7 +28,7 @@
     "src": "_instrument-sans-600-normal-B9e8oLYv.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-Bi74mIim.css",
+    "file": "assets/app-CxYs45J6.css",
     "name": "app",
     "names": [
       "app.css"
@@ -36,12 +36,12 @@
     "src": "resources/css/app.css",
     "isEntry": true,
     "assets": [
-      "assets/sciencevecteezy1-YS4jQkCn.jpg"
+      "assets/scienceschool-K8cZ7KUR.jpg"
     ]
   },
-  "resources/images/sciencevecteezy1.jpg": {
-    "file": "assets/sciencevecteezy1-YS4jQkCn.jpg",
-    "src": "resources/images/sciencevecteezy1.jpg"
+  "resources/images/scienceschool.jpg": {
+    "file": "assets/scienceschool-K8cZ7KUR.jpg",
+    "src": "resources/images/scienceschool.jpg"
   },
   "resources/js/app.js": {
     "file": "assets/app-CKZs1SQu.js",
