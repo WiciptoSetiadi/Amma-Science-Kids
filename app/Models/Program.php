@@ -18,6 +18,8 @@ class Program extends Model
         'description',
         'price',
         'target_age',
+        'start_date',
+        'end_date',
         'image',
         'is_active',
     ];
@@ -26,6 +28,8 @@ class Program extends Model
     {
         return [
             'price' => 'decimal:2',
+            'start_date' => 'date',
+            'end_date' => 'date',
             'is_active' => 'boolean',
         ];
     }

@@ -182,6 +182,9 @@
                                 <h4 class="font-black font-display text-xl mb-1">{{ $program->title }}</h4>
                                 <p class="text-sm font-medium leading-tight mb-2 opacity-90">{{ \Illuminate\Support\Str::limit($program->description ?: 'Temukan pengalaman belajar sains seru untuk anak.', 100) }}</p>
                                 <span class="text-xs font-bold bg-white/30 px-2 py-1 rounded">📅 {{ $program->target_age ?: 'Program Sains' }}</span>
+                                @if ($program->start_date && $program->end_date)
+                                    <span class="block text-xs font-bold mt-2">Periode {{ $program->start_date->format('d/m/Y') }} - {{ $program->end_date->format('d/m/Y') }}</span>
+                                @endif
                             </div>
                         </a>
                     @empty
