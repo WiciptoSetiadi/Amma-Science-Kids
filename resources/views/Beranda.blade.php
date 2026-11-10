@@ -19,7 +19,7 @@
 
             <nav class="hidden lg:flex items-center gap-1 text-sm font-medium">
                 <a href="/" class="px-3 py-2 rounded-lg text-[#fc6c29] tracking-[0.05em] transition">Beranda</a>
-                <a href="/tentang" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition leading-tight">Tentang<br>Kami</a>
+                <a href="/tentang" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition leading-tight">Tentang</a>
                 <a href="/program" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Program</a>
                 <a href="/artikel" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Artikel</a>
                 <a href="/galeri" class="px-3 py-2 rounded-lg text-white tracking-[0.05em] hover:text-[#fc6c29] transition">Galeri</a>
@@ -57,7 +57,7 @@
         <nav id="mobile-navigation" class="hidden lg:hidden border-t border-white/10 px-6 py-3" aria-label="Navigasi mobile" data-mobile-menu>
             <div class="mx-auto flex max-w-7xl flex-col gap-1 text-sm font-medium">
                 <a href="/" class="rounded-lg px-3 py-2 text-[#fc6c29]">Beranda</a>
-                <a href="/tentang" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Tentang Kami</a>
+                <a href="/tentang" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Tentang</a>
                 <a href="/program" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Program</a>
                 <a href="/artikel" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Artikel</a>
                 <a href="/galeri" class="rounded-lg px-3 py-2 text-white hover:text-[#fc6c29]">Galeri</a>
