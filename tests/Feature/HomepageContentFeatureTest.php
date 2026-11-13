@@ -45,6 +45,8 @@ class HomepageContentFeatureTest extends TestCase
         $selectedProgram = Program::factory()->create([
             'title' => 'Program Pilihan Admin',
             'is_active' => true,
+            'start_date' => '2026-11-10',
+            'end_date' => '2026-11-20',
         ]);
         $inactiveProgram = Program::factory()->create([
             'title' => 'Program Tidak Aktif',
@@ -63,6 +65,7 @@ class HomepageContentFeatureTest extends TestCase
             ->assertOk()
             ->assertSee($selectedArticle->title)
             ->assertSee($selectedProgram->title)
+            ->assertSee('Periode 10/11/2026 - 20/11/2026')
             ->assertDontSee('Artikel Terbaru Tidak Dipilih')
             ->assertDontSee('Program Tidak Aktif')
             ->assertDontSee('Program Terbaru Tidak Dipilih');

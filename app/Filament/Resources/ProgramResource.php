@@ -54,6 +54,17 @@ class ProgramResource extends Resource
                             ->label('Target Usia')
                             ->placeholder('Contoh: TK/RA, SD/MI')
                             ->maxLength(255),
+                        Forms\Components\DatePicker::make('start_date')
+                            ->label('Tanggal Mulai')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
+                            ->requiredWith('end_date'),
+                        Forms\Components\DatePicker::make('end_date')
+                            ->label('Tanggal Selesai')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
+                            ->requiredWith('start_date')
+                            ->afterOrEqual('start_date'),
                         Forms\Components\TextInput::make('price')
                             ->label('Harga')
                             ->required()
@@ -99,6 +110,12 @@ class ProgramResource extends Resource
                 Tables\Columns\TextColumn::make('target_age')
                     ->label('Target Usia')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('start_date')
+                    ->label('Periode')
+                    ->formatStateUsing(fn ($state, Program $record): string => $state && $record->end_date
+                        ? $state->format('d/m/Y').' - '.$record->end_date->format('d/m/Y')
+                        : 'Belum diatur')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Harga')
                     ->formatStateUsing(fn ($state) => 'Rp '.number_format((float) $state, 0, ',', '.'))

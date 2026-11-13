@@ -2,11 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Filament\Resources\ProgramResource\Pages\EditProgram;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Gallery;
 use App\Models\Program;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class ProgramAndGalleryFeatureTest extends TestCase
@@ -39,6 +43,75 @@ class ProgramAndGalleryFeatureTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Program Robotika Cilik');
         $response->assertDontSee('Festival Sains Seru');
+    }
+
+    public function test_program_catalog_and_detail_display_program_date_range(): void
+    {
+        $program = Program::factory()->create([
+            'title' => 'Program dengan Periode',
+            'start_date' => '2026-11-10',
+            'end_date' => '2026-11-20',
+        ]);
+
+        $this->get(route('program'))
+            ->assertOk()
+            ->assertSee('10/11/2026 - 20/11/2026');
+
+        $this->get(route('program.detail', $program->slug))
+            ->assertOk()
+            ->assertSee('Periode 10/11/2026 - 20/11/2026');
+    }
+
+    public function test_admin_can_save_program_date_range(): void
+    {
+        Role::findOrCreate('admin', 'web');
+        $admin = User::factory()->create();
+        $admin->assignRole('admin');
+        $this->actingAs($admin);
+
+        $program = Program::factory()->create();
+
+        Livewire::test(EditProgram::class, ['record' => $program->getRouteKey()])
+            ->fillForm([
+                'start_date' => '2026-11-10',
+                'end_date' => '2026-11-20',
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $program->refresh();
+
+        $this->assertSame('2026-11-10', $program->start_date->format('Y-m-d'));
+        $this->assertSame('2026-11-20', $program->end_date->format('Y-m-d'));
+    }
+
+    public function test_admin_must_provide_a_complete_program_date_range(): void
+    {
+        Role::findOrCreate('admin', 'web');
+        $admin = User::factory()->create();
+        $admin->assignRole('admin');
+        $this->actingAs($admin);
+
+        $program = Program::factory()->create();
+
+        Livewire::test(EditProgram::class, ['record' => $program->getRouteKey()])
+            ->fillForm([
+                'start_date' => '2026-11-20',
+                'end_date' => '2026-11-10',
+            ])
+            ->call('save')
+            ->assertHasFormErrors([
+                'end_date' => 'after_or_equal',
+            ]);
+
+        Livewire::test(EditProgram::class, ['record' => $program->getRouteKey()])
+            ->fillForm([
+                'start_date' => '2026-11-10',
+            ])
+            ->call('save')
+            ->assertHasFormErrors([
+                'end_date' => 'required_with',
+            ]);
     }
 
     public function test_program_catalog_filters_by_target_age(): void
