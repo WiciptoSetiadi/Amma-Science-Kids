@@ -30,6 +30,10 @@ Route::redirect('/jelajahi-program', '/program');
 
 Route::get('/tentang', [AboutController::class, 'index'])->name('tentang');
 
+// Kebijakan Privasi (dipakai untuk Google OAuth consent screen)
+Route::view('/kebijakan-privasi', 'KebijakanPrivasi')->name('kebijakan-privasi');
+Route::redirect('/privacy-policy', '/kebijakan-privasi');
+
 Route::get('/program', [ProgramController::class, 'index'])->name('program');
 Route::get('/program/{slug}', [ProgramController::class, 'show'])->name('program.detail');
 
@@ -52,10 +56,8 @@ Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remov
 Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
 // 2. Checkout (/checkout)
-Route::middleware('auth')->group(function () {
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'store'])->middleware('throttle:5,1,checkout')->name('checkout.store');
-});
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'store'])->middleware('throttle:5,1,checkout')->name('checkout.store');
 
 // 3. Invoice (/invoice/{id})
 Route::get('/invoice/{id}', [CheckoutController::class, 'invoice'])->name('invoice.show');

@@ -49,6 +49,7 @@
                     <span>Masuk dengan Google</span>
                 </a>
                 <p class="auth-switch">Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
+                <p class="auth-terms">Dengan masuk, Anda menyetujui <a href="{{ route('kebijakan-privasi') }}" target="_blank" rel="noopener">Kebijakan Privasi</a> kami.</p>
             </div>
         </section>
 

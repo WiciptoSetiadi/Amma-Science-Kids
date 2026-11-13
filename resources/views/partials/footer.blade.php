@@ -48,10 +48,12 @@
 
         {{-- Copyright --}}
         <div class="border-t border-[rgba(216,226,255,0.1)] py-8">
-            <div class="flex items-center justify-center gap-2 opacity-60">
+            <div class="flex flex-wrap items-center justify-center gap-2 opacity-60">
                 <span class="text-[#d8e2ff] text-sm text-center leading-5">© 2024 Amma Science Kids.</span>
                 <span class="text-[#d8e2ff] text-sm">|</span>
                 <span class="text-[#d8e2ff] text-sm text-center leading-5">Menumbuhkan Fitrah Keingintahuan Anak.</span>
+                <span class="text-[#d8e2ff] text-sm">|</span>
+                <a href="{{ route('kebijakan-privasi') }}" class="text-[#d8e2ff] text-sm leading-5 underline hover:text-white transition">Kebijakan Privasi</a>
             </div>
         </div>
     </div>

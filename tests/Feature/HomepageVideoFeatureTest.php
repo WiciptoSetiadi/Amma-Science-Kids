@@ -71,7 +71,7 @@ class HomepageVideoFeatureTest extends TestCase
             ->get('/admin/homepage-videos/create')
             ->assertOk()
             ->assertSee('File Video')
-            ->assertSee('Video yang terakhir diperbarui');
+            ->assertSee('Kelola video yang tersedia untuk dipilih pada pengaturan Konten Beranda.');
     }
 
     public function test_admin_can_upload_a_video_for_the_homepage(): void

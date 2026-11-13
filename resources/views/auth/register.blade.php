@@ -55,7 +55,7 @@
                     <span>Daftar dengan Google</span>
                 </a>
                 <p class="auth-switch">Sudah punya akun? <a href="{{ route('login') }}">Masuk di sini</a></p>
-                <p class="auth-terms">Dengan mendaftar, Anda menyetujui <a href="#">Syarat & Ketentuan</a> serta <a href="#">Kebijakan Privasi</a> kami.</p>
+                <p class="auth-terms">Dengan mendaftar, Anda menyetujui  <a href="{{ route('kebijakan-privasi') }}" target="_blank" rel="noopener">Kebijakan Privasi</a> kami.</p>
             </section>
         </section>
     </main>
