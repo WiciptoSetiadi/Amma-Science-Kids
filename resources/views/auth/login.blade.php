@@ -15,6 +15,12 @@
                     <p>Masuk untuk melanjutkan<br>petualangan sains si kecil.</p>
                 </div>
 
+                @if (session('status'))
+                    <div class="auth-status" role="status">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
                 <form method="POST" action="{{ route('login.store') }}" class="auth-form" data-auth-form>
                     @csrf
                     <div class="auth-field">
@@ -28,7 +34,7 @@
                     <div class="auth-field">
                         <div class="auth-label-row">
                             <label for="password">Kata Sandi</label>
-                            <span class="auth-muted-link">Lupa Kata Sandi?</span>
+                            <a href="{{ route('password.request') }}" class="auth-muted-link">Lupa Kata Sandi?</a>
                         </div>
                         <div class="auth-input-wrap">
                             <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi" required>

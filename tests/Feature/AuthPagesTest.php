@@ -17,7 +17,8 @@ class AuthPagesTest extends TestCase
         $this->get(route('login'))
             ->assertOk()
             ->assertSee('Selamat Datang')
-            ->assertSee(route('register'));
+            ->assertSee(route('register'))
+            ->assertSee(route('password.request'));
 
         $this->get(route('register'))
             ->assertOk()
