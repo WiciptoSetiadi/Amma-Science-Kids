@@ -174,6 +174,15 @@ body {
     padding-left: 14px;
 }
 
+.auth-login-panel .auth-input-wrap > svg ~ input {
+    padding-left: 38px;
+}
+
+.auth-login-panel .auth-input-wrap:has(.auth-password-toggle) input,
+.auth-login-panel .auth-input-wrap > input:has(~ .auth-password-toggle) {
+    padding-right: 38px;
+}
+
 .auth-login-panel .auth-submit {
     margin-top: 24px;
 }
@@ -304,15 +313,22 @@ a.auth-muted-link:hover { color: #0d8b90; text-decoration: underline; }
 .auth-check input { width: 13px; height: 13px; accent-color: #14aeb3; }
 .auth-error { margin: 5px 0 0; color: #d94645; font-size: 10px; line-height: 1.25; }
 .auth-status {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
     margin-top: 16px;
-    padding: 10px 14px;
+    padding: 11px 14px;
     background: #ecfdf5;
     border: 1px solid #a7f3d0;
     border-radius: 8px;
     color: #065f46;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     line-height: 1.4;
+}
+.auth-status svg {
+    margin-top: 1px;
+    color: #059669;
 }
 
 .auth-submit {
@@ -438,6 +454,30 @@ a.auth-muted-link:hover { color: #0d8b90; text-decoration: underline; }
         height: 46px;
         border-radius: 8px;
         font-size: 14px;
+    }
+
+    .auth-login-panel .auth-input-wrap > svg {
+        left: 12px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .auth-login-panel .auth-input-wrap > svg ~ input {
+        padding-left: 42px;
+    }
+
+    .auth-login-panel .auth-input-wrap:has(.auth-password-toggle) input,
+    .auth-login-panel .auth-input-wrap > input:has(~ .auth-password-toggle) {
+        padding-right: 42px;
+    }
+
+    .auth-login-panel .auth-password-toggle {
+        right: 12px;
+    }
+
+    .auth-status {
+        font-size: 13px;
+        padding: 13px 16px;
     }
 
     .auth-login-panel .auth-submit {
